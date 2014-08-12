@@ -1,0 +1,47 @@
+{
+    "manifest_version": 2,
+
+    "name": "Calculator",
+    "description": "A Easy to Access Calculator for your Chrome Browser",
+    "version": "2.5.0",
+
+    "browser_action": {
+        "default_icon": "resources/icons/icon.png",
+        "default_popup": "index.html"
+    },
+
+    "commands": {
+        "_execute_browser_action": {
+            "suggested_key": {
+                "default": "Alt+C",
+                "windows": "Alt+C",
+                "mac": "Alt+C",
+                "chromeos": "Alt+C",
+                "linux": "Alt+C"
+            }
+        }
+    },
+
+    "homepage_url": "http://calculatorextension.com",
+
+    "icons": {
+        "16": "resources/icons/icon.png",
+        "48": "resources/icons/icon2.png",
+        "128": "resources/icons/icon.png"
+    },
+
+    "permissions": [
+        "clipboardWrite",
+        "clipboardRead",
+        "notifications",
+        "http://calculatorextension.com/*"
+    ],
+
+    "background" : {
+        "page": "background/background.html"
+    },
+
+    "options_page": "settings/options/options.html",
+
+    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
+}
