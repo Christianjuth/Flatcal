@@ -1,0 +1,53 @@
+@import url("../../resources/css/reset.min.css");
+@import url("../../resources/css/button.min.css");
+
+body{
+    background-color: #eee;
+}
+
+#table-container{
+    position: relative;
+    width: 800px;
+    max-height: calc(100% - 146px);
+    margin: 50 auto 50 auto;
+
+    border-radius: 4px;
+
+    padding: 23;
+    background-color: #fff;
+
+    margin-bottom: 20px;
+    position:relative;
+
+    box-shadow: rgba(0, 0, 0, .10) 0px 2px 1px, rgba(0, 0, 0, .10) 0px 0px 1px;
+    overflow: auto;
+}
+
+table,th,td
+{
+    border: none;
+    border-collapse:collapse;
+}
+
+table{
+    width: 100%;
+    font-weight: 300;
+}
+
+.header{
+    font-weight: normal !important;
+}
+
+td{
+    padding: 5px;
+}
+
+/*mobile--------------------------->*/
+@media only screen and (min-width:0px) and (max-width: 900px) {
+    #table-container{
+        margin : 20px;
+        margin-top: 25px;
+        width: calc( 100% - 90px);
+        max-height: calc(100% - 91px);
+    }
+}
