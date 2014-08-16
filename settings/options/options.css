@@ -1,6 +1,11 @@
 @import url("../../resources/css/reset.min.css");
 @import url("../../resources/css/button.min.css");
 
+.qtip,
+.qtip-default  {
+    font-family: arial !important;
+}
+
 .lightbox{
     display: none;
     height: 100%;

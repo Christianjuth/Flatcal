@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $.getJSON(chrome.extension.getURL('settings/changelog/changelog.json'), function(data) {
+    $.getJSON("https://raw.githubusercontent.com/Christianjuth/calculator-browser-extension/JSON/changelog.json", function(data) {
         for(i = 0; i < data.length; i++){
             line = data[i];
             if(i == 0){
