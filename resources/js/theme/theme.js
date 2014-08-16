@@ -1,12 +1,3 @@
-//-------------------------validate-----------------------------//
-//function validateTheme(json) {
-//    validate(json, constraints).then(function() {
-//        return true;
-//    }, function(){
-//        return false;
-//    });
-//}
-
 //---------------------------theme-----------------------------//
 var theme = {
     load : function(json){
@@ -411,6 +402,8 @@ function validateTheme(json) {
         textColor : requiredColor
     }) == undefined;
 
+    json.button.borderWidth = parseInt(json.button.borderWidth);
+    json.button.borderRadius = parseInt(json.button.borderRadius);
     goodTheme = goodTheme && validate(json.button, {
         color : requiredColor,
         hoverColor : requiredColor,

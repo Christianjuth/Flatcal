@@ -67,7 +67,7 @@ function tutorial() {
                     themeNumb = themeNumb + number;
 
                     loadedTheme = themes[themeNumb - 1];
-                    loadTheme(loadedTheme);
+                    theme.load(loadedTheme);
                 }
             }, i * 150);
         }

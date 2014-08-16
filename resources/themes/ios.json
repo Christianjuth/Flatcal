@@ -5,7 +5,8 @@
     },
 
     "body":{
-        "color":"#272727"
+        "color":"#272727",
+        "font": "helvetica"
     },
 
     "input":{
@@ -20,7 +21,7 @@
         "borderColor":"#272727",
         "borderRadius":"0",
         "borderWidth":"1px",
-        "hoverColor":"",
+        "hoverColor":"#dedede",
         "textColor":"#272727",
         "font":"Sans-serif",
 
