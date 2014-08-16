@@ -402,8 +402,15 @@ function validateTheme(json) {
         textColor : requiredColor
     }) == undefined;
 
-    json.button.borderWidth = parseInt(json.button.borderWidth);
-    json.button.borderRadius = parseInt(json.button.borderRadius);
+    if(json.button.borderWidth == undefined || json.button.borderWidth == ""){
+        json.button.borderWidth = 1;
+    }
+
+    else{
+        json.button.borderWidth = parseInt("0" + json.button.borderWidth);
+    }
+
+    json.button.borderRadius = parseInt("0" + json.button.borderRadius);
     goodTheme = goodTheme && validate(json.button, {
         color : requiredColor,
         hoverColor : requiredColor,
