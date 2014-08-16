@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //-------------------------validate-----------------------------//
 var validate = {
     font : function(font){
@@ -58,11 +59,17 @@ var validate = {
     }
 }
 
+=======
+>>>>>>> dev
 //---------------------------theme-----------------------------//
 var theme = {
     load : function(json){
         if(typeof json === "string") json = this.get(json);
+<<<<<<< HEAD
         if(validate.theme(json)){
+=======
+        if(validateTheme(json)){
+>>>>>>> dev
             injectCSS(json);
         }
         return;
@@ -70,7 +77,11 @@ var theme = {
 
     set : function(json){
         if(typeof json === "string") json = this.get(json);
+<<<<<<< HEAD
         if(validate.theme(json)){
+=======
+        if(validateTheme(json)){
+>>>>>>> dev
             theme.update(json)
             injectCSS(json);
         }
@@ -424,3 +435,74 @@ function injectCSS(json) {
 
     return;
 }
+<<<<<<< HEAD
+=======
+
+function validateTheme(json) {
+    var goodTheme = true;
+    var requiredColor = {
+        presence: true,
+        format: {
+            pattern: /^#([0-9a-f]{3}|[0-9a-f]{6})$/i
+        }
+    }
+    var color = {
+        format: {
+            pattern: /^#([0-9a-f]{3}|[0-9a-f]{6})$/i
+        }
+    }
+    var colorOrBlank = {
+        format: {
+            pattern: /^(#[0-9a-f]{3}|#[0-9a-f]{6}|\s*$)$/i
+        }
+    }
+
+    goodTheme = goodTheme && validate(json.manifest, {
+        version: {
+            numericality: {
+                lessThanOrEqualTo: 1.1
+            }
+        }
+    }) == undefined;
+
+    goodTheme = goodTheme && validate(json.body, {
+        color : requiredColor
+    }) == undefined;
+
+    goodTheme = goodTheme && validate(json.input, {
+        color : requiredColor,
+        borderColor : requiredColor,
+        textColor : requiredColor
+    }) == undefined;
+
+    if(json.button.borderWidth == undefined || json.button.borderWidth == ""){
+        json.button.borderWidth = 1;
+    }
+
+    else{
+        json.button.borderWidth = parseInt("0" + json.button.borderWidth);
+    }
+
+    json.button.borderRadius = parseInt("0" + json.button.borderRadius);
+    goodTheme = goodTheme && validate(json.button, {
+        color : requiredColor,
+        hoverColor : requiredColor,
+        borderColor : colorOrBlank,
+        borderRadius: {presence: true, numericality: { greaterThanOrEqualTo: 0, lessThanOrEqualTo: 25 } },
+        borderWidth: {numericality: { greaterThanOrEqualTo: 0, lessThanOrEqualTo: 5 } },
+        textColor : requiredColor
+    }) == undefined;
+
+    var buttonProperties = ["numbers", "point", "ce", "positiveNegative", "operators", "equal"];
+    for(i = 0; i < buttonProperties.length; i++){
+        json.button[buttonProperties[i]].color
+        goodTheme = goodTheme && validate(json.button[buttonProperties[i]], {
+            color : colorOrBlank,
+            borderColor : colorOrBlank,
+            textColor : colorOrBlank
+        }) == undefined;
+    }
+
+    return goodTheme;
+}
+>>>>>>> dev

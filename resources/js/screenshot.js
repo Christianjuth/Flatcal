@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 var themes = theme.get();
+=======
+var themes = ["google", "ios", "android", "mac", "khanacademy", "digital-grey", "material-design"];
+>>>>>>> dev
 if(localStorage.theme == "custom" || localStorage.theme == "" || localStorage.theme == undefined) localStorage.theme = themes[themes.length - 1];
 
 for(i = 0; i < themes.length; i++){
@@ -46,6 +50,7 @@ $(document).ready(function() {
         $("#margins").css({"padding":"16px"});
     }
 
+<<<<<<< HEAD
     if(localStorage.theme != "custom"){
         theme.load(localStorage.theme);
     }
@@ -63,6 +68,15 @@ $(document).ready(function() {
             });
         }
     }
+=======
+    if(localStorage.theme == "custom"){
+        localStorage.theme = "google";
+    }
+
+    $.getJSON("./resources/themes/" + localStorage.theme + ".json", function(injectTheme){
+        injectCSS(injectTheme);
+    });
+>>>>>>> dev
 });
 
 function animatedShadow(selector) {

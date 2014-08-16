@@ -67,7 +67,11 @@ function tutorial() {
                     themeNumb = themeNumb + number;
 
                     loadedTheme = themes[themeNumb - 1];
+<<<<<<< HEAD
                     loadTheme(loadedTheme);
+=======
+                    theme.load(loadedTheme);
+>>>>>>> dev
                 }
             }, i * 150);
         }
