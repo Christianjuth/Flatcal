@@ -1,0 +1,54 @@
+{
+    "manifest": {
+        "name": "calzy-light",
+        "version": 1.1
+    },
+    "body": {
+        "color": "#2fbf73"
+    },
+    "input": {
+        "color": "#2fbf73",
+        "borderColor": "#2fbf73",
+        "textColor": "#ffffff",
+        "font": "helvetica"
+    },
+    "button": {
+        "color": "#ffffff",
+        "hoverColor": "#f9f9f9",
+        "borderColor": "#ffffff",
+        "textColor": "#a4a4a4",
+        "font": "sans-serif",
+        "numbers": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+        "point": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+        "ce": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": "#f68037"
+        },
+        "positiveNegative": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+        "operators": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": "#00ae52"
+        },
+        "equal": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+        "borderRadius": 0,
+        "borderWidth": 1
+    }
+}
