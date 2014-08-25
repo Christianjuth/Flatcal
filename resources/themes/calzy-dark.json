@@ -1,22 +1,23 @@
 {
     "manifest": {
+        "name": "calzy-dark",
         "version": 1.1
     },
     "body": {
-        "color": "#222222"
+        "color": "#000000"
     },
     "input": {
-        "color": "#ffffff",
-        "borderColor": "#222222",
-        "textColor": "#000000",
+        "color": "#000000",
+        "borderColor": "#000000",
+        "textColor": "#4ecf8b",
         "font": "helvetica"
     },
     "button": {
-        "color": "#fcfcfc",
-        "hoverColor": "#dddddd",
-        "borderColor": "#222222",
-        "textColor": "#222222",
-        "font": "helvetica",
+        "color": "#1f1f1f",
+        "hoverColor": "#191919",
+        "borderColor": "#1f1f1f",
+        "textColor": "#a4a4a4",
+        "font": "sans-serif",
         "numbers": {
             "color": "",
             "hoverColor": "",
@@ -40,7 +41,7 @@
         "operators": {
             "color": "",
             "hoverColor": "",
-            "textColor": ""
+            "textColor": "#00ae52"
         },
         "equal": {
             "color": "",
