@@ -1,7 +1,11 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 var themes = theme.get();
 =======
 var themes = ["google", "ios", "android", "mac", "khanacademy", "digital-grey", "material-design"];
+>>>>>>> dev
+=======
+var themes = ["calzy-light", "calzy-dark", "google", "ios", "android", "mac", "khanacademy", "digital-grey", "material-design"];
 >>>>>>> dev
 if(localStorage.theme == "custom" || localStorage.theme == "" || localStorage.theme == undefined) localStorage.theme = themes[themes.length - 1];
 
