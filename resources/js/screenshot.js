@@ -1,4 +1,4 @@
-var themes = ["google", "ios", "android", "mac", "khanacademy", "digital-grey", "material-design"];
+var themes = ["calzy-light", "calzy-dark", "google", "ios", "android", "mac", "khanacademy", "digital-grey", "material-design"];
 if(localStorage.theme == "custom" || localStorage.theme == "" || localStorage.theme == undefined) localStorage.theme = themes[themes.length - 1];
 
 for(i = 0; i < themes.length; i++){

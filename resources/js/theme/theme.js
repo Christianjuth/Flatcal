@@ -402,7 +402,7 @@ function validateTheme(json) {
         textColor : requiredColor
     }) == undefined;
 
-    if(json.button.borderWidth == undefined || json.button.borderWidth == ""){
+    if(json.button.borderWidth == undefined || (json.button.borderWidth == "" && json.button.borderWidth != 0)){
         json.button.borderWidth = 1;
     }
 
