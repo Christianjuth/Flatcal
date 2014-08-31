@@ -3,11 +3,7 @@ $(document).ready(function() {
 });
 
 function checkForNotifications(){
-<<<<<<< HEAD
-    $.getJSON(chrome.extension.getURL('/notifications/notifications.json'), function(data) {
-=======
     $.getJSON("https://raw.githubusercontent.com/Christianjuth/calculator-browser-extension/JSON/notifications.json", function(data) {
->>>>>>> dev
         data.sort(compare);
 
         for(i = 0; i < data.length; i++){

@@ -5,12 +5,8 @@
     },
 
     "body":{
-<<<<<<< HEAD
-        "color":"#272727"
-=======
         "color":"#272727",
         "font": "helvetica"
->>>>>>> dev
     },
 
     "input":{
@@ -25,11 +21,7 @@
         "borderColor":"#272727",
         "borderRadius":"0",
         "borderWidth":"1px",
-<<<<<<< HEAD
-        "hoverColor":"",
-=======
         "hoverColor":"#dedede",
->>>>>>> dev
         "textColor":"#272727",
         "font":"Sans-serif",
 
