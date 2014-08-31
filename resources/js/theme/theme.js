@@ -1,8 +1,75 @@
+<<<<<<< HEAD
+//-------------------------validate-----------------------------//
+var validate = {
+    font : function(font){
+        var ok = true;
+        var fonts = ["arial","oswald","sans-serif","digital","helvetica"];
+        for(i = 0; i < font.length; i++){
+            var acceptableFont = false;
+            for(x = 0; x < fonts.length; x++){
+                acceptableFont = acceptableFont || (String(font[i]).toLowerCase() == fonts[x]);
+            }
+            ok = ok && acceptableFont;
+        }
+        return ok;
+    },
+
+    hex : function(color){
+        var ok = true;
+        for(i = 0; i < color.length; i++){
+            color[i] = String(color[i]).replace(/#/,"");
+            ok = ok && ((typeof color[i] === "string") && (color[i].length === 6 || color[i].length === 3)
+                        && !isNaN(parseInt(color[i], 16)));
+        }
+        return ok;
+    },
+
+    array : function(data, type){
+        var ok = true;
+        for(i = 0; i < data.length; i++){
+            result = result && (typeof data[i] === type);
+        }
+        return ok;
+    },
+
+    json : function(json) {
+        try {
+            JSON.parse(json);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    },
+
+    theme : function(json){
+        if(typeof json === "string") json = theme.get(json);
+        var ok = true;
+        var okFonts = this.font([json.button.font, json.input.font]);
+        var okColors = this.hex([json.button.color, json.input.color]);
+
+        ok = ok && (json.manifest != undefined) && (json.body != undefined) && (json.input != undefined) && (json.button != undefined) && (json.button.numbers != undefined) && (json.button.operators != undefined);
+
+        ok = ok && okFonts && okColors;
+
+        if(!ok){
+            console.error("invalad theme");
+        }
+
+        return ok;
+    }
+}
+
+=======
+>>>>>>> dev
 //---------------------------theme-----------------------------//
 var theme = {
     load : function(json){
         if(typeof json === "string") json = this.get(json);
+<<<<<<< HEAD
+        if(validate.theme(json)){
+=======
         if(validateTheme(json)){
+>>>>>>> dev
             injectCSS(json);
         }
         return;
@@ -10,7 +77,11 @@ var theme = {
 
     set : function(json){
         if(typeof json === "string") json = this.get(json);
+<<<<<<< HEAD
+        if(validate.theme(json)){
+=======
         if(validateTheme(json)){
+>>>>>>> dev
             theme.update(json)
             injectCSS(json);
         }
@@ -364,6 +435,8 @@ function injectCSS(json) {
 
     return;
 }
+<<<<<<< HEAD
+=======
 
 function validateTheme(json) {
     var goodTheme = true;
@@ -432,3 +505,4 @@ function validateTheme(json) {
 
     return goodTheme;
 }
+>>>>>>> dev

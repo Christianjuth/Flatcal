@@ -1,4 +1,12 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+var themes = theme.get();
+=======
+var themes = ["google", "ios", "android", "mac", "khanacademy", "digital-grey", "material-design"];
+>>>>>>> dev
+=======
 var themes = ["calzy-light", "calzy-dark", "google", "ios", "android", "mac", "khanacademy", "digital-grey", "material-design"];
+>>>>>>> dev
 if(localStorage.theme == "custom" || localStorage.theme == "" || localStorage.theme == undefined) localStorage.theme = themes[themes.length - 1];
 
 for(i = 0; i < themes.length; i++){
@@ -46,6 +54,25 @@ $(document).ready(function() {
         $("#margins").css({"padding":"16px"});
     }
 
+<<<<<<< HEAD
+    if(localStorage.theme != "custom"){
+        theme.load(localStorage.theme);
+    }
+
+    else{
+        var injectTheme = $.parseJSON(localStorage.customTheme);
+        if(injectTheme.manifest != undefined && injectTheme.manifest.version != undefined && injectTheme.manifest.version > 0 && validate.theme(injectTheme)){
+            theme.load(injectTheme);
+        }
+
+        else{
+            localStorage.theme = "google";
+            $.getJSON("resources/themes/google.json", function(injectTheme){
+                theme.load(injectTheme);
+            });
+        }
+    }
+=======
     if(localStorage.theme == "custom"){
         localStorage.theme = "google";
     }
@@ -53,6 +80,7 @@ $(document).ready(function() {
     $.getJSON("./resources/themes/" + localStorage.theme + ".json", function(injectTheme){
         injectCSS(injectTheme);
     });
+>>>>>>> dev
 });
 
 function animatedShadow(selector) {
