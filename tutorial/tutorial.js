@@ -67,7 +67,11 @@ function tutorial() {
                     themeNumb = themeNumb + number;
 
                     loadedTheme = themes[themeNumb - 1];
+<<<<<<< Updated upstream
                     theme.load(loadedTheme);
+=======
+                    loadTheme(loadedTheme);
+>>>>>>> Stashed changes
                 }
             }, i * 150);
         }

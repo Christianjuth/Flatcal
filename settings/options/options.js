@@ -63,7 +63,11 @@ $(document).ready(function() {
     });
 
     //-----------------------------changelog-----------------------------//
+<<<<<<< Updated upstream
     $.getJSON("https://raw.githubusercontent.com/Christianjuth/calculator-browser-extension/JSON/changelog.json", function(data) {
+=======
+    $.getJSON(chrome.extension.getURL('settings/changelog/changelog.json'), function(data) {
+>>>>>>> Stashed changes
         for(i=0; i< Math.min(data.length, 3); i++){
             line = data[i];
 
@@ -103,11 +107,17 @@ function readFile(evt) {
     var file = files[0];
     var reader = new FileReader();
     reader.onload = function() {
+<<<<<<< Updated upstream
         if(validateTheme($.parseJSON(this.result))){
             theme.update($.parseJSON(this.result));
         }
 
         else(Alert("Error!", "invalid theme"));
+=======
+        if(validate.theme($.parseJSON(this.result))){
+            theme.update($.parseJSON(this.result));
+        }
+>>>>>>> Stashed changes
     }
     reader.readAsText(file);
     return;
@@ -224,6 +234,7 @@ function capitalize( str ){
     }
     return pieces.join(" ");
 }
+<<<<<<< Updated upstream
 
 window.Alert = function(content, title, effect) {
     var message = $('<p />', { text: title }),
@@ -266,3 +277,5 @@ function dialogue(content, title, effect) {
         }
     });
 }
+=======
+>>>>>>> Stashed changes

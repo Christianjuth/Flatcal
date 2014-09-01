@@ -1,5 +1,9 @@
 $(document).ready(function() {
+<<<<<<< Updated upstream
     $.getJSON("https://raw.githubusercontent.com/Christianjuth/calculator-browser-extension/JSON/changelog.json", function(data) {
+=======
+    $.getJSON(chrome.extension.getURL('settings/changelog/changelog.json'), function(data) {
+>>>>>>> Stashed changes
         for(i = 0; i < data.length; i++){
             line = data[i];
             if(i == 0){

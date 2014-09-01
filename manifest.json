@@ -3,7 +3,11 @@
 
     "name": "Calculator",
     "description": "A Easy to Access Calculator for your Chrome Browser",
+<<<<<<< Updated upstream
     "version": "2.5.2",
+=======
+    "version": "2.5.0",
+>>>>>>> Stashed changes
 
     "browser_action": {
         "default_icon": "resources/icons/icon.png",
@@ -34,8 +38,12 @@
         "clipboardWrite",
         "clipboardRead",
         "notifications",
+<<<<<<< Updated upstream
         "http://calculatorextension.com/*",
         "https://raw.githubusercontent.com/*"
+=======
+        "http://calculatorextension.com/*"
+>>>>>>> Stashed changes
     ],
 
     "background" : {

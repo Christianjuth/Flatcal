@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 if(localStorage.screenOnly == "true"){
     $("html,body").css({"width":204, "height":54});
 }
@@ -10,6 +11,8 @@ else{
     $("html,body").css({"width":435, "height":298});
 }
 
+=======
+>>>>>>> Stashed changes
 chrome.tabs.getCurrent(function (tab) {
     if(tab != undefined){ //if not popup
         myLibrary("#calculator-container").center(); //center calculator on page
@@ -56,7 +59,10 @@ $(document).ready(function() {
 
     chrome.tabs.getCurrent(function (tab) {
         if(tab != undefined){
+<<<<<<< Updated upstream
             $("html,body").css({"width":"100%", "height":"100%"});
+=======
+>>>>>>> Stashed changes
             myLibrary("#calculator-container").center(); //center calculator on page
         }
     });
@@ -67,8 +73,13 @@ $(document).ready(function() {
 
     else{
         var injectTheme = $.parseJSON(localStorage.customTheme);
+<<<<<<< Updated upstream
         if(injectTheme.manifest != undefined && injectTheme.manifest.version != undefined && injectTheme.manifest.version > 0 && validateTheme(injectTheme)){
             theme.load(injectTheme);
+=======
+        if(injectTheme.manifest != undefined && injectTheme.manifest.version != undefined && injectTheme.manifest.version > 0 && validate.theme(injectTheme)){
+                theme.load(injectTheme);
+>>>>>>> Stashed changes
         }
 
         else{

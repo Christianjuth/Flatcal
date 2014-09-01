@@ -5,8 +5,12 @@
     },
 
     "body":{
+<<<<<<< Updated upstream
         "color":"#272727",
         "font": "helvetica"
+=======
+        "color":"#272727"
+>>>>>>> Stashed changes
     },
 
     "input":{
@@ -21,7 +25,11 @@
         "borderColor":"#272727",
         "borderRadius":"0",
         "borderWidth":"1px",
+<<<<<<< Updated upstream
         "hoverColor":"#dedede",
+=======
+        "hoverColor":"",
+>>>>>>> Stashed changes
         "textColor":"#272727",
         "font":"Sans-serif",
 
