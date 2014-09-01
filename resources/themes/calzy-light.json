@@ -49,6 +49,6 @@
             "textColor": ""
         },
         "borderRadius": 0,
-        "borderWidth": 0
+        "borderWidth": 1
     }
 }

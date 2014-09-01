@@ -1,6 +1,5 @@
 {
     "manifest": {
-<<<<<<< Updated upstream
         "version": 1.1
     },
     "body": {
@@ -18,26 +17,6 @@
         "borderColor": "#222222",
         "textColor": "#222222",
         "font": "helvetica",
-=======
-        "version": 1,
-        "name": "Material Design"
-    },
-    "body": {
-        "color": "#a4f1fe"
-    },
-    "input": {
-        "color": "#a4f1fe",
-        "borderColor": "#a4f1fe",
-        "textColor": "#ffffff",
-        "font": "helvetica"
-    },
-    "button": {
-        "color": "#625c5c",
-        "hoverColor": "#e8e8e8",
-        "borderColor": "",
-        "textColor": "#ffffff",
-        "font": "sans-serif",
->>>>>>> Stashed changes
         "numbers": {
             "color": "",
             "hoverColor": "",
@@ -59,28 +38,16 @@
             "textColor": ""
         },
         "operators": {
-<<<<<<< Updated upstream
             "color": "",
-=======
-            "color": "#868686",
->>>>>>> Stashed changes
             "hoverColor": "",
             "textColor": ""
         },
         "equal": {
-<<<<<<< Updated upstream
             "color": "",
             "hoverColor": "",
             "textColor": ""
         },
         "borderRadius": 0,
         "borderWidth": 1
-=======
-            "color": "#868686",
-            "hoverColor": "",
-            "textColor": ""
-        },
-        "borderRadius": 0
->>>>>>> Stashed changes
     }
 }
