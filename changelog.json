@@ -1,6 +1,13 @@
 [
     {
         "link":"https://github.com/Christianjuth/calculator-browser-extension",
+        "version":"2.5.2",
+        "description":"border bug fix",
+        "date":"8-16-14"
+    },
+    
+    {
+        "link":"#",
         "version":"2.5.1",
         "description":"new themes (Calzy light & dark)",
         "date":"8-16-14"
