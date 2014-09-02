@@ -1,0 +1,69 @@
+{
+    "manifest":{
+        "name": "ios",
+        "version": 1.1
+    },
+
+    "body":{
+<<<<<<< HEAD
+        "color":"#272727"
+=======
+        "color":"#272727",
+        "font": "helvetica"
+>>>>>>> dev
+    },
+
+    "input":{
+        "color":"#272727",
+        "textColor":"#fff",
+        "borderColor":"#272727",
+        "font":"arial"
+    },
+
+    "button":{
+        "color":"#eee",
+        "borderColor":"#272727",
+        "borderRadius":"0",
+        "borderWidth":"1px",
+<<<<<<< HEAD
+        "hoverColor":"",
+=======
+        "hoverColor":"#dedede",
+>>>>>>> dev
+        "textColor":"#272727",
+        "font":"Sans-serif",
+
+        "numbers":{
+            "color":"#eee",
+            "hoverColor":""
+        },
+
+        "point":{
+            "color":"#eee",
+            "hoverColor":""
+        },
+
+        "ce":{
+            "color":"#eee",
+            "hoverColor":""
+        },
+
+        "positiveNegative":{
+            "color":"",
+            "hoverColor":""
+            ,"textColor":""
+        },
+
+        "operators" : {
+            "color":"#FA9600",
+            "textColor":"#fff",
+            "hoverColor":"#e38801"
+        },
+
+        "equal":{
+            "color":"#FA9600",
+            "textColor":"#fff",
+            "hoverColor":"#e38801"
+        }
+    }
+}

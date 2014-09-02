@@ -1,0 +1,62 @@
+{
+    "manifest":{
+        "version": 1.1
+    },
+
+    "body":{
+        "color":""
+    },
+
+    "input":{
+        "color":"",
+        "borderColor":"",
+        "textColor":"",
+        "font":""
+    },
+
+    "button":{
+        "color":"",
+        "hoverColor":"",
+        "borderColor":"",
+        "borderRadius":"",
+        "borderWidth":"",
+        "textColor":"",
+        "font":"",
+
+        "numbers":{
+            "color":"",
+            "hoverColor":"",
+            "textColor":""
+        },
+
+        "point":{
+            "color":"",
+            "hoverColor":"",
+            "textColor":""
+        },
+
+        "ce":{
+            "color":"",
+            "hoverColor":"",
+            "textColor":""
+        },
+
+        "positiveNegative":{
+            "color":"",
+            "hoverColor":"",
+            "textColor":""
+        },
+
+        "operators" : {
+            "color":"",
+            "hoverColor":"",
+            "textColor":""
+        },
+
+        "equal":{
+            "color":"",
+            "hoverColor":"",
+            "textColor":""
+        }
+    }
+}
