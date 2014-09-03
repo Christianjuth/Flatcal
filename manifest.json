@@ -34,12 +34,8 @@
         "clipboardWrite",
         "clipboardRead",
         "notifications",
-<<<<<<< HEAD
-        "http://calculatorextension.com/*"
-=======
         "http://calculatorextension.com/*",
         "https://raw.githubusercontent.com/*"
->>>>>>> dev
     ],
 
     "background" : {
