@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "Calculator",
-    "description": "A Easy to Access Calculator for your Chrome Browser",
+    "description": "A fully themeable calculator for your Chrome Browser",
     "version": "2.5.2",
 
     "browser_action": {
