@@ -102,6 +102,6 @@ function animatedShadow(selector) {
 
 if(localStorage.dev != "true"){
     function trackButton(e) {
-        _gaq.push(['_trackEvent', e.target.id , 'clicked']);
+        analyticsEvent(e.target.id , "clicked");
     };
 }

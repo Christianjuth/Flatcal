@@ -20,28 +20,17 @@ var theme = {
     get : function(name){
         var themesOut = null;
         if(name == undefined){
-            $.ajax({
-                url: chrome.extension.getURL("/resources/themes/themes-list.json"),
-                async: false,
-                dataType: 'json',
-                success: function (data) {
-                    themesOut = new Array();
-                    for(i = 0; i < data.length; i++){
-                        themesOut.push(data[i].name.toLowerCase());
-                    };
-                }
-            });
+            themesOut = new Array();
+            data = ajaxGetFile("../resources/themes/themes-list.json", "json");
+            for(i = 0; i < data.length; i++){
+                themesOut.push(data[i].name.toLowerCase());
+            };
         }
 
         else{
-            $.ajax({
-                url: chrome.extension.getURL("/resources/themes/" + name + ".json"),
-                async: false,
-                dataType: 'json',
-                success: function (data) {
-                    themesOut = data;
-                }
-            });
+            themesOut = new Array();
+            data = ajaxGetFile("../resources/themes/" + name + ".json", "json");
+            themesOut = data;
         }
 
         return themesOut;
@@ -431,4 +420,23 @@ function validateTheme(json) {
     }
 
     return goodTheme;
+}
+
+function ajaxGetFile(file, type) {
+    var dataOut = false;
+    $.ajax({
+        url: file,
+        async: false,
+        dataType: type,
+        tryCount : 0,
+        retryLimit : 15,
+        success:function(data) {
+            dataOut = data;
+        },
+        error: function(){
+            location.reload();
+        }
+    });
+
+    return dataOut;
 }

@@ -74,9 +74,3 @@ function animatedShadow(selector) {
         localStorage.tutorial = true;
     });
 }
-
-if(localStorage.dev != "true"){
-    function trackButton(e) {
-        _gaq.push(['_trackEvent', e.target.id , 'clicked']);
-    };
-}

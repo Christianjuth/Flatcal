@@ -9,3 +9,9 @@ if(localStorage.dev != "true"){
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
 }
+
+function analyticsEvent(category, action, opt_label, opt_value, opt_noninteraction){
+    if(localStorage.dev != "true"){
+        _gaq.push(['_trackEvent', category, action, opt_label, opt_value, opt_noninteraction]);
+    }
+}

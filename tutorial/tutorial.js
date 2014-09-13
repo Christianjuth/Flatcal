@@ -73,9 +73,8 @@ function tutorial() {
         }
 
         Alert("Calculator 2.0!", "It is finally here. More power. More customization. But same elegance. ", function() {
-            animateTheme = false;
             $('#theme-selctor').val(loadedTheme).trigger("chosen:updated");
-
+            animateTheme = false;
             step[2]();
         });
     }
@@ -128,6 +127,7 @@ function tutorial() {
     }
 
     step[5] = function() {
+        analyticsEvent("tutorial", "finished");
         setTimeout(function() {
             Alert("You have finished the tutorial!", "Please feel free to contact me at juth.dev@gmail.com. I am looking for testers and more help. You will now be redirected to our settings page.", function() {
                 localStorage.tutorial = true;
@@ -167,26 +167,6 @@ function scientific(toggle, callback) {
             });
         });
     }
-}
-
-function animatedShadow(selector) {
-    var elm = $(selector),
-        x = ~Math.round((0 - $(elm).offset().left - ($(elm).outerWidth() / 2) - 150) / 175 - 14),
-        y = ~Math.round((0 - $(elm).offset().top - ($(elm).outerHeight() / 2) - 150) / 175 - 13),
-        cssVal = x+'px '+y+'px 2px #ddd';
-    elm.css({'-webkit-box-shadow' : cssVal, 'box-shadow' : cssVal });
-
-    $(document).on('mousemove', function(e) {
-        var elm = $(selector),
-            x = ~Math.round((e.pageX - $(elm).offset().left - ($(elm).outerWidth() / 2) - 150) / 175 - 15),
-            y = ~Math.round((e.pageY - $(elm).offset().top - ($(elm).outerHeight() / 2) - 150) / 175 - 14),
-            cssVal = x+'px '+y+'px 2px #ddd';
-        elm.css({'-webkit-box-shadow' : cssVal, 'box-shadow' : cssVal });
-    });
-
-    window.onbeforeunload(function() {
-        localStorage.tutorial = true;
-    });
 }
 
 function loadTheme(name){
