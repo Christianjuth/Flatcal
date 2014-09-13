@@ -371,8 +371,9 @@ function inputNumber(originalNumber, stripZeros) {
                         }
                     }
                 }
-
-                number = finalNumber[0] + "." + finalNumber[1];
+                
+                if(finalNumber[0].length > 1) number = finalNumber[0].replace(/^0+/, '') + "." + finalNumber[1];
+                else number = finalNumber[0] + "." + finalNumber[1];
             }
 
             else{
@@ -386,11 +387,13 @@ function inputNumber(originalNumber, stripZeros) {
                         }
                     }
 
-                    number = finalNumber[0] + "." + finalNumber[1];
+                    if(finalNumber[0].length > 1) number = finalNumber[0].replace(/^0+/, '') + "." + finalNumber[1];
+                    else number = finalNumber[0] + "." + finalNumber[1];
                 }
 
                 else{
-                    number = finalNumber[0];
+                    if(finalNumber[0].length > 1) number = finalNumber[0].replace(/^0+/, '');
+                    else number = finalNumber[0];
                 }
             }
 
@@ -407,7 +410,8 @@ function inputNumber(originalNumber, stripZeros) {
                 number = number + ".";
             }
 
-            $("#input").text(numberCommas(finalNumber[0]));
+            if(finalNumber[0].length > 1) $("#input").text(numberCommas(finalNumber[0].replace(/^0+/, '')));
+            else $("#input").text(numberCommas(finalNumber[0]));
         }
     }
 

@@ -49,7 +49,7 @@ $(document).ready(function() {
     $("h1").click(function() {
         if(tenClick() == true){
             if(localStorage.dev != "true"){
-                _gaq.push(['_trackEvent', "dev-center" , 'clicked']);
+                analyticsEvent("dev-center" , "clicked");
             }
             $(".lightbox").unbind();
             $(".lightbox, .popup").show();
