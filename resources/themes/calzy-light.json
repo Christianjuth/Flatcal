@@ -15,7 +15,7 @@
     "button": {
         "color": "#ffffff",
         "hoverColor": "#f9f9f9",
-        "borderColor": "#ffffff",
+        "borderColor": "",
         "textColor": "#a4a4a4",
         "font": "sans-serif",
         "numbers": {
@@ -49,6 +49,6 @@
             "textColor": ""
         },
         "borderRadius": 0,
-        "borderWidth": 1
+        "borderWidth": 0
     }
 }
