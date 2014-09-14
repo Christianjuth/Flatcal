@@ -3,7 +3,7 @@
 
     "name": "Calculator",
     "description": "A fully themeable calculator for your Chrome Browser",
-    "version": "2.5.2",
+    "version": "2.5.3",
 
     "browser_action": {
         "default_icon": "resources/icons/icon.png",
