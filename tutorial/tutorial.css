@@ -60,8 +60,8 @@ input:active{
 }
 
 #theme-builder-container{
-    width: auto;
-    height: auto;
+    width: 794px;
+    height: 365px;
     display: inline-block;
 
     background-color: #fff;

@@ -434,7 +434,8 @@ function ajaxGetFile(file, type) {
             dataOut = data;
         },
         error: function(){
-            location.reload();
+            //location.reload();
+            alert();
         }
     });
 

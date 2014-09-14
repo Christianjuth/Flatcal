@@ -2,6 +2,7 @@ var loadedTheme = "google";
 var enable = "all";
 
 $(document).ready(function() {
+    myLibrary("#theme-builder-container").center();
     progressJs().start();
     $.getJSON(chrome.extension.getURL('resources/themes/themes-list.json'), function(options) {
         options.sort(theme.sort.reverse);
@@ -41,8 +42,6 @@ $(document).ready(function() {
         loadTheme($("#theme-selctor").val());
         return;
     });
-
-    myLibrary("#theme-builder-container").center();
 });
 
 function tutorial() {
@@ -52,6 +51,7 @@ function tutorial() {
     var step = new Array();
 
     step[1] = function() {
+        analyticsEvent("tutorial", "started"); //analytics start
         var animateTheme = true;
         var themes = theme.get();
         themes.sort();
