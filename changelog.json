@@ -1,13 +1,13 @@
 [
     {
-        "link":"#",
+        "link":"https://github.com/Christianjuth/calculator-browser-extension",
         "version":"2.5.3",
         "description":"added input flash animation & bug fixes",
         "date":"9-21-14"
     },
     
     {
-        "link":"https://github.com/Christianjuth/calculator-browser-extension",
+        "link":"#",
         "version":"2.5.2",
         "description":"border bug fix",
         "date":"8-28-14"
