@@ -8,6 +8,13 @@
     
     {
         "link":"#",
+        "version":"2.5.3",
+        "description":"added input flash animation & bug fixes",
+        "date":"8-28-14"
+    },
+    
+    {
+        "link":"#",
         "version":"2.5.1",
         "description":"new themes (Calzy light & dark)",
         "date":"8-18-14"
