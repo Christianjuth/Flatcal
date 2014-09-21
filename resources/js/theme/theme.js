@@ -434,8 +434,7 @@ function ajaxGetFile(file, type) {
             dataOut = data;
         },
         error: function(){
-            //location.reload();
-            alert();
+            location.reload(); //This is a hack
         }
     });
 
