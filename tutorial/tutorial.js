@@ -39,7 +39,7 @@ $(document).ready(function() {
     $("#theme-selctor").chosen({disable_search_threshold: 10});
 
     $("#theme-selctor").change(function() {
-        loadTheme($("#theme-selctor").val());
+        theme.load($("#theme-selctor").val());
         return;
     });
 });
@@ -167,13 +167,6 @@ function scientific(toggle, callback) {
             });
         });
     }
-}
-
-function loadTheme(name){
-    var filename = chrome.extension.getURL("resources/themes/" + name + ".json");
-    $.getJSON(filename, function(json){
-        theme.load(json);
-    });
 }
 
 window.Alert = function(content, title, effect) {
