@@ -1,7 +1,6 @@
-if(localStorage.tutorial == undefined || localStorage.tutorial == false){
+if(localStorage.tutorial == undefined || localStorage.tutorial == "false"){
     localStorage.tutorial = false;
-    var newURL = "../tutorial/tutorial.html";
-    chrome.tabs.create({ url: newURL });
+    tutorial();
 }
 
 if(localStorage.customTheme == undefined){
@@ -47,5 +46,22 @@ if(localStorage.notify == undefined){
         id : 0,
         date : moment().format("YYYYMMDD"),
         delay : 0
+    });
+}
+
+function tutorial() {
+    source = "../tutorial/tutorial.html";
+    chrome.tabs.query({}, function(tabs) {
+        var Open = true;
+        for(i = 0; i < tabs.length; i++){
+            Open = Open && (String(tabs[i].url).indexOf(source) == -1);
+            console.log(tabs[i]);
+        }
+        if(Open == true && tabs.length > 0){
+            chrome.tabs.create({
+                url : source,
+                active : true
+            });
+        }
     });
 }
