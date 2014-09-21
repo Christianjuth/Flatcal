@@ -2,6 +2,7 @@ var loadedTheme = "google";
 var enable = "all";
 
 $(document).ready(function() {
+    myLibrary("#theme-builder-container").center();
     progressJs().start();
     $.getJSON(chrome.extension.getURL('resources/themes/themes-list.json'), function(options) {
         options.sort(theme.sort.reverse);
@@ -38,11 +39,9 @@ $(document).ready(function() {
     $("#theme-selctor").chosen({disable_search_threshold: 10});
 
     $("#theme-selctor").change(function() {
-        loadTheme($("#theme-selctor").val());
+        theme.load($("#theme-selctor").val());
         return;
     });
-
-    myLibrary("#theme-builder-container").center();
 });
 
 function tutorial() {
@@ -52,6 +51,7 @@ function tutorial() {
     var step = new Array();
 
     step[1] = function() {
+        analyticsEvent("tutorial", "started"); //analytics start
         var animateTheme = true;
         var themes = theme.get();
         themes.sort();
@@ -167,13 +167,6 @@ function scientific(toggle, callback) {
             });
         });
     }
-}
-
-function loadTheme(name){
-    var filename = chrome.extension.getURL("resources/themes/" + name + ".json");
-    $.getJSON(filename, function(json){
-        theme.load(json);
-    });
 }
 
 window.Alert = function(content, title, effect) {

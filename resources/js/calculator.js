@@ -152,7 +152,8 @@ function calculate(clearVaulesAfter){
             overall = Math.nthroot(parseFloat(first), parseFloat(second));
         }
 
-        inputNumber(overall);
+        $("#input").text("");
+        setTimeout(inputNumber, 100, overall);
 
         first = overall;
         second = "";
@@ -371,7 +372,7 @@ function inputNumber(originalNumber, stripZeros) {
                         }
                     }
                 }
-                
+
                 if(finalNumber[0].length > 1) number = finalNumber[0].replace(/^0+/, '') + "." + finalNumber[1];
                 else number = finalNumber[0] + "." + finalNumber[1];
             }
