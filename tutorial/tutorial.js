@@ -51,7 +51,7 @@ function tutorial() {
     var step = new Array();
 
     step[1] = function() {
-        analyticsEvent("tutorial", "started"); //analytics start
+        analyticsEvent("tutorial", "20%"); //analytics start
         var animateTheme = true;
         var themes = theme.get();
         themes.sort();
@@ -80,6 +80,7 @@ function tutorial() {
     }
 
     step[2] = function() {
+        analyticsEvent("tutorial", "40%");
         Alert("What is new?", "Try this little demo and see what sets us apart. Try the calculator itself in the left, and change the options in the right. When you are ready, click next to continue.", function() {
             animateTheme = false;
             $('#theme-selctor').val(loadedTheme).trigger("chosen:updated");
@@ -91,6 +92,7 @@ function tutorial() {
     }
 
     step[3] = function() {
+        analyticsEvent("tutorial", "60%");
         if(window.navigator.platform.toLowerCase().indexOf("mac") != -1){
             Alert("Copy and paste?", "Type a number. Click 'Command C' to copy, and 'Command V' to paste.", function() {
                 $("#next").unbind().click(function() {
@@ -109,8 +111,9 @@ function tutorial() {
     }
 
     step[4] = function() {
+        analyticsEvent("tutorial", "80%");
         if(window.navigator.platform.toLowerCase().indexOf("mac") != -1){
-            Alert("Keyboard Shortcuts!", "Try clicking 'Option C'. Once you see the popup you can control it with your number keys and plus, minus, etc. If Option C does not bring up the calculator you may need to delete and reinstall this extension due to a bug in Chrome. We apologize for the inconvenience...", function() {
+            Alert("Keyboard Shortcuts!", "Try clicking 'Option C'. Once you see the popup you can control it with your number keys and plus, minus, etc.", function() {
                 $("#next").unbind().click(function() {
                     step[5]();
                 });
@@ -118,7 +121,7 @@ function tutorial() {
         }
 
         else{
-            Alert("Keyboard Shortcuts!", 'Try clicking "Alt C". Once you see the popup you can control it with your number keys and plus, minus, etc. If Alt C does not bring up the calculator you may need to delete and reinstall this extension due to a bug in Chrome. We apologize for the inconvenience...', function() {
+            Alert("Keyboard Shortcuts!", 'Try clicking "Alt C". Once you see the popup you can control it with your number keys and plus, minus, etc.', function() {
                 $("#next").unbind().click(function() {
                     step[5]();
                 });
@@ -127,7 +130,7 @@ function tutorial() {
     }
 
     step[5] = function() {
-        analyticsEvent("tutorial", "finished");
+        analyticsEvent("tutorial", "100%");
         setTimeout(function() {
             Alert("You have finished the tutorial!", "Please feel free to contact me at juth.dev@gmail.com. I am looking for testers and more help. You will now be redirected to our settings page.", function() {
                 localStorage.tutorial = true;
