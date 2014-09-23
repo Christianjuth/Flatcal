@@ -1,3 +1,4 @@
+localStorage.tutorial = true;
 $(document).ready(function() {
     progressJs().start();
     $("#theme-selctor").chosen({disable_search_threshold: 10});
