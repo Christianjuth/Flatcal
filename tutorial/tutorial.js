@@ -1,5 +1,6 @@
 var loadedTheme = "google";
 var enable = "all";
+localStorage.tutorial = true;
 
 $(document).ready(function() {
     myLibrary("#theme-builder-container").center();
@@ -133,7 +134,6 @@ function tutorial() {
         analyticsEvent("tutorial", "100%");
         setTimeout(function() {
             Alert("You have finished the tutorial!", "Please feel free to contact me at juth.dev@gmail.com. I am looking for testers and more help. You will now be redirected to our settings page.", function() {
-                localStorage.tutorial = true;
                 window.open ('../settings/options/options.html','_self',false);
             });
         }, 500);
