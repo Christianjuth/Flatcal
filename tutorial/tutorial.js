@@ -73,7 +73,7 @@ function tutorial() {
             }, i * 150);
         }
 
-        Alert("Calculator 2.0!", "It is finally here. More power. More customization. But same elegance. ", function() {
+        Alert("Why a Calculator?", "Don't reinvent the wheel, just realign it. \n ~Anthony J. D'Angelo", function() {
             $('#theme-selctor').val(loadedTheme).trigger("chosen:updated");
             animateTheme = false;
             step[2]();
@@ -82,7 +82,7 @@ function tutorial() {
 
     step[2] = function() {
         analyticsEvent("tutorial", "40%");
-        Alert("What is new?", "Try this little demo and see what sets us apart. Try the calculator itself in the left, and change the options in the right. When you are ready, click next to continue.", function() {
+        Alert("What makes us diffrent?", "Try this little demo and see what sets us apart. Try the calculator on the left, and the options on the right.", function() {
             animateTheme = false;
             $('#theme-selctor').val(loadedTheme).trigger("chosen:updated");
 
@@ -114,7 +114,7 @@ function tutorial() {
     step[4] = function() {
         analyticsEvent("tutorial", "80%");
         if(window.navigator.platform.toLowerCase().indexOf("mac") != -1){
-            Alert("Keyboard Shortcuts!", "Try clicking 'Option C'. Once you see the popup you can control it with your number keys and plus, minus, etc.", function() {
+            Alert("Keyboard Shortcuts!", "Try clicking 'Option C'. Once you see the popup you can control it with your number keys, plus, minus, etc.", function() {
                 $("#next").unbind().click(function() {
                     step[5]();
                 });
@@ -122,7 +122,7 @@ function tutorial() {
         }
 
         else{
-            Alert("Keyboard Shortcuts!", 'Try clicking "Alt C". Once you see the popup you can control it with your number keys and plus, minus, etc.', function() {
+            Alert("Keyboard Shortcuts!", 'Try clicking "Alt C". Once you see the popup you can control it with your number keys, plus, minus, etc.', function() {
                 $("#next").unbind().click(function() {
                     step[5]();
                 });
@@ -133,7 +133,7 @@ function tutorial() {
     step[5] = function() {
         analyticsEvent("tutorial", "100%");
         setTimeout(function() {
-            Alert("You have finished the tutorial!", "Please feel free to contact me at juth.dev@gmail.com. I am looking for testers and more help. You will now be redirected to our settings page.", function() {
+            Alert("You have finished the tutorial!", "You will be redirected to our settings page.", function() {
                 window.open ('../settings/options/options.html','_self',false);
             });
         }, 500);
