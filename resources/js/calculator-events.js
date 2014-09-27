@@ -16,7 +16,7 @@ $(document).ready(function() {
     $(".number").mousedown(function() {
         if($(this).attr("value") >= 0 && $(this).attr("value") <= 9){
             if(enable.indexOf("number") != -1 || enable == "all" || enable == undefined){
-                numberClicked($(this).attr("value"));
+                calculator.numberClicked($(this).attr("value"));
             }
         }
     });
@@ -43,21 +43,21 @@ $(document).ready(function() {
 
     $(".opp").mousedown(function() {
         if(enable.indexOf("opp") != -1 || enable == "all" || enable == undefined){
-            oppClicked($(this).attr("value"));
+            calculator.opp($(this).attr("value"));
         }
     });
 
     //equal clicked
     $("#equal").mousedown(function() {
         if(enable.indexOf("equal") != -1 || enable == "all" || enable == undefined){
-            calculate(true); //true if for the clear function
+            calculator.calculate(true); //true if for the clear function
         }
     });
 
     //ce button
     $("#ce").mousedown(function() {
         if(enable.indexOf("ce") != -1 || enable == "all" || enable == undefined){
-            Clear();
+            calculator.screen.clear();
         }
     });
 

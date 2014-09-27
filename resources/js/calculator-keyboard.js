@@ -4,11 +4,11 @@ $(document).ready(function() {
     window.onkeydown = function(e) {
         //if a number key is prssed trigger buttonClicked function
         if (e.keyCode >= 48 && e.keyCode <= 57 && event.shiftKey == false) {
-            numberClicked(e.keyCode - 48);
+            calculator.numberClicked(e.keyCode - 48);
         }
 
         if (e.keyCode >= 96 && e.keyCode <= 105 && event.shiftKey == false) {
-            numberClicked(e.keyCode - 96);
+            calculator.numberClicked(e.keyCode - 96);
         }
 
         //if point is clicked trigger point function
@@ -22,59 +22,59 @@ $(document).ready(function() {
             }
         }
 
-        //if plus is clicked trigger oppClicked function with plus input
+        //if plus is clicked trigger calculator.opp function with plus input
         else if((event.shiftKey == true && e.keyCode == 187) || e.keyCode == 107) {
-            oppClicked("plus");
+            calculator.opp("plus");
         }
 
-        //if minus is clicked trigger oppClicked function with subtract input
-        else if(event.shiftKey == false && (e.keyCode == 189) || e.keyCode == 109)){
-            oppClicked("subtract");
+        //if minus is clicked trigger calculator.opp function with subtract input
+        else if(event.shiftKey == false && (e.keyCode == 189 || e.keyCode == 109)){
+            calculator.opp("subtract");
         }
 
-        //if multiply is clicked trigger oppClicked function with multiply input
+        //if multiply is clicked trigger calculator.opp function with multiply input
         else if((event.shiftKey == true && e.keyCode == 56) || e.keyCode == 88 || e.keyCode == 106) {
-            oppClicked("multiply");
+            calculator.opp("multiply");
         }
 
-        //if divide is clicked trigger oppClicked function with devide input
+        //if divide is clicked trigger calculator.opp function with devide input
         else if(e.keyCode == 191 || e.keyCode == 111) {
-            oppClicked("divide");
+            calculator.opp("divide");
         }
 
         //backspace
         else if(e.keyCode == 8) {
             if(clear == true || $('#input').text().length == 1){
-                Clear();
+                calculator.screen.clear();
             }
 
             else if(opp == ""){
                 first = first.substring(0,first.length -1);
-                inputNumber(first);
+                calculator.screen.set(first);
             }
 
             else{
                 second = second.substring(0,second.length -1);
-                inputNumber(second);
+                calculator.screen.set(second);
             }
 
-            if(inputNumber() == ""){
-                inputNumber(0);
+            if(calculator.screen.set() == ""){
+                calculator.screen.set(0);
             }
         }
 
         else if((e.keyCode == 67 && event.ctrlKey == false && event.metaKey == false) || e.keyCode == 12) {
-            Clear();
+            calculator.screen.clear();
         }
 
         //windows
         else if(e.keyCode == 67 && event.ctrlKey == true && window.navigator.platform.toLowerCase().indexOf("mac") == -1) {
-            copy(inputNumber());
+            copy(calculator.screen.set());
         }
 
         //mac
         else if(e.keyCode == 67 && event.metaKey == true == true) {
-            copy(inputNumber());
+            copy(calculator.screen.set());
         }
 
         //windows
@@ -89,10 +89,10 @@ $(document).ready(function() {
 
         //enter
         else if((event.shiftKey == false && e.keyCode == 187) || e.keyCode == 13 || e.keyCode == 187){
-            calculate(true); //true if for the clear function
+            calculator.calculate(true); //true if for the clear function
         }
 
-        //if minus is clicked trigger oppClicked function with subtract input
+        //if minus is clicked trigger calculator.opp function with subtract input
         else if(event.shiftKey == true && e.keyCode == 189){
             posNeg();
         }

@@ -10,6 +10,7 @@
 
         <!--load javascript libraries-->
         <script type="text/javascript" src="resources/js/libraries/jquery.min.js"></script>
+        <script type="text/javascript" src="resources/js/libraries/math.min.js"></script>
         <script type="text/javascript" src="resources/js/libraries/my-library.min.js"></script>
         <script type="text/javascript" src="resources/js/libraries/validate.min.js"></script>
 
@@ -18,9 +19,9 @@
         <script type="text/javascript" src="resources/js/index.min.js"></script>
 
         <!--load files css and js files-->
-        <script type="text/javascript" src="resources/js/calculator.min.js"></script>
-        <script type="text/javascript" src="resources/js/calculator-keyboard.min.js"></script>
-        <script type="text/javascript" src="resources/js/calculator-events.min.js"></script>
+        <script type="text/javascript" src="resources/js/calculator.js"></script>
+        <script type="text/javascript" src="resources/js/calculator-keyboard.js"></script>
+        <script type="text/javascript" src="resources/js/calculator-events.js"></script>
     </head>
     <body>
         <div id="calculator-container">
@@ -71,7 +72,7 @@
                 <div id="number-container">
                     <div id="topRow" >
                         <div class="button long ce" id="ce">CE</div>
-                        <div class="button pos-neg" id="positive-negative">+/-</div>
+                        <div class="button  ce" id="percentage">%</div>
                         <div id="divide" class="button right opp" value="divide">&divide;</div>
 
                     </div>
@@ -98,8 +99,9 @@
                     </div>
 
                     <div id="bottomRow">
-                        <div id="zero" class="button number long" value="0">0</div>
                         <div id="point" class="button bottom">.</div>
+                        <div id="zero" class="button number" value="0">0</div>
+                        <div class="button pos-neg" id="positive-negative">+/-</div>
                         <div class="button right" id="equal">=</div>
                     </div>
                 </div>

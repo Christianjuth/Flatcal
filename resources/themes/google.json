@@ -11,7 +11,7 @@
     "input": {
         "color": "#fff",
         "borderColor": "#ccc",
-        "textColor": "#000",
+        "textColor": "#222",
         "font": "arial"
     },
 
