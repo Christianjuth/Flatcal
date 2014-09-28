@@ -13,12 +13,8 @@ $(document).ready(function() {
 
         //if point is clicked trigger point function
         else if(e.keyCode == 190 || e.keyCode == 110) {
-            if($("#input").text().length < 16 && localStorage.scientific == "true" && localStorage.screenOnly == "false"){
-                addDecimal();
-            }
-
-            else if($("#input").text().length < 10) {
-                addDecimal();
+            if($("#input").text().length < calculator.maxLength){
+                calculator.event.addDecimal();
             }
         }
 
@@ -94,7 +90,7 @@ $(document).ready(function() {
 
         //if minus is clicked trigger calculator.opp function with subtract input
         else if(event.shiftKey == true && e.keyCode == 189){
-            posNeg();
+            calculator.event.posNeg();
         }
     }
 });

@@ -24,12 +24,8 @@ $(document).ready(function() {
     //point
     $("#point").mousedown(function() {
         if(enable.indexOf("point") != -1 || enable == "all" || enable == undefined){
-            if($("#input").text().length < 16 && localStorage.scientific == "true" && localStorage.screenOnly == "false"){
-                addDecimal();
-            }
-
-            else if($("#input").text().length < Math.min(Math.round(($("#input-container").width() / 17) - 1), 16)) {
-                addDecimal();
+            if($("#input").text().length < calculator.maxLength){
+                calculator.event.addDecimal();
             }
         }
     });
@@ -37,7 +33,7 @@ $(document).ready(function() {
     //posNeg clicked
     $("#positive-negative").mousedown(function() {
         if(enable.indexOf("pos-neg") != -1 || enable == "all" || enable == undefined){
-            posNeg();
+            calculator.event.posNeg();
         }
     });
 
@@ -71,21 +67,21 @@ $(document).ready(function() {
     //to the power of button
     $(".the-power-of").mousedown(function() {
         if(enable == "all" || enable == undefined){
-            thePowerOf($(this).attr("value"));
+            calculator.screen.set(calculator.math.pow($(this).attr("value")));
         }
     });
 
     //to the power of button
     $("#square-root").mousedown(function() {
         if(enable == "all" || enable == undefined){
-            squareRoot($("#input").text());
+            calculator.screen.set(calculator.math.nthroot($("#input").text(),2));
         }
     });
 
     //sin button
     $("#sin").mousedown(function() {
         if(enable == "all" || enable == undefined){
-            sin($("#input").text());
+            calculator.screen.set(calculator.math.sin($("#input").text()));
         }
     });
 
@@ -134,7 +130,7 @@ $(document).ready(function() {
     //log button
     $("#log").mousedown(function() {
         if(enable == "all" || enable == undefined){
-            log($("#input").text());
+            calculator.screen.set(calculator.math.log($("#input").text()));
         }
     });
 
