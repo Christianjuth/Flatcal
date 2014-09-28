@@ -44,21 +44,21 @@ $(document).ready(function() {
 
         //backspace
         else if(e.keyCode == 8) {
-            if(clear == true || $('#input').text().length == 1){
-                calculator.screen.clear();
-            }
-
-            else if(opp == ""){
-                first = first.substring(0,first.length -1);
-                calculator.screen.set(first);
+            if(opp == ""){
+                calculator.first = calculator.first.substring(0,calculator.first.length -1);
+                calculator.screen.set(calculator.first);
             }
 
             else{
-                second = second.substring(0,second.length -1);
-                calculator.screen.set(second);
+                calculator.second = calculator.second.substring(0,calculator.second.length -1);
+                calculator.screen.set(calculator.second);
             }
 
-            if(calculator.screen.set() == ""){
+            if(clear == true || $('#input').text().length == 0){
+                calculator.screen.clear();
+            }
+
+            if(calculator.screen.get() == ""){
                 calculator.screen.set(0);
             }
         }

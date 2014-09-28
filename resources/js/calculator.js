@@ -3,6 +3,7 @@ if(enable == undefined || enable == "undefined"){
 }
 
 $(document).ready(function() {
+    calculator.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), 15);
     if(localStorage.radDeg == "rad") rad();
     else deg();
 
@@ -11,20 +12,22 @@ $(document).ready(function() {
 
 var calculator = {
     numberClicked : function(lastButtonClicked){
+        var decimal = this.first.indexOf(".") != -1;
         if(clear == true) calculator.screen.clear(); //calculator.screen.clears any previous values
         var validate = calculator.screen.get() == "0" && lastButtonClicked == 0 && $("#input").text().indexOf(".") == -1;
 
         if(opp == "" && validate != true){
-            if(calculator.first.replace(/-/g,"").replace(/\./g,"").length < Math.min(Math.round(($("#input-container").width() / 18) - 1), 16)){
-                this.first = this.first + lastButtonClicked;
+            if(calculator.first.replace(/-/g,"").replace(/\./g,"").length < calculator.maxLength){
+                if(decimal) this.first = String(parseInt(this.first.split(".")[0]) + "." + this.first.split(".")[1] + lastButtonClicked);
+                else this.first = String(parseInt(this.first) + "" + lastButtonClicked);
                 this.screen.set(this.first, false);
             }
         }
         else if(validate != true){
-            if(calculator.second.replace(/-/g,"").replace(/\./g,"").length < Math.min(Math.round(($("#input-container").width() / 18) - 1), 16)){
-                if(calculator.second == "0") calculator.second = "";
-                calculator.second = calculator.second + lastButtonClicked;
-                this.screen.set(calculator.second, false);
+            if(calculator.second.replace(/-/g,"").replace(/\./g,"").length < calculator.maxLength){
+                if(decimal) this.second = String(parseInt(this.second.split(".")[0]) + "." + this.second.split(".")[1] + lastButtonClicked);
+                else this.second = String(parseInt(this.second) + "" + lastButtonClicked);
+                this.screen.set(this.second, false);
             }
         }
 
@@ -33,23 +36,22 @@ var calculator = {
 
     screen : {
         set : function(number, stripZeros) {
-            console.log(number);
-            var number = String(number); //parse input number as string
+            number = String(number);
+            if(number.indexOf(".") != -1) number = String(parseInt(number.split(".")[0]) + "." + number.split(".")[1]);
+            else number = String(parseInt(number));
             var valid = (number != "" && number != undefined && number != "undefined"); //validate number
-            var maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), 16); //get max legnth of input
-
-            if(number.split(".")[0].length > maxLength || !valid){
+            if(number.split(".")[0].length > calculator.maxLength || !valid){
                 this.clear();
                 $("#input").text("ERROR");
                 return false;
             }
 
-            if(number.length <= maxLength && valid){
+            if(number.length <= calculator.maxLength && valid){
                 $("#input").text(numberCommas(number));
             }
 
-            else if(number.split(".")[0].length < maxLength && valid){
-                $("#input").text(math.round(parseFloat(number), maxLength - number.split(".")[0].length));
+            else if(number.split(".")[0].length < calculator.maxLength && valid){
+                $("#input").text(math.round(parseFloat(number), calculator.maxLength - number.split(".")[0].length));
             }
 
             return $("#input").text().replace(/,/g,"");
@@ -66,7 +68,7 @@ var calculator = {
         clear: function(){
             animateOpp();
             clear = false;
-            calculator.first = "";
+            calculator.first = "0";
             calculator.second = "";
             opp = "";
             overall = "";
@@ -78,31 +80,22 @@ var calculator = {
     opp: function(opperator) {
         if(opperator == undefined) opperator = "";
         if(opp != ""){
+            calculator.calculate(false);
             clear = false;
-            calculator.calculate(false); //false if for the calculator.screen.clear function which will only be triggered if the paramiter is true
             opp = opperator;
             animateOpp(opperator);
         }
 
-        else if(calculator.first != ""){
-            clear = false;
-            calculator.calculate(false); //false if for the calculator.screen.clear function which will only be triggered if the paramiter is true
-            opp = opperator;
-            animateOpp(opperator);
-        }
-
-        else if(calculator.first == ""){
-            calculator.first = 0;
+        else{
             clear = false;
             opp = opperator;
-            calculator.calculate(false); //false if for the calculator.screen.clear function which will only be triggered if the paramiter is true
             animateOpp(opperator);
         }
 
         return opp;
     },
 
-    calculate: function(clear, VaulesAfter){
+    calculate: function(clearVaulesAfter){
         var finalNumber = new Array();
         var output = "";
 
@@ -138,16 +131,36 @@ var calculator = {
             $("#input").text("");
             setTimeout(calculator.screen.set, 100, overall);
 
-            calculator.first = overall;
-            calculator.second = "";
+            calculator.first = String(overall);
+            calculator.second = "0";
             overall = "";
 
-            if(calculator.screen.clearVaulesAfter == true){
-                cleartrue;
+            if(clearVaulesAfter == true){
+                clear = true;
             }
         }
 
         return;
+    },
+
+    math:{
+        pi : function() {
+            var pi = "3.141592653589793";
+            if(opp == ""){
+                calculator.first = calculator.screen.set(pi);
+            }
+
+            else{
+                calculator.second = calculator.screen.set(pi);
+            }
+            return;
+        },
+
+        thePowerOf : function(x) {
+            calculator.first = Math.pow(parseFloat($('#input').text()), x);
+            calculator.screen.set(calculator.first);
+            return;
+        }
     }
 }
 
@@ -214,24 +227,6 @@ Math.nthroot = function(x, n) {
         if(Math.abs(x - n) < 1 && (x > 0 == n > 0))
             return negate ? -possible : possible;
     } catch(e){}
-}
-
-function pi() {
-    var pi = "3.141592653589793";
-    if(opp == ""){
-        calculator.first = calculator.screen.set(pi);
-    }
-
-    else{
-        calculator.second = calculator.screen.set(pi);
-    }
-    return;
-}
-
-function thePowerOf(x) {
-    calculator.first = Math.pow(parseFloat($('#input').text()), x);
-    calculator.screen.set(calculator.first);
-    return;
 }
 
 //square root number

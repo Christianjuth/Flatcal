@@ -11,7 +11,7 @@
 
     "input": {
         "color": "#fdfdfd",
-        "borderColor": "#545454",
+        "borderColor": "#9f9f9f",
         "textColor": "#383636",
         "font": "digital"
     },
@@ -20,7 +20,7 @@
         "color": "#4d4d4d",
         "hoverColor": "#616161",
         "borderColor": "#d3d6db",
-        "borderWidth":"1px",
+        "borderWidth":"0px",
         "textColor": "#dfdfdf",
         "numbers": {
             "color": "#818181",

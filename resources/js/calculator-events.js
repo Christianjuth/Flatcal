@@ -64,7 +64,7 @@ $(document).ready(function() {
     //pi button
     $("#pi").mousedown(function() {
         if(enable == "all" || enable == undefined){
-            pi();
+            calculator.math.pi();
         }
     });
 
