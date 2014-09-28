@@ -1,22 +1,8 @@
 [
     {
-        "id" : 5,
+        "id" : 6,
         "title" : "Support us",
-        "message" : "Please donate to support us.",
-        "important" : false
-    },
-
-    {
-        "id" : 3,
-        "title" : "Support Us",
-        "message" : "Please rate and share.",
-        "important" : false
-    },
-
-    {
-        "id" : 1,
-        "title" : "Version 2.5",
-        "message" : "Bug fixes. Please rate.",
+        "message" : "Version 3.0 is coming next month! Improved theme builder, % button, and better more robust code! Please rate.",
         "important" : true
     }
 ]
