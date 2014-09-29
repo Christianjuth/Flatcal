@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    //ce button
+    $("#ce").mousedown(function() {
+        calculator.screen.clear();
+    });
+
     //even listeners
     $("#rad-deg").mousedown(function () {
         if($("#rad-deg").text() == "rad"){
@@ -10,163 +15,61 @@ $(document).ready(function() {
         }
     });
 
-    //calculator buttons------------------------------->
+    $(".math").mousedown(function() {
+        var x = "";
+        var y = "";
+        if($(this).attr("x") != undefined) x = $(this).attr("x");
+        else x = calculator.screen.get();
+        if($(this).attr("y") != undefined) y = $(this).attr("y");
+        calculator.math($(this).attr("fun"), x, y);
+    });
 
-    //numbers
+    $(".m").mousedown(function() {
+        calculator["m"][$(this).attr("fun")]();
+    });
+
     $(".number").mousedown(function() {
         if($(this).attr("value") >= 0 && $(this).attr("value") <= 9){
-            if(enable.indexOf("number") != -1 || enable == "all" || enable == undefined){
-                calculator.numberClicked($(this).attr("value"));
-            }
+            calculator.numberClicked($(this).attr("value"));
         }
     });
 
+    $(".opp").mousedown(function() {
+        calculator.opp($(this).attr("value"));
+    });
+
+    //calculator buttons------------------------------->
+
     //point
     $("#point").mousedown(function() {
-        if(enable.indexOf("point") != -1 || enable == "all" || enable == undefined){
-            if($("#input").text().length < calculator.maxLength){
-                calculator.event.addDecimal();
-            }
+        if($("#input").text().length < calculator.maxLength){
+            calculator.event.addDecimal();
         }
     });
 
     //posNeg clicked
     $("#positive-negative").mousedown(function() {
-        if(enable.indexOf("pos-neg") != -1 || enable == "all" || enable == undefined){
-            calculator.event.posNeg();
-        }
-    });
-
-    $(".opp").mousedown(function() {
-        if(enable.indexOf("opp") != -1 || enable == "all" || enable == undefined){
-            calculator.opp($(this).attr("value"));
-        }
+        calculator.event.posNeg();
     });
 
     //equal clicked
     $("#equal").mousedown(function() {
-        if(enable.indexOf("equal") != -1 || enable == "all" || enable == undefined){
-            calculator.calculate(true); //true if for the clear function
-        }
-    });
-
-    //ce button
-    $("#ce").mousedown(function() {
-        if(enable.indexOf("ce") != -1 || enable == "all" || enable == undefined){
-            calculator.screen.clear();
-        }
-    });
-
-    //pi button
-    $("#pi").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            calculator.math.pi();
-        }
-    });
-
-    //to the power of button
-    $(".the-power-of").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            calculator.screen.set(calculator.math.pow($(this).attr("value")));
-        }
-    });
-
-    //to the power of button
-    $("#square-root").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            calculator.screen.set(calculator.math.nthroot($("#input").text(),2));
-        }
+        calculator.calculate(true); //true if for the clear function
     });
 
     //sin button
     $("#sin").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            calculator.screen.set(calculator.math.sin($("#input").text()));
-        }
-    });
-
-    //tan button
-    $("#tan").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            tan($("#input").text());
-        }
-    });
-
-    //cos button
-    $("#cos").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            cos($("#input").text());
-        }
-    });
-
-    //asin button
-    $("#asin").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            asin($("#input").text());
-        }
+        calculator.math("sin", $("#input").text());
     });
 
     //atan button
     $("#atan").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            atan($("#input").text());
-        }
+        atan($("#input").text());
     });
 
     //acos button
     $("#acos").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            acos($("#input").text());
-        }
-    });
-
-    //e button
-    $("#e").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            e();
-        }
-    });
-
-    //log button
-    $("#log").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            calculator.screen.set(calculator.math.log($("#input").text()));
-        }
-    });
-
-    //in button
-    $("#in").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            In($("#input").text());
-        }
-    });
-
-    //m clear
-    $("#m-clear").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            mClear();
-        }
-    });
-
-    //m plus
-    $("#m-plus").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            mPlus();
-        }
-    });
-
-    //m minus
-    $("#m-minus").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            mMinus();
-        }
-    });
-
-    //m recall
-    $("#m-recall").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            mRecall();
-        }
+        acos($("#input").text());
     });
 
     $("#copy").click(function() {
@@ -178,8 +81,6 @@ $(document).ready(function() {
     });
 
     $("#x10").mousedown(function() {
-        if(enable == "all" || enable == undefined){
-            timesTen($("#input").text());
-        }
+        timesTen($("#input").text());
     });
 });

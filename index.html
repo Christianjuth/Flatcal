@@ -32,39 +32,47 @@
 
                 <div id="scientific-container">
                     <div id="topRow" >
-                        <div id="m-clear" class="button" value="">mc</div>
-                        <div id="m-plus" class="button" value="">m+</div>
-                        <div id="m-minus" class="button" value="">m-</div>
-                        <div id="m-recall" class="button" value="">mr</div>
+                        <div id="m-clear" class="button m" fun="clear">mc</div>
+                        <div id="m-plus" class="button m" fun="plus">m+</div>
+                        <div id="m-minus" class="button m" fun="minus">m-</div>
+                        <div id="m-recall" class="button m" fun="recall">mr</div>
                     </div>
 
 
                     <div>
-                        <div id="square-root" class="button" value=""><sup class="sup-sqrt">2</sup>&#x221A;y</div>
-                        <div id="square-root-y" class="button opp" value="square-root-y"><sup class="sup-sqrt">X</sup>&#x221A;y</div>
-                        <div id="square" class="button the-power-of" value="2"><span>x<sup class="sup">2</sup></span></div>
-                        <div id="pow-of-y" class="button opp" value="pow-of-y"><span>x<sup class="sup">y</sup></span></div>
+                        <div id="square-root" class="button math" fun="nthroot" y="2">
+                            <sup class="sup-sqrt">2</sup>&#x221A;y
+                        </div>
+                        <div id="square-root`-y" class="button opp">
+                            <sup class="sup-sqrt">X</sup>&#x221A;y
+                        </div>
+                        <div id="square" class="button math" fun="pow" y="2">
+                            <span>x<sup class="sup">2</sup></span>
+                        </div>
+                        <div id="pow-of-y" class="button opp">
+                            <span>x<sup class="sup">y</sup></span>
+                        </div>
                     </div>
 
 
                     <div>
-                        <div id="log" class="button" value="">log</div>
-                        <div id="cos" class="button" value="">cos</div>
-                        <div id="tan" class="button" value="">tan</div>
-                        <div id="sin" class="button" value="">sin</div>
+                        <div id="log" class="button math" fun="log">log</div>
+                        <div id="cos" class="button math" fun="cos">cos</div>
+                        <div id="tan" class="button math" fun="tan">tan</div>
+                        <div id="sin" class="button">sin</div>
                     </div>
 
                     <div>
-                        <div id="in" class="button" value="">in</div>
-                        <div id="acos" class="button" value="">cos<sup class="sup">-1</sup></div>
-                        <div id="atan" class="button" value="">tan<sup class="sup">-1</sup></div>
-                        <div id="asin" class="button" value="">sin<sup class="sup">-1</sup></div>
+                        <div id="in" class="button math" fun="in">in</div>
+                        <div id="acos" class="button">cos<sup class="sup">-1</sup></div>
+                        <div id="atan" class="button">tan<sup class="sup">-1</sup></div>
+                        <div id="asin" class="button math" fun="asin">sin<sup class="sup">-1</sup></div>
                     </div>
 
                     <div id="bottomRow">
-                        <div id="rad-deg" class="button" value=""></div>
-                        <div id="pi" class="button" value="pi">&#960;</div>
-                        <div id="e" class="button" value="">e</div>
+                        <div id="rad-deg" class="button"></div>
+                        <div id="pi" class="button math" fun="pi">&#960;</div>
+                        <div id="e" class="button math" fun="e">e</div>
                         <div id="mod" class="button opp" value="mod">mod</div>
                     </div>
                 </div>

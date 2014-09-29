@@ -3,10 +3,18 @@ if(enable == undefined || enable == "undefined"){
 }
 
 var calculator = {
+    ini : function(selector, max){
+        this.screen.selector = selector;
+        this.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), max); //define number max legnth
+        if(localStorage.radDeg == "rad") rad();
+        else deg();
+        this.screen.clear();
+    },
+
     numberClicked : function(lastButtonClicked){
         var decimal = this.first.indexOf(".") != -1;
-        if(clear == true) calculator.screen.clear(); //calculator.screen.clears any previous values
-        var validate = calculator.screen.get() == "0" && lastButtonClicked == 0 && $("#input").text().indexOf(".") == -1;
+        if(calculator.clear== true) calculator.screen.clear(); //calculator.screen.clears any previous values
+        var validate = calculator.screen.get() == "0" && lastButtonClicked == 0 && calculator.screen.selector.text().indexOf(".") == -1;
 
         if(opp == "" && validate != true){
             if(calculator.first.replace(/-/g,"").replace(/\./g,"").length < calculator.maxLength){
@@ -17,7 +25,7 @@ var calculator = {
         }
         else if(validate != true){
             if(calculator.second.replace(/-/g,"").replace(/\./g,"").length < calculator.maxLength){
-                if(this.second.length == 0) this.second = lastButtonClicked;
+                if(this.second.length == 0) this.second = String(lastButtonClicked);
                 else if(decimal) this.second = String(parseInt(this.second.split(".")[0]) + "." + this.second.split(".")[1] + lastButtonClicked);
                 else this.second = String(parseInt(this.second) + "" + lastButtonClicked);
                 this.screen.set(this.second, false);
@@ -31,28 +39,28 @@ var calculator = {
         set : function(number, stripZeros) {
             number = String(number);
             if(number == "") number = "0";
-            if(number.indexOf(".") != -1) number = String(parseInt(number.split(".")[0]) + "." + number.split(".")[1]);
-            else number = String(parseInt(number));
+            if(number.indexOf(".") != -1 && number != "-0") number = String(parseInt(number.split(".")[0]) + "." + number.split(".")[1]);
+            else if(number != "-0") number = String(parseInt(number));
             var valid = (number != "" && number != undefined && number != "undefined"); //validate number
-            if(number.split(".")[0].length > calculator.maxLength || !valid){
+            if(number == "NaN"|| number.split(".")[0].length > calculator.maxLength || !valid){
                 calculator.screen.clear();
-                $("#input").text("ERROR");
+                calculator.screen.selector.text("ERROR");
                 return false;
             }
 
             if(number.length <= calculator.maxLength && valid){
-                $("#input").text(numberCommas(number));
+                calculator.screen.selector.text(calculator.parse.commas(number));
             }
 
             else if(number.split(".")[0].length < calculator.maxLength && valid){
-                $("#input").text(math.round(parseFloat(number), calculator.maxLength - number.split(".")[0].length));
+                calculator.screen.selector.text(math.round(parseFloat(number), calculator.maxLength - number.split(".")[0].length));
             }
 
-            return $("#input").text().replace(/,/g,"");
+            return calculator.screen.selector.text().replace(/,/g,"");
         },
 
         get: function(){
-            return $("#input").text().replace(/,/g,"");
+            return calculator.screen.selector.text().replace(/,/g,"");
         },
 
         length: function(){
@@ -61,7 +69,7 @@ var calculator = {
 
         clear: function(){
             animateOpp();
-            clear = false;
+            calculator.clear= false;
             calculator.first = "0";
             calculator.second = "";
             opp = "";
@@ -75,13 +83,13 @@ var calculator = {
         if(opperator == undefined) opperator = "";
         if(opp != ""){
             calculator.calculate(false);
-            clear = false;
+            calculator.clear= false;
             opp = opperator;
             animateOpp(opperator);
         }
 
         else{
-            clear = false;
+            calculator.clear= false;
             opp = opperator;
             animateOpp(opperator);
         }
@@ -122,7 +130,7 @@ var calculator = {
                 overall = this.math.nthroot(parseFloat(calculator.first), parseFloat(calculator.second));
             }
 
-            $("#input").text("");
+            calculator.screen.selector.text("");
             setTimeout(calculator.screen.set, 100, overall);
 
             calculator.first = String(overall);
@@ -130,7 +138,7 @@ var calculator = {
             overall = "";
 
             if(clearVaulesAfter == true){
-                clear = true;
+                calculator.clear= true;
             }
         }
 
@@ -138,20 +146,20 @@ var calculator = {
     },
 
     mathFunctions:{
-        pi : function() {
-            var pi = "3.141592653589793";
+        pi : function(){
             if(opp == ""){
-                calculator.first = calculator.screen.set(pi);
+                calculator.first = String(Math.PI);
+                return  calculator.first;
             }
 
             else{
-                calculator.second = calculator.screen.set(pi);
+                calculator.second = String(Math.PI);
+                return Math.PI;
             }
-            return;
         },
 
-        pow : function(x) {
-            calculator.first = Math.pow(parseFloat($('#input').text()), x);
+        pow : function(x,y) {
+            calculator.first = String(Math.pow(x,y));
             return calculator.first;
         },
 
@@ -172,19 +180,52 @@ var calculator = {
         },
 
         log : function(x) {
-            calculator.screen.clear();
             return math.log10(parseFloat(x));
+        },
+
+        cos : function(x) {
+            if(localStorage.radDeg == "rad") return Math.cos(x);
+            else return Math.cos( x * Math.PI / 180 ).toFixed(15).replace(/\.?0+$/, "");
+        },
+
+        tan : function(x) {
+            if(localStorage.radDeg == "rad"){
+                return Math.tan(x);
+            }
+
+            else{
+                return Math.tan( x * Math.PI / 180 ).toFixed(15).replace(/\.?0+$/, "");
+            }
+        },
+
+        e : function() {
+            return Math.E;
+        },
+
+        asin : function(x) {
+            if(localStorage.radDeg == "rad"){
+                return Math.asin(x);
+            }
+
+            else{
+                return Math.asin(x) * 180 / Math.PI;
+            }
+        },
+
+        in : function(x) {
+            return Math.log(x);
         }
     },
 
     math : function(fun, x, y){
-        if(y != undefined) calculator.screen.set(calculator["mathFunctions"][fun](x,y));
-        else calculator.screen.set(calculator["mathFunctions"][fun](x));
+        var result = calculator["mathFunctions"][fun](x,y);
+        if(result != false) return calculator.screen.set(result);
+        else calculator.screen.get();
     },
 
     event : {
         addDecimal : function() {
-            if(clear == true){
+            if(calculator.clear== true){
                 calculator.screen.clear();
             }
 
@@ -220,6 +261,46 @@ var calculator = {
 
             return;
         }
+    },
+
+    m : {
+        recall : function() {
+            if(parseFloat(localStorage.m) != 0){
+                if(opp == ""){
+                    calculator.first = localStorage.m;
+                    calculator.screen.set(calculator.first);
+                }
+
+                else{
+                    calculator.second = localStorage.m;
+                    calculator.screen.set(calculator.second);
+                }
+            }
+            return false;
+        },
+
+        clear : function(){
+            localStorage.m = 0;
+            return false;
+        },
+
+        minus : function() {
+            localStorage.m = parseFloat(localStorage.m) - parseFloat(calculator.screen.get());
+            return false;
+        },
+
+        plus : function() {
+            localStorage.m = parseFloat(localStorage.m) + parseFloat(calculator.screen.get());
+            return false;
+        }
+    },
+
+    parse : {
+        commas : function(x) {
+            var parts = x.toString().split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parts.join(".");
+        }
     }
 }
 
@@ -234,43 +315,6 @@ function animateOpp(opperator) {
         }, 100);
     }
 
-    return;
-}
-
-//cos
-function cos(x) {
-    calculator.screen.clear();
-    if(localStorage.radDeg == "rad"){
-        calculator.screen.set(Math.cos(x));
-    }
-
-    else{
-        calculator.screen.set(Math.cos( x * Math.PI / 180 ).toFixed(15).replace(/\.?0+$/, ""));
-    }
-    return;
-}
-
-function tan(x) {
-    if(localStorage.radDeg == "rad"){
-        calculator.screen.set(Math.tan(x));
-    }
-
-    else{
-        calculator.screen.set(Math.tan( x * Math.PI / 180 ).toFixed(15).replace(/\.?0+$/, ""));
-    }
-}
-
-//sin
-function asin(x) {
-    calculator.screen.clear();
-
-    if(localStorage.radDeg == "rad"){
-        calculator.screen.set(Math.asin(x));
-    }
-
-    else{
-        calculator.screen.set(Math.asin(x) * 180 / Math.PI);
-    }
     return;
 }
 
@@ -299,57 +343,6 @@ function atan(x) {
     }
 }
 
-//e
-function e() {
-    calculator.screen.clear();
-    calculator.screen.set(Math.E);
-    return;
-}
-
-//in
-function In(x) {
-    calculator.screen.clear();
-    calculator.screen.set(Math.log(x));
-    return;
-}
-
-//memory
-function mPlus() {
-    localStorage.m = parseFloat(localStorage.m) + parseFloat(calculator.screen.set());
-    return;
-}
-
-function mMinus() {
-    localStorage.m = parseFloat(localStorage.m) - parseFloat(calculator.screen.set());
-    return;
-}
-
-function mClear(){
-    localStorage.m = 0;
-    return;
-}
-
-function mRecall() {
-    if(parseFloat(localStorage.m) != 0){
-        if(opp == ""){
-            calculator.first = localStorage.m;
-            calculator.screen.set(calculator.first);
-        }
-
-        else{
-            calculator.second = localStorage.m;
-            calculator.screen.set(calculator.second);
-        }
-    }
-    return localStorage.m;
-}
-
-function numberCommas(x) {
-    var parts = x.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-}
-
 function copy(text) {
     var copyFrom = $('<input/>');
     copyFrom.val(text);
@@ -372,7 +365,7 @@ function paste() {
     }
 
     else{
-        $("#input").text("ERROR");
+        calculator.screen.selector.text("ERROR");
         calculator.screen.clear();
     }
     pasteTo.remove();
@@ -391,10 +384,5 @@ function deg() {
 
 
 $(document).ready(function() {
-    cal = calculator;
-    calculator.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), 15); //define number max legnth
-    if(localStorage.radDeg == "rad") rad();
-    else deg();
-
-    calculator.screen.clear(); //resets the calulator on load
+    calculator.ini($("#input"), 15);
 });
