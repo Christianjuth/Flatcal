@@ -13,7 +13,7 @@ $(document).ready(function() {
 
         //if point is clicked trigger point function
         else if(e.keyCode == 190 || e.keyCode == 110) {
-            if($("#input").text().length < calculator.maxLength){
+            if(calculator.screen.length() < calculator.maxLength){
                 calculator.event.addDecimal();
             }
         }

@@ -1,7 +1,3 @@
-if(enable == undefined || enable == "undefined"){
-    var enable = "all";
-}
-
 var calculator = {
     ini : function(selector, max){
         this.screen.selector = selector;
@@ -12,22 +8,21 @@ var calculator = {
     },
 
     numberClicked : function(lastButtonClicked){
-        var decimal = this.first.indexOf(".") != -1;
         if(calculator.clear== true) calculator.screen.clear(); //calculator.screen.clears any previous values
         var validate = calculator.screen.get() == "0" && lastButtonClicked == 0 && calculator.screen.selector.text().indexOf(".") == -1;
 
         if(opp == "" && validate != true){
             if(calculator.first.replace(/-/g,"").replace(/\./g,"").length < calculator.maxLength){
-                if(decimal) this.first = String(parseInt(this.first.split(".")[0]) + "." + this.first.split(".")[1] + lastButtonClicked);
-                else this.first = String(parseInt(this.first) + "" + lastButtonClicked);
+                if(this.first.indexOf(".") != -1) this.first = String(parseInt(this.first.split(".")[0]) + "." + this.first.split(".")[1] + lastButtonClicked);
+                else this.first = String(parseInt(this.first + '' + lastButtonClicked));
                 this.screen.set(this.first, false);
             }
         }
         else if(validate != true){
             if(calculator.second.replace(/-/g,"").replace(/\./g,"").length < calculator.maxLength){
                 if(this.second.length == 0) this.second = String(lastButtonClicked);
-                else if(decimal) this.second = String(parseInt(this.second.split(".")[0]) + "." + this.second.split(".")[1] + lastButtonClicked);
-                else this.second = String(parseInt(this.second) + "" + lastButtonClicked);
+                else if(this.second.indexOf(".") != -1) this.second = String(parseInt(this.second.split(".")[0]) + "." + this.second.split(".")[1] + lastButtonClicked);
+                else this.second = String(parseInt(this.second + '' + lastButtonClicked));
                 this.screen.set(this.second, false);
             }
         }
@@ -42,17 +37,17 @@ var calculator = {
             if(number.indexOf(".") != -1 && number != "-0") number = String(parseInt(number.split(".")[0]) + "." + number.split(".")[1]);
             else if(number != "-0") number = String(parseInt(number));
             var valid = (number != "" && number != undefined && number != "undefined"); //validate number
-            if(number == "NaN"|| number.split(".")[0].length > calculator.maxLength || !valid){
+            if(number == "NaN"|| number.split(".")[0].replace(/-/,"").length > calculator.maxLength || !valid){
                 calculator.screen.clear();
                 calculator.screen.selector.text("ERROR");
                 return false;
             }
 
-            if(number.length <= calculator.maxLength && valid){
+            if(number.replace(/-/,"").length <= calculator.maxLength && valid){
                 calculator.screen.selector.text(calculator.parse.commas(number));
             }
 
-            else if(number.split(".")[0].length < calculator.maxLength && valid){
+            else if(number.split(".")[0].replace(/-/,"").length < calculator.maxLength && valid){
                 calculator.screen.selector.text(math.round(parseFloat(number), calculator.maxLength - number.split(".")[0].length));
             }
 
@@ -64,7 +59,7 @@ var calculator = {
         },
 
         length: function(){
-            return this.get().replace(/\./g,"").length;
+            return this.get().replace(/\./g,"").replace(/-/g,"").length;
         },
 
         clear: function(){
@@ -132,6 +127,7 @@ var calculator = {
 
             calculator.screen.selector.text("");
             setTimeout(calculator.screen.set, 100, overall);
+            setTimeout(animateOpp, 150);
 
             calculator.first = String(overall);
             calculator.second = "0";
@@ -214,6 +210,26 @@ var calculator = {
 
         in : function(x) {
             return Math.log(x);
+        },
+
+        acos : function(x) {
+            if(localStorage.radDeg == "rad"){
+                return Math.acos(x);
+            }
+
+            else{
+                return Math.acos(x) * 180 / Math.PI;
+            }
+        },
+
+        atan : function(x) {
+            if(localStorage.radDeg == "rad"){
+                return Math.atan(x);
+            }
+
+            else{
+                return Math.atan(x) * 180 / Math.PI;
+            }
         }
     },
 
@@ -225,11 +241,11 @@ var calculator = {
 
     event : {
         addDecimal : function() {
-            if(calculator.clear== true){
+            if(calculator.clear == true){
                 calculator.screen.clear();
             }
 
-            if(String(calculator.screen.set()).indexOf(".") == -1){
+            if(calculator.screen.get().indexOf(".") == -1){
                 if(opp == ""){
                     calculator.first = calculator.first + ".";
                     calculator.screen.set(calculator.first);
@@ -318,31 +334,6 @@ function animateOpp(opperator) {
     return;
 }
 
-//cos
-function acos(x) {
-    calculator.screen.clear();
-
-    if(localStorage.radDeg == "rad"){
-        calculator.screen.set(Math.acos(x));
-    }
-
-    else{
-        calculator.screen.set(Math.acos(x) * 180 / Math.PI);
-    }
-    return;
-}
-
-//angle tan
-function atan(x) {
-    if(localStorage.radDeg == "rad"){
-        calculator.screen.set(Math.atan(x));
-    }
-
-    else{
-        calculator.screen.set(Math.atan(x) * 180 / Math.PI);
-    }
-}
-
 function copy(text) {
     var copyFrom = $('<input/>');
     copyFrom.val(text);
@@ -381,7 +372,6 @@ function deg() {
     $("#rad-deg").text("deg");
     return "deg";
 }
-
 
 $(document).ready(function() {
     calculator.ini($("#input"), 15);

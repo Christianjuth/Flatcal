@@ -38,8 +38,6 @@ $(document).ready(function() {
         calculator.opp($(this).attr("value"));
     });
 
-    //calculator buttons------------------------------->
-
     //point
     $("#point").mousedown(function() {
         if($("#input").text().length < calculator.maxLength){
@@ -57,30 +55,11 @@ $(document).ready(function() {
         calculator.calculate(true); //true if for the clear function
     });
 
-    //sin button
-    $("#sin").mousedown(function() {
-        calculator.math("sin", $("#input").text());
-    });
-
-    //atan button
-    $("#atan").mousedown(function() {
-        atan($("#input").text());
-    });
-
-    //acos button
-    $("#acos").mousedown(function() {
-        acos($("#input").text());
-    });
-
     $("#copy").click(function() {
         copy($("#input").text());
     });
 
     $("#paste").click(function() {
         paste($("#input").text());
-    });
-
-    $("#x10").mousedown(function() {
-        timesTen($("#input").text());
     });
 });
