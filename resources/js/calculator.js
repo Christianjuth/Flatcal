@@ -2,13 +2,16 @@ var calculator = {
     ini : function(selector, max){
         this.screen.selector = selector;
         this.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), max); //define number max legnth
+        this.lastSecond = "0";
+        this.first = "0";
+        this.second = "";
         if(localStorage.radDeg == "rad") rad();
         else deg();
         this.screen.clear();
     },
 
     numberClicked : function(lastButtonClicked){
-        if(calculator.clear== true) calculator.screen.clear(); //calculator.screen.clears any previous values
+        if(calculator.clear == true) calculator.screen.clear(); //calculator.screen.clears any previous values
         var validate = calculator.screen.get() == "0" && lastButtonClicked == 0 && calculator.screen.selector.text().indexOf(".") == -1;
 
         if(opp == "" && validate != true){
@@ -40,6 +43,7 @@ var calculator = {
             if(number == "NaN"|| number.split(".")[0].replace(/-/,"").length > calculator.maxLength || !valid){
                 calculator.screen.clear();
                 calculator.screen.selector.text("ERROR");
+                console.error("ERROR");
                 return false;
             }
 
@@ -63,10 +67,12 @@ var calculator = {
         },
 
         clear: function(){
-            animateOpp();
+            if(calculator.second != "") calculator.lastSecond = calculator.second;
             calculator.clear= false;
             calculator.first = "0";
             calculator.second = "";
+            this.selector.text("");
+            animateOpp();
             opp = "";
             overall = "";
             calculator.screen.set(0);
@@ -77,7 +83,7 @@ var calculator = {
     opp: function(opperator) {
         if(opperator == undefined) opperator = "";
         if(opp != ""){
-            calculator.calculate(false);
+            calculator.calculate(false, false);
             calculator.clear= false;
             opp = opperator;
             animateOpp(opperator);
@@ -92,9 +98,10 @@ var calculator = {
         return opp;
     },
 
-    calculate: function(clearVaulesAfter){
+    calculate: function(clearVaulesAfter, fromOpp){
         var finalNumber = new Array();
         var output = "";
+        if(this.second != "0" && this.second != "") this.lastSecond = this.second;
 
         if(calculator.second != ""){
             if(opp == "plus"){
@@ -130,7 +137,49 @@ var calculator = {
             setTimeout(animateOpp, 150);
 
             calculator.first = String(overall);
-            calculator.second = "0";
+            calculator.second = "";
+            overall = "";
+
+            if(clearVaulesAfter == true){
+                calculator.clear= true;
+            }
+        }
+
+        else if(calculator.lastSecond != "" && opp != "" && fromOpp != false){
+            if(opp == "plus"){
+                overall = parseFloat(calculator.first) + parseFloat(calculator.lastSecond); //addition
+            }
+
+            else if(opp == "subtract"){
+                overall = parseFloat(calculator.first) - parseFloat(calculator.lastSecond); //subtraction
+            }
+
+            else if(opp == "multiply"){
+                overall = parseFloat(calculator.first) * parseFloat(calculator.lastSecond); //multiplication
+            }
+
+            else if(opp == "divide"){
+                overall = parseFloat(calculator.first) / parseFloat(calculator.lastSecond); //divition
+            }
+
+            else if(opp == "mod"){
+                overall = parseFloat(calculator.first) % parseFloat(calculator.lastSecond); //mod
+            }
+
+            else if(opp == "pow-of-y"){
+                overall = Math.pow(parseFloat(calculator.first), parseFloat(calculator.lastSecond));
+            }
+
+            else if(opp == "square-root-y"){
+                overall = this.math.nthroot(parseFloat(calculator.first), parseFloat(calculator.lastSecond));
+            }
+
+            calculator.screen.selector.text("");
+            setTimeout(calculator.screen.set, 100, overall);
+            setTimeout(animateOpp, 150);
+
+            calculator.first = String(overall);
+            calculator.second = "";
             overall = "";
 
             if(clearVaulesAfter == true){
@@ -230,6 +279,20 @@ var calculator = {
             else{
                 return Math.atan(x) * 180 / Math.PI;
             }
+        },
+
+        percentage : function(){
+            if(opp == ""){
+                calculator.first = String(1 * (calculator.first * 0.01));
+                calculator.clear = true;
+                return calculator.first;
+            }
+
+            else{
+                calculator.second = String(calculator.first * (calculator.second * 0.01));
+                calculator.clear = true;
+                return calculator.second;
+            }
         }
     },
 
@@ -252,6 +315,7 @@ var calculator = {
                 }
 
                 else{
+                    if(calculator.second = ".") calculator.second = "0.";
                     calculator.second = calculator.second + ".";
                     calculator.screen.set(calculator.second);
                 }

@@ -18,6 +18,10 @@ $(document).ready(function() {
             }
         }
 
+        else if(e.keyCode == 53 && event.shiftKey == true) {
+            calculator.event.percentage();
+        }
+
         //if plus is clicked trigger calculator.opp function with plus input
         else if((event.shiftKey == true && e.keyCode == 187) || e.keyCode == 107) {
             calculator.opp("plus");
