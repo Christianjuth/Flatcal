@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     //keybord shortcuts----------------------------------->
     window.onkeydown = function(e) {
         //if a number key is prssed trigger buttonClicked function
@@ -22,29 +21,29 @@ $(document).ready(function() {
             calculator.event.percentage();
         }
 
-        //if plus is clicked trigger calculator.opp function with plus input
+        //if plus is clicked trigger calculator.operator function with plus input
         else if((event.shiftKey == true && e.keyCode == 187) || e.keyCode == 107) {
-            calculator.opp("plus");
+            calculator.operator("plus");
         }
 
-        //if minus is clicked trigger calculator.opp function with subtract input
+        //if minus is clicked trigger calculator.operator function with subtract input
         else if(event.shiftKey == false && (e.keyCode == 189 || e.keyCode == 109)){
-            calculator.opp("subtract");
+            calculator.operator("subtract");
         }
 
-        //if multiply is clicked trigger calculator.opp function with multiply input
+        //if multiply is clicked trigger calculator.operator function with multiply input
         else if((event.shiftKey == true && e.keyCode == 56) || e.keyCode == 88 || e.keyCode == 106) {
-            calculator.opp("multiply");
+            calculator.operator("multiply");
         }
 
-        //if divide is clicked trigger calculator.opp function with devide input
+        //if divide is clicked trigger calculator.operator function with devide input
         else if(e.keyCode == 191 || e.keyCode == 111) {
-            calculator.opp("divide");
+            calculator.operator("divide");
         }
 
         //backspace
         else if(e.keyCode == 8) {
-            if(opp == ""){
+            if(calculator.op == ""){
                 calculator.first = calculator.first.substring(0,calculator.first.length -1);
                 calculator.screen.set(calculator.first);
             }
@@ -69,12 +68,12 @@ $(document).ready(function() {
 
         //windows
         else if(e.keyCode == 67 && event.ctrlKey == true && window.navigator.platform.toLowerCase().indexOf("mac") == -1) {
-            copy(calculator.screen.set());
+            copy(calculator.screen.get());
         }
 
         //mac
         else if(e.keyCode == 67 && event.metaKey == true == true) {
-            copy(calculator.screen.set());
+            copy(calculator.screen.get());
         }
 
         //windows
@@ -92,7 +91,7 @@ $(document).ready(function() {
             calculator.calculate(true); //true if for the clear function
         }
 
-        //if minus is clicked trigger calculator.opp function with subtract input
+        //if minus is clicked trigger calculator.operator function with subtract input
         else if(event.shiftKey == true && e.keyCode == 189){
             calculator.event.posNeg();
         }

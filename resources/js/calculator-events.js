@@ -35,7 +35,7 @@ $(document).ready(function() {
     });
 
     $(".opp").mousedown(function() {
-        calculator.opp($(this).attr("value"));
+        calculator.operator($(this).attr("value"));
     });
 
     //point
@@ -53,13 +53,5 @@ $(document).ready(function() {
     //equal clicked
     $("#equal").mousedown(function() {
         calculator.calculate(true); //true if for the clear function
-    });
-
-    $("#copy").click(function() {
-        copy($("#input").text());
-    });
-
-    $("#paste").click(function() {
-        paste($("#input").text());
     });
 });
