@@ -1,13 +1,63 @@
+/*-------------------------------------------------------------------------------------
+|   o88b.  .d8b.  db       .o88b. db    db db       .d8b.  d888888b  .d88b.  d8888b.  |
+| d8P  Y8 d8' `8b 88      d8P  Y8 88    88 88      d8' `8b `~~88~~' .8P  Y8. 88  `8D  |
+| 8P      88ooo88 88      8P      88    88 88      88ooo88    88    88    88 88oobY'  |
+| 8b      88~~~88 88      8b      88    88 88      88~~~88    88    88    88 88`8b    |
+| Y8b  d8 88   88 88booo. Y8b  d8 88b  d88 88booo. 88   88    88    `8b  d8' 88 `88.  |
+|  `Y88P' YP   YP Y88888P  `Y88P' ~Y8888P' Y88888P YP   YP    YP     `Y88P'  88   YD  |
+---------------------------------------------------------------------------------------
+
+--------------------------FUNCTIONS------------------------------
+|                                                               |
+|  ini(options)              - initiate the calculator          |
+|  numberClicked             - called when number is clicked    |
+|  screen                    - screen functions                 |
+|    set(value)              - set screen value                 |
+|    get                     - get screen value                 |
+|    length                  - get screen length                |
+|    clear                   - clear screen                     |
+|
+|
+|  m                         - memory functions                 |
+|    recall                  - get number in memory             |
+|    clear                   - clear the current memory number  |
+|
+|
+|
+|
+|
+-----------------------------------------------------------------
+
+---------------------------VARIABLES-----------------------------
+|
+|
+|
+|
+|
+|
+-----------------------------------------------------------------*/
+
+
+
 var calculator = {
-    ini : function(selector, max){
-        this.screen.selector = selector;
-        this.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), max); //define number max legnth
-        this.lastSecond = "0";
-        this.first = "0";
-        this.second = "";
-        if(localStorage.radDeg == "rad") rad();
-        else deg();
-        this.screen.clear();
+    ini : function(options){
+        if(options.max == undefined || options.max > 15) options.max = 15; //validate max screen size
+
+        if(options.selector != undefined){
+            this.screen.selector = options.selector;
+            this.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), options.max); //define number max legnth
+            this.lastSecond = "0";
+            this.first = "0";
+            this.second = "";
+            this.op = "";
+            if(localStorage.radDeg == "rad") rad();
+            else deg();
+            this.screen.clear();
+        }
+
+        else{
+            console.error("bad or missing screen selector");
+        }
     },
 
     numberClicked : function(lastButtonClicked){
@@ -32,8 +82,6 @@ var calculator = {
 
         return lastButtonClicked;
     },
-
-    op : "",
 
     screen : {
         set : function(number, stripZeros) {
@@ -74,7 +122,7 @@ var calculator = {
             calculator.first = "0";
             calculator.second = "";
             this.selector.text("");
-            animateOpp();
+            calculator.animate.op();
             calculator.op= "";
             overall = "";
             calculator.screen.set(0);
@@ -88,13 +136,13 @@ var calculator = {
             calculator.calculate(false, false);
             calculator.clear= false;
             calculator.op = operator;
-            animateOpp(operator);
+            calculator.animate.op(operator);
         }
 
         else{
             calculator.clear= false;
             calculator.op = operator;
-            animateOpp(operator);
+            calculator.animate.op(operator);
         }
 
         return calculator.op;
@@ -136,7 +184,7 @@ var calculator = {
 
             calculator.screen.selector.text("");
             setTimeout(calculator.screen.set, 100, overall);
-            setTimeout(animateOpp, 150);
+            setTimeout(calculator.animate.op, 150);
 
             calculator.first = String(overall);
             calculator.second = "";
@@ -178,7 +226,7 @@ var calculator = {
 
             calculator.screen.selector.text("");
             setTimeout(calculator.screen.set, 100, overall);
-            setTimeout(animateOpp, 150);
+            setTimeout(calculator.animate.op, 150);
 
             calculator.first = String(overall);
             calculator.second = "";
@@ -388,21 +436,22 @@ var calculator = {
             parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             return parts.join(".");
         }
+    },
+
+    animate : {
+        op : function(){
+            $(".opp").css({"-webkit-transform" : "scale(1)"}); //reset scale
+
+            if(calculator.op != undefined){ //bounce shrink animation
+                $("#" + calculator.op).css({"-webkit-transform" : "scale(0.90)"});
+                setTimeout( function() {
+                    $("#" + calculator.op).css({"-webkit-transform" : "scale(0.95)"});
+                }, 100);
+            }
+
+            return;
+        }
     }
-}
-
-
-function animateOpp(operator) {
-    $(".opp").css({"-webkit-transform" : "scale(1)"}); //reset scale
-
-    if(operator != undefined){ //bounce shrink animation
-        $("#" + operator).css({"-webkit-transform" : "scale(0.90)"});
-        setTimeout( function() {
-            $("#" + operator).css({"-webkit-transform" : "scale(0.95)"});
-        }, 100);
-    }
-
-    return;
 }
 
 function copy(text) {
@@ -445,5 +494,8 @@ function deg() {
 }
 
 $(document).ready(function() {
-    calculator.ini($("#input"), 15);
+    calculator.ini({
+        selector : $("#input"),
+        max : 15
+    });
 });
