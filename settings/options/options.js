@@ -64,19 +64,25 @@ $(document).ready(function() {
     });
 
     //-----------------------------changelog-----------------------------//
-    $.getJSON("https://raw.githubusercontent.com/Christianjuth/calculator-browser-extension/JSON/changelog.json", function(data) {
-        for(i=0; i< Math.min(data.length, 3); i++){
-            line = data[i];
+    if(clientInformation.onLine != true){
+        $("#changelog").hide();
+    }
 
-            if(i == 0){
-                changelogLine(line);
-            }
+    else{
+        $.getJSON("https://raw.githubusercontent.com/Christianjuth/calculator-browser-extension/JSON/changelog.json", function(data) {
+            for(i=0; i< Math.min(data.length, 3); i++){
+                line = data[i];
 
-            else{
-                changelogLine(line);
-            }
-        };
-    });
+                if(i == 0){
+                    changelogLine(line);
+                }
+
+                else{
+                    changelogLine(line);
+                }
+            };
+        });
+    }
 });
 
 var numClick = 1;
@@ -104,7 +110,7 @@ function readFile(evt) {
     var file = files[0];
     var reader = new FileReader();
     reader.onload = function() {
-        if(validateTheme($.parseJSON(this.result))){
+        if(theme.validate($.parseJSON(this.result))){
             theme.update($.parseJSON(this.result));
         }
 

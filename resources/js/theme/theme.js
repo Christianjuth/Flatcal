@@ -2,7 +2,7 @@
 var theme = {
     load : function(json){
         if(typeof json === "string") json = this.get(json);
-        if(validateTheme(json)){
+        if(this.validate(json)){
             injectCSS(json);
         }
         return;
@@ -10,7 +10,7 @@ var theme = {
 
     set : function(json){
         if(typeof json === "string") json = this.get(json);
-        if(validateTheme(json)){
+        if(this.validate(json)){
             theme.update(json)
             injectCSS(json);
         }
@@ -80,18 +80,110 @@ var theme = {
             if(a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()) return true;
             if(a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()) return false;
         }
+    },
+
+    validate : function(json) {
+        var goodTheme = true;
+        var requiredColor = {
+            presence: true,
+            format: {
+                pattern: /^#([0-9a-f]{3}|[0-9a-f]{6})$/i
+            }
+        }
+        var color = {
+            format: {
+                pattern: /^#([0-9a-f]{3}|[0-9a-f]{6})$/i
+            }
+        }
+        var colorOrBlank = {
+            format: {
+                pattern: /^(#[0-9a-f]{3}|#[0-9a-f]{6}|\s*$)$/i
+            }
+        }
+
+        goodTheme = goodTheme && validate(json.manifest, {
+            version: {
+                numericality: {
+                    lessThanOrEqualTo: 1.1
+                }
+            }
+        }) == undefined;
+
+        goodTheme = goodTheme && validate(json.body, {
+            color : requiredColor
+        }) == undefined;
+
+        goodTheme = goodTheme && validate(json.input, {
+            color : requiredColor,
+            borderColor : requiredColor,
+            textColor : requiredColor
+        }) == undefined;
+
+        if(json.button.borderWidth == undefined || (json.button.borderWidth == "" && json.button.borderWidth != 0)){
+            json.button.borderWidth = 1;
+        }
+
+        else{
+            json.button.borderWidth = parseInt("0" + json.button.borderWidth);
+        }
+
+        json.button.borderRadius = parseInt("0" + json.button.borderRadius);
+        goodTheme = goodTheme && validate(json.button, {
+            color : requiredColor,
+            hoverColor : requiredColor,
+            borderColor : colorOrBlank,
+            borderRadius: {presence: true, numericality: { greaterThanOrEqualTo: 0, lessThanOrEqualTo: 25 } },
+            borderWidth: {numericality: { greaterThanOrEqualTo: 0, lessThanOrEqualTo: 5 } },
+            textColor : requiredColor
+        }) == undefined;
+
+        var buttonProperties = ["numbers", "point", "ce", "positiveNegative", "operators", "equal"];
+        for(i = 0; i < buttonProperties.length; i++){
+            json.button[buttonProperties[i]].color
+            goodTheme = goodTheme && validate(json.button[buttonProperties[i]], {
+                color : colorOrBlank,
+                borderColor : colorOrBlank,
+                textColor : colorOrBlank
+            }) == undefined;
+        }
+
+        return goodTheme;
+    },
+
+    inject : {
+        color : function(selector, value, fallback) {
+            if(value != undefined){
+                $(selector).css({"background-color":value});
+            }
+
+            else{
+                $(selector).css({"background-color":fallback});
+            }
+        },
+
+        textColor : function(selector, value, fallback){
+            if(value != undefined){
+                $(selector).css({"color":value});
+            }
+
+            else{
+                $(selector).css({"color":fallback});
+            }
+        },
+
+        font : function(selector, value, fallback) {
+            if(value != undefined){
+                $(selector).css({"font-family":value});
+            }
+
+            else{
+                $(selector).css({"font-family":fallback});
+            }
+        }
     }
 }
 
 //-------------------------css effects----------------------------//
-$(document).ready(function() {
-    //appends the overlay to each button
-    $(".button").each(function() {
-        var $this = $(this);
-        $this.append("<div class='ripple'></div>");
-    });
-});
-
 $(document).on("click", ".button", function (e) {
     var $clicked = $(this);
 
@@ -155,17 +247,18 @@ function animateBlur(element, blur, blurDuration) {
 //------------------------inject theme------------------------//
 var calculatorTheme = "";
 function injectCSS(json) {
-    $(".button").unbind("mouseover").unbind("mouseout");
+    $(".button").unbind("mouseover").unbind("mouseout"); //reset event listeners
     calculatorTheme = json;
 
-    //inject body css
-    $("#margins").css({"background-color": json.body.color});
+    //body
+    theme.inject.color("#margins", json.body.color, "#fff");
 
-    //inject input css
+    //input
+    theme.inject.color("#input-container", json.input.color, "#eee");
+    theme.inject.textColor("#input-container", json.input.textColor, "#000");
+    theme.inject.font("#input-container", json.input.font, "arial");
+
     $("#input-container").css({
-        "background-color": json.input.color,
-        "color": json.input.textColor,
-        "font-family": json.input.font,
         "border-color": json.input.borderColor
     });
 
@@ -354,74 +447,6 @@ function injectCSS(json) {
     return;
 }
 
-function validateTheme(json) {
-    var goodTheme = true;
-    var requiredColor = {
-        presence: true,
-        format: {
-            pattern: /^#([0-9a-f]{3}|[0-9a-f]{6})$/i
-        }
-    }
-    var color = {
-        format: {
-            pattern: /^#([0-9a-f]{3}|[0-9a-f]{6})$/i
-        }
-    }
-    var colorOrBlank = {
-        format: {
-            pattern: /^(#[0-9a-f]{3}|#[0-9a-f]{6}|\s*$)$/i
-        }
-    }
-
-    goodTheme = goodTheme && validate(json.manifest, {
-        version: {
-            numericality: {
-                lessThanOrEqualTo: 1.1
-            }
-        }
-    }) == undefined;
-
-    goodTheme = goodTheme && validate(json.body, {
-        color : requiredColor
-    }) == undefined;
-
-    goodTheme = goodTheme && validate(json.input, {
-        color : requiredColor,
-        borderColor : requiredColor,
-        textColor : requiredColor
-    }) == undefined;
-
-    if(json.button.borderWidth == undefined || (json.button.borderWidth == "" && json.button.borderWidth != 0)){
-        json.button.borderWidth = 1;
-    }
-
-    else{
-        json.button.borderWidth = parseInt("0" + json.button.borderWidth);
-    }
-
-    json.button.borderRadius = parseInt("0" + json.button.borderRadius);
-    goodTheme = goodTheme && validate(json.button, {
-        color : requiredColor,
-        hoverColor : requiredColor,
-        borderColor : colorOrBlank,
-        borderRadius: {presence: true, numericality: { greaterThanOrEqualTo: 0, lessThanOrEqualTo: 25 } },
-        borderWidth: {numericality: { greaterThanOrEqualTo: 0, lessThanOrEqualTo: 5 } },
-        textColor : requiredColor
-    }) == undefined;
-
-    var buttonProperties = ["numbers", "point", "ce", "positiveNegative", "operators", "equal"];
-    for(i = 0; i < buttonProperties.length; i++){
-        json.button[buttonProperties[i]].color
-        goodTheme = goodTheme && validate(json.button[buttonProperties[i]], {
-            color : colorOrBlank,
-            borderColor : colorOrBlank,
-            textColor : colorOrBlank
-        }) == undefined;
-    }
-
-    return goodTheme;
-}
-
 function ajaxGetFile(file, type) {
     var dataOut = false;
     $.ajax({
@@ -440,3 +465,11 @@ function ajaxGetFile(file, type) {
 
     return dataOut;
 }
+
+$(document).ready(function() {
+    //appends the overlay to each button
+    $(".button").each(function() {
+        var $this = $(this);
+        $this.append("<div class='ripple'></div>");
+    });
+});

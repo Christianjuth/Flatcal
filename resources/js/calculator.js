@@ -7,35 +7,36 @@
 |  `Y88P' YP   YP Y88888P  `Y88P' ~Y8888P' Y88888P YP   YP    YP     `Y88P'  88   YD  |
 ---------------------------------------------------------------------------------------
 
---------------------------FUNCTIONS------------------------------
-|                                                               |
-|  ini(options)              - initiate the calculator          |
-|  numberClicked             - called when number is clicked    |
-|  screen                    - screen functions                 |
-|    set(value)              - set screen value                 |
-|    get                     - get screen value                 |
-|    length                  - get screen length                |
-|    clear                   - clear screen                     |
+---------------------------FUNCTIONS------------------------------
+|                                                                |
+|  ini(options)               - initiate the calculator          |
+|  numberClicked              - called when number is clicked    |
+|  screen                     - screen functions                 |
+|    set(value)               - set screen value                 |
+|    get                      - get screen value                 |
+|    length                   - get screen length                |
+|    clear                    - clear screen                     |
 |
 |
-|  m                         - memory functions                 |
-|    recall                  - get number in memory             |
-|    clear                   - clear the current memory number  |
+|  m                          - memory functions                 |
+|    recall                   - get number in memory             |
+|    clear                    - clear the current memory number  |
 |
 |
 |
 |
 |
------------------------------------------------------------------
+------------------------------------------------------------------
 
----------------------------VARIABLES-----------------------------
+----------------------------VARIABLES-----------------------------
+|                                                                |
+|  calculator.max             - max legnth calculator is allowed |
+|  calculator.screen.selector - selector for calculator screen   |
 |
 |
 |
 |
-|
-|
------------------------------------------------------------------*/
+------------------------------------------------------------------*/
 
 
 
@@ -50,8 +51,8 @@ var calculator = {
             this.first = "0";
             this.second = "";
             this.op = "";
-            if(localStorage.radDeg == "rad") rad();
-            else deg();
+            if(localStorage.radDeg == "rad") this.rad();
+            else this.deg();
             this.screen.clear();
         }
 
@@ -451,46 +452,48 @@ var calculator = {
 
             return;
         }
+    },
+
+    clipboard : {
+        copy : function(text) {
+            var copyFrom = $('<input/>');
+            copyFrom.val(text);
+            $('body').append(copyFrom);
+            copyFrom.select();
+            document.execCommand('copy');
+            copyFrom.remove();
+        }
+    },
+
+    paste : function() {
+        var pasteTo = $('<input/>');
+        $('body').append(pasteTo);
+        pasteTo.select();
+        document.execCommand('paste');
+        var number = parseFloat(pasteTo.val());
+        if(!isNaN(parseFloat(number)) && String(number) != "0"){
+            calculator.screen.set(number);
+            if(calculator.op== "") calculator.first = number;
+            else calculator.second = number;
+        }
+
+        else{
+            calculator.screen.selector.text("ERROR");
+            calculator.screen.clear();
+        }
+        pasteTo.remove();
+        return number;
+    },
+
+    rad : function() {
+        $("#rad-deg").text("rad");
+        return "rad";
+    },
+
+    deg : function() {
+        $("#rad-deg").text("deg");
+        return "deg";
     }
-}
-
-function copy(text) {
-    var copyFrom = $('<input/>');
-    copyFrom.val(text);
-    $('body').append(copyFrom);
-    copyFrom.select();
-    document.execCommand('copy');
-    copyFrom.remove();
-}
-
-function paste() {
-    var pasteTo = $('<input/>');
-    $('body').append(pasteTo);
-    pasteTo.select();
-    document.execCommand('paste');
-    var number = parseFloat(pasteTo.val());
-    if(!isNaN(parseFloat(number)) && String(number) != "0"){
-        calculator.screen.set(number);
-        if(calculator.op== "") calculator.first = number;
-        else calculator.second = number;
-    }
-
-    else{
-        calculator.screen.selector.text("ERROR");
-        calculator.screen.clear();
-    }
-    pasteTo.remove();
-    return number;
-}
-
-function rad() {
-    $("#rad-deg").text("rad");
-    return "rad";
-}
-
-function deg() {
-    $("#rad-deg").text("deg");
-    return "deg";
 }
 
 $(document).ready(function() {

@@ -7,11 +7,11 @@ $(document).ready(function() {
     //even listeners
     $("#rad-deg").mousedown(function () {
         if($("#rad-deg").text() == "rad"){
-            localStorage.radDeg = deg();
+            localStorage.radDeg = calculator.deg();
         }
 
         else if($("#rad-deg").text() == "deg"){
-            localStorage.radDeg = rad();
+            localStorage.radDeg = calculator.rad();
         }
     });
 

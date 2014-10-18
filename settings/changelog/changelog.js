@@ -1,16 +1,23 @@
 $(document).ready(function() {
-    $.getJSON("https://raw.githubusercontent.com/Christianjuth/calculator-browser-extension/JSON/changelog.json", function(data) {
-        for(i = 0; i < data.length; i++){
-            line = data[i];
-            if(i == 0){
-                changelogLine(line);
-            }
+    if(clientInformation.onLine != true){
+        $("#table-container").hide();
+        $("#offline").show();
+    }
 
-            else{
-                changelogLine(line);
-            }
-        };
-    });
+    else{
+        $.getJSON("https://raw.githubusercontent.com/Christianjuth/calculator-browser-extension/JSON/changelog.json", function(data) {
+            for(i = 0; i < data.length; i++){
+                line = data[i];
+                if(i == 0){
+                    changelogLine(line);
+                }
+
+                else{
+                    changelogLine(line);
+                }
+            };
+        });
+    }
 });
 
 function changelogLine(options){
