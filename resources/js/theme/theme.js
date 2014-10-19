@@ -1,5 +1,9 @@
 //---------------------------theme-----------------------------//
 var theme = {
+    ini : function() {
+
+    },
+
     load : function(json){
         if(typeof json === "string") json = this.get(json);
         if(this.validate(json)){
@@ -92,7 +96,7 @@ var theme = {
         }
         var color = {
             format: {
-                pattern: /^#([0-9a-f]{3}|[0-9a-f]{6})$/i
+                pattern: /^#([0-9a-f]{3}|[0-9a-f]{6})$/i //look for color (e.g. #fff or #ffffff)
             }
         }
         var colorOrBlank = {
@@ -152,32 +156,84 @@ var theme = {
 
     inject : {
         color : function(selector, value, fallback) {
-            if(value != undefined){
+            if(value != undefined && value != ""){
                 $(selector).css({"background-color":value});
+                $(selector).unbind("mouseout");
+                $(selector).mouseout(function() {
+                    $(this).css({"background-color":value});
+                });
             }
 
-            else{
+            else if(fallback != undefined && fallback != ""){
                 $(selector).css({"background-color":fallback});
+                $(selector).unbind("mouseout");
+                $(selector).mouseout(function() {
+                    $(this).css({"background-color":fallback});
+                });
+            }
+        },
+
+        hoverColor : function(selector, value, fallback) {
+            if(value != undefined && value != ""){
+                $(selector).mouseover(function() {
+                    $(this).css({"background-color":value});
+                });
+            }
+
+            else if(fallback != undefined && fallback != ""){
+                $(selector).mouseover(function() {
+                    $(this).css({"background-color":fallback});
+                });
             }
         },
 
         textColor : function(selector, value, fallback){
-            if(value != undefined){
+            if(value != undefined && value != ""){
                 $(selector).css({"color":value});
             }
 
-            else{
+            else if(fallback != undefined && fallback != ""){
                 $(selector).css({"color":fallback});
             }
         },
 
         font : function(selector, value, fallback) {
-            if(value != undefined){
+            if(value != undefined && value != ""){
                 $(selector).css({"font-family":value});
             }
 
             else{
                 $(selector).css({"font-family":fallback});
+            }
+        },
+
+        borderColor : function(selector, value, fallback) {
+            if(value != undefined && value != ""){
+                $(selector).css({"border-color":value});
+            }
+
+            else{
+                $(selector).css({"border-color":fallback});
+            }
+        },
+
+        outlineColor : function(selector, value, fallback) {
+            if(value != undefined && value != ""){
+                $(selector).css({"outline-color":value});
+            }
+
+            else{
+                $(selector).css({"outline-color":fallback});
+            }
+        },
+
+        borderWidth : function(selector, value, fallback) {
+            if(value != undefined){
+                $(selector).css({"outline-offset": (parseInt(value) - 1) * -1, "outline-width": value});
+            }
+
+            else{
+                $(selector).css({"outline-offset": (parseInt(fallback) - 1) * -1, "outline-width": fallback});
             }
         }
     }
@@ -224,26 +280,6 @@ $(document).on("click", ".button", function (e) {
     }, 300);
 });
 
-function animateBlur(element, blur, blurDuration) {
-    $(element).stop();
-    $({
-        blurRadius: 0
-    }).animate({
-        blurRadius: blur
-    }, {
-        duration: blurDuration,
-        easing: 'swing', // or "linear"
-        // use jQuery UI or Easing plugin for more options
-        step: function() {
-            if (blur == 0) this.blurRadius = 0;
-            $(element).css({
-                "-webkit-filter": "blur(" + this.blurRadius + "px)",
-                "filter": "blur(" + this.blurRadius + "px)"
-            });
-        }
-    });
-}
-
 //------------------------inject theme------------------------//
 var calculatorTheme = "";
 function injectCSS(json) {
@@ -255,86 +291,25 @@ function injectCSS(json) {
 
     //input
     theme.inject.color("#input-container", json.input.color, "#eee");
+    theme.inject.borderColor("#input-container", json.input.borderColor, json.body.color);
     theme.inject.textColor("#input-container", json.input.textColor, "#000");
     theme.inject.font("#input-container", json.input.font, "arial");
 
-    $("#input-container").css({
-        "border-color": json.input.borderColor
-    });
+    //buttons
+    theme.inject.color(".button", json.button.color, "#eee");
+    theme.inject.hoverColor(".button", json.button.hoverColor, json.button.color);
+    theme.inject.outlineColor(".button", json.button.borderColor, json.body.color);
+    theme.inject.textColor(".button", json.button.textColor, "#000");
+    theme.inject.font(".button", json.button.font, "arial");
+    theme.inject.borderWidth(".button", json.button.borderWidth, 1);
 
-    //check if #input had a border color defined in the theme theme file and if not set it as the same ad the bdy background color
-    if (json.input.borderColor != undefined) {
-        $("#input-container").css({"border-color": json.input.borderColor});
-    } else {
-        $("#input-container").css({"border-color": json.body.color})
-    }
+    //numbers
+    theme.inject.color(".number", json.button.numbers.color);
+    theme.inject.hoverColor(".number", json.button.numbers.hoverColor);
+    theme.inject.textColor(".number", json.button.numbers.textColor);
 
-    //inject button css------------------------>
-    $(".button").css({
-        "background-color": json.button.color,
-        "border-color": json.button.borderColor,
-        "border-radius": json.button.borderRadius,
-        "color": json.button.textColor,
-        "font-family": json.button.font
-    });
 
-    $(".button").mouseover(function() {
-        $(this).css({"background-color": json.button.hoverColor});
-    });
-
-    $(".button").mouseout(function() {
-        $(this).css({"background-color": json.button.color});
-    });
-
-    //check if .button had a border color defined in the theme theme file and if not set it as the same ad the bdy background color
-    if (json.button.borderColor != undefined && json.button.borderColor != ""){
-        $(".button").css({"outline-color": json.button.borderColor});
-
-    } else {
-        $(".button").css({"outline-color": json.body.color});
-    }
-
-    //check if .button had a border color defined in the theme theme file and if not set it as the same ad the bdy background color
-    if (json.button.borderWidth != undefined){
-        $(".button").css({"outline-offset": (parseInt(json.button.borderWidth) - 1) * -1, "outline-width": json.button.borderWidth});
-
-    } else {
-        json.button.borderWidth = 1;
-        theme.update(json);
-        $(".button").css({"outline-offset": (parseInt(json.button.borderWidth) - 1) * -1, "outline-width": json.button.borderWidth});
-    }
-
-    //inject numbers css ---------------------------------------------->
-    //background color
-    if (json.button.numbers.color != "") {
-        $(".number").css({"background-color": json.button.numbers.color});
-
-        $(".number").unbind("mouseout").mouseout(function() {
-            $(this).css({"background-color": json.button.numbers.color});
-        });
-    }
-
-    //hover
-    if (json.button.numbers.hoverColor != "") {
-        $(".number").unbind("mouseover").mouseover(function() {
-            $(this).css({"background-color": json.button.numbers.hoverColor});
-        });
-    }
-
-    //text color
-    if (json.button.numbers.textColor != "") {
-        $(".number").css({"color": json.button.numbers.textColor});
-    }
-
-    //inject point css ---------------------------------------------->
-    //background color
-    if (json.button.point.color != "") {
-        $("#point").css({"background-color": json.button.point.color});
-
-        $("#point").unbind("mouseout").mouseout(function() {
-            $(this).css({"background-color": json.button.point.color});
-        });
-    }
+    if (json.button.point.color != "") theme.inject.color("#point", json.button.point.color, "#eee");
 
     //hover
     if (json.button.point.hoverColor != "") {

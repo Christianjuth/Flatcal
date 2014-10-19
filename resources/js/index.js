@@ -67,7 +67,7 @@ $(document).ready(function() {
 
     else{
         var injectTheme = $.parseJSON(localStorage.customTheme);
-        if(injectTheme.manifest != undefined && injectTheme.manifest.version != undefined && injectTheme.manifest.version > 0 && validateTheme(injectTheme)){
+        if(injectTheme.manifest != undefined && injectTheme.manifest.version != undefined && injectTheme.manifest.version > 0 && theme.validate(injectTheme)){
             theme.load(injectTheme);
         }
 

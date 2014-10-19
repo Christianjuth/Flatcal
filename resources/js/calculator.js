@@ -38,8 +38,6 @@
 |
 ------------------------------------------------------------------*/
 
-
-
 var calculator = {
     ini : function(options){
         if(options.max == undefined || options.max > 15) options.max = 15; //validate max screen size
@@ -103,7 +101,7 @@ var calculator = {
             }
 
             else if(number.split(".")[0].replace(/-/,"").length < calculator.maxLength && valid){
-                calculator.screen.selector.text(math.round(parseFloat(number), calculator.maxLength - number.split(".")[0].length));
+                calculator.screen.selector.text(calculator.parse.commas(math.round(parseFloat(number), calculator.maxLength - number.split(".")[0].length)));
             }
 
             return calculator.screen.selector.text().replace(/,/g,"");
@@ -370,7 +368,7 @@ var calculator = {
                 }
 
                 else{
-                    if(calculator.second = ".") calculator.second = "0.";
+                    if(calculator.second == "." || calculator.second == "") calculator.second = "0.";
                     calculator.second = calculator.second + ".";
                     calculator.screen.set(calculator.second);
                 }

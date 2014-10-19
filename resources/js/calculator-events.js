@@ -40,7 +40,7 @@ $(document).ready(function() {
 
     //point
     $("#point").mousedown(function() {
-        if($("#input").text().length < calculator.maxLength){
+        if(calculator.screen.length() < calculator.maxLength){
             calculator.event.addDecimal();
         }
     });
