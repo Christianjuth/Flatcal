@@ -183,14 +183,13 @@ var calculator = {
 
             calculator.screen.selector.text("");
             setTimeout(calculator.screen.set, 100, overall);
-            setTimeout(calculator.animate.op, 150);
-
+            this.animate.op();
             calculator.first = String(overall);
             calculator.second = "";
             overall = "";
 
             if(clearVaulesAfter == true){
-                calculator.clear= true;
+                this.clear = true;
             }
         }
 
@@ -225,14 +224,13 @@ var calculator = {
 
             calculator.screen.selector.text("");
             setTimeout(calculator.screen.set, 100, overall);
-            setTimeout(calculator.animate.op, 150);
-
+            this.animate.op();
             calculator.first = String(overall);
             calculator.second = "";
             overall = "";
 
             if(clearVaulesAfter == true){
-                calculator.clear= true;
+                this.clear = true;
             }
         }
 
@@ -438,14 +436,18 @@ var calculator = {
     },
 
     animate : {
-        op : function(){
+        op : function(selector){
             $(".opp").css({"-webkit-transform" : "scale(1)"}); //reset scale
 
             if(calculator.op != undefined){ //bounce shrink animation
-                $("#" + calculator.op).css({"-webkit-transform" : "scale(0.90)"});
+                $("#" + selector).css({"-webkit-transform" : "scale(0.90)"});
                 setTimeout( function() {
-                    $("#" + calculator.op).css({"-webkit-transform" : "scale(0.95)"});
+                    $("#" + selector).css({"-webkit-transform" : "scale(0.95)"});
                 }, 100);
+            }
+
+            else{
+                $("#" + selector).css({"-webkit-transform" : "scale(1)"});
             }
 
             return;

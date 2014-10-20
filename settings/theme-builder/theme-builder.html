@@ -13,8 +13,8 @@
 
         <!--load files css and js files-->
         <link rel="stylesheet" media="screen, print, handheld" type="text/css" href="theme-builder.min.css">
-        <script type="text/javascript" src="theme-builder.min.js"></script>
-        <script type="text/javascript" src="../../resources/js/theme/theme.min.js"></script>
+        <script type="text/javascript" src="theme-builder.js"></script>
+        <script type="text/javascript" src="../../resources/js/theme/theme.js"></script>
 
         <link rel="stylesheet" media="screen, print, handheld" type="text/css" href="../../resources/CSS/fonts.min.css">
         <link rel="stylesheet" media="screen, print, handheld" type="text/css" href="../../resources/css/calculator.min.css">
@@ -101,13 +101,6 @@
                     </div>
 
                     <div>
-                        <h3>border radius</h3>
-                        <div id="border-radius-slider" class="dragdealer" json="button" state="borderRadius">
-                            <div class="handle red-bar">drag me</div>
-                        </div>
-                    </div>
-
-                    <div>
                         <h3>outline color</h3>
                         <input id="button-border-color" type='text' class="color" readonly="readonly" json="button" state="borderColor"/>
                     </div>
@@ -128,158 +121,6 @@
                             <option class="theme-selctor-option" value="sans-serif">sans-serif</option>
                         </select>
                     </div>
-                </section>
-
-                <!--numbers-->
-                <section id="body-colors">
-                    <span class="reset" title="reset all css for this element">reset</span>
-                    <h1>numbers</h1>
-
-                    <div>
-                        <h3>background color</h3>
-                        <input id="numbers-background-color" type='text' class="color" readonly="readonly" json="button.numbers" state="color"/>
-
-                    </div>
-
-                    <div>
-                        <h3>background color:hover</h3>
-                        <input id="numbers-background-color-hover" type='text' class="color" readonly="readonly" json="button.numbers" state="hoverColor"/>
-
-                    </div>
-
-                    <div>
-                        <h3>text color</h3>
-                        <input id="numbers-text-color" type='text' class="color" readonly="readonly" json="button.numbers" state="textColor"/>
-
-                    </div>
-
-                </section>
-
-                <!--ce-->
-                <section id="body-colors">
-                    <span class="reset" title="reset all css for this element">reset</span>
-                    <h1>ce button</h1>
-
-                    <div>
-                        <h3>background color</h3>
-                        <input id="ce-background-color" type='text' class="color" readonly="readonly" json="button.ce" state="color"/>
-
-                    </div>
-
-                    <div>
-                        <h3>background color:hover</h3>
-                        <input id="ce-background-color-hover" type='text' class="color" readonly="readonly" json="button.ce" state="hoverColor"/>
-
-                    </div>
-
-                    <div>
-                        <h3>text color</h3>
-                        <input id="ce-text-color" type='text' class="color" readonly="readonly" json="button.ce" state="textColor"/>
-
-                    </div>
-
-                </section>
-
-
-                <!--positive negative button-->
-                <section id="body-colors">
-                    <span class="reset" title="reset all css for this element">reset</span>
-                    <h1>+/- button</h1>
-
-                    <div>
-                        <h3>background color</h3>
-                        <input id="positive-negative-background-color" type='text' class="color" readonly="readonly" json="button.positiveNegative" state="color"/>
-
-                    </div>
-
-                    <div>
-                        <h3>background color:hover</h3>
-                        <input id="positive-negative-background-color-hover" type='text' class="color" readonly="readonly" json="button.positiveNegative" state="hoverColor"/>
-
-                    </div>
-
-                    <div>
-                        <h3>text color</h3>
-                        <input id="positive-negative-text-color" type='text' class="color" readonly="readonly" json="button.positiveNegative" state="textColor"/>
-
-                    </div>
-
-                </section>
-
-
-                <!--opp button-->
-                <section id="body-colors">
-                    <span class="reset" title="reset all css for this element">reset</span>
-                    <h1>operators</h1>
-
-                    <div>
-                        <h3>background color</h3>
-                        <input id="opp-background-color" type='text' class="color" readonly="readonly" json="button.operators" state="color"/>
-
-                    </div>
-
-                    <div>
-                        <h3>background color:hover</h3>
-                        <input id="opp-background-color-hover" type='text' class="color" readonly="readonly" json="button.operators" state="hoverColor"/>
-
-                    </div>
-
-                    <div>
-                        <h3>text color</h3>
-                        <input id="opp-text-color" type='text' class="color" readonly="readonly" json="button.operators" state="textColor"/>
-
-                    </div>
-
-                </section>
-
-                <!--equal button-->
-                <section id="body-colors">
-                    <span class="reset" title="reset all css for this element">reset</span>
-                    <h1>equal button</h1>
-
-                    <div>
-                        <h3>background color</h3>
-                        <input id="equal-background-color" type='text' class="color" readonly="readonly" json="button.equal" state="color"/>
-
-                    </div>
-
-                    <div>
-                        <h3>background color:hover</h3>
-                        <input id="equal-background-color-hover" type='text' class="color" readonly="readonly" json="button.equal" state="hoverColor"/>
-
-                    </div>
-
-                    <div>
-                        <h3>text color</h3>
-                        <input id="equal-text-color" type='text' class="color" readonly="readonly" json="button.equal" state="textColor"/>
-
-                    </div>
-
-                </section>
-
-                <!--point-->
-                <section id="body-colors">
-                    <span class="reset" title="reset all css for this element">reset</span>
-                    <h1>decmel button</h1>
-
-                    <div>
-                        <h3>background color</h3>
-                        <input id="point-background-color" type='text' class="color" readonly="readonly" json="button.point" state="color"/>
-
-                    </div>
-
-                    <div>
-                        <h3>background color:hover</h3>
-                        <input id="point-background-color-hover" type='text' class="color" readonly="readonly" json="button.point" state="hoverColor"/>
-
-                    </div>
-
-                    <div>
-                        <h3>text color</h3>
-                        <input id="point-text-color" type='text' class="color" readonly="readonly" json="button.point" state="textColor"/>
-
-                    </div>
-
                 </section>
             </div>
 

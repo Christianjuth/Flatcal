@@ -63,10 +63,6 @@ $(document).ready(function() {
         reset(this);
     });
 
-    $(document.body).on("click", ".clear-input", function() {
-        clear(this);
-    });
-
     if(localStorage.scientific == "false"){
         $("#scientific-container").remove();
         $("#number-container").css({"display":"inline-block"});
@@ -92,16 +88,6 @@ $(document).ready(function() {
         theme.set(customCalculatorTheme);
     });
 
-    new Dragdealer('border-radius-slider', {
-        animationCallback: function(x, y) {
-            $('#border-radius-slider > div').text(Math.round(x * 25));
-            $("#border-radius-slider, #border-radius-slider > .handle").css({"border-radius": Math.round(x * 25) / 2});
-            changeTheme($('#border-radius-slider').attr("json"), $('#border-radius-slider').attr("state"), Math.round(x * 25));
-            theme.set(customCalculatorTheme);
-        },
-        x: customCalculatorTheme.button.borderRadius / 25
-    });
-
     new Dragdealer('outline-width-slider', {
         animationCallback: function(x, y) {
             $('#outline-width-slider > div').text(Math.round(x * 5));
@@ -114,28 +100,14 @@ $(document).ready(function() {
     $("#left-container").scroll(function() {
         $("*").spectrum("hide");
     });
+
+    option.create("numbers","json.button.numbers","colorhovertext",false);
+    option.create("ce button","json.button.ce","colorhovertext",false);
+    option.create("+/- button","json.button.positiveNegative","colorhovertext",false);
+    option.create("operators","json.button.operators","colorhovertext",false);
+    option.create("equal button","json.button.equal","colorhovertext",false);
+    option.create("decmel button","json.button.point","colorhovertext",false);
 });
-
-//functions
-function clear(element) {
-    $(element).parent().children("input").val("");
-    $(element).parent().children("input").css({"background-color":"#fff"});
-    jsonTheme = $(element).parent().children("input").attr("json");
-    state = $(element).parent().children("input").attr("state");
-
-    jsonTheme = jsonTheme.split(".");
-
-    if(jsonTheme.length == 2){
-        customCalculatorTheme[jsonTheme[0]][jsonTheme[1]][state] = "";
-    }
-
-    else{
-        customCalculatorTheme[jsonTheme[0]][state] = "";
-    }
-
-    theme.set(customCalculatorTheme);
-    return;
-}
 
 function reset(element) {
     //element is the element being reset
@@ -178,18 +150,113 @@ function reset(element) {
 
 //functions
 function changeTheme(jsonTheme, state, value) {
-    $(".button").unbind("mouseover").unbind("mouseout");
-
-    jsonTheme = jsonTheme.split(".");
-
-    if(jsonTheme.length == 2){
-        customCalculatorTheme[jsonTheme[0]][jsonTheme[1]][state] = value;
+    var parsedJSON = jsonTheme.split(".");
+    var themeElement = customCalculatorTheme;
+    for(i = 0; i < parsedJSON.length - 1; i++){
+        themeElement = themeElement[parsedJSON[i+1]];
     }
-
-    else{
-        customCalculatorTheme[jsonTheme[0]][state] = value;
-    }
-
+    themeElement[state] = value;
     theme.set(customCalculatorTheme);
+
     return;
+}
+
+var option = {
+    create : function(title, json, include, required){
+        var parsedJSON = json.split(".");
+        var themeElement = customCalculatorTheme;
+        for(i = 0; i < parsedJSON.length - 1; i++){
+            themeElement = themeElement[parsedJSON[i+1]];
+        }
+        var selector = $('<section><h1>' + title + '</h1></section>').appendTo("#left-container");
+        var options = "";
+
+        if(include.indexOf("color") != -1){
+            $(this.color(json, required)).appendTo(selector).find("input").val(themeElement.color).spectrum({
+                preferredFormat: "hex",
+                showInput: true,
+                allowEmpty:!required,
+                showButtons: false,
+                move: function(color) {
+                    var color = color + "";
+                    changeTheme(json, "color", color);
+                },
+                change: function(color) {
+                    var color = color + "";
+                    changeTheme(json, "color", color);
+                }
+            });
+        }
+
+        if(include.indexOf("hover") != -1){
+            $(this.hoverColor(json, required)).appendTo(selector).find("input").val(themeElement.hoverColor).spectrum({
+                preferredFormat: "hex",
+                showInput: true,
+                allowEmpty:!required,
+                showButtons: false,
+                move: function(color) {
+                    var color = color + "";
+                    changeTheme(json, "hoverColor", color);
+                },
+                change: function(color) {
+                    var color = color + "";
+                    changeTheme(json, "hoverColor", color);
+                }
+            });
+        }
+
+        if(include.indexOf("border") != -1){
+            $(this.borderColor(json, required)).appendTo(selector).find("input").val(themeElement.borderColor).spectrum({
+                preferredFormat: "hex",
+                showInput: true,
+                allowEmpty:!required,
+                showButtons: false,
+                move: function(color) {
+                    var color = color + "";
+                    changeTheme(json, "borderColor", color);
+                },
+                change: function(color) {
+                    var color = color + "";
+                    changeTheme(json, "borderColor", color);
+                }
+            });
+        }
+
+        if(include.indexOf("text") != -1){
+            $(this.borderColor(json, required)).appendTo(selector).find("input").val(themeElement.textColor).spectrum({
+                preferredFormat: "hex",
+                showInput: true,
+                allowEmpty:!required,
+                showButtons: false,
+                move: function(color) {
+                    var color = color + "";
+                    changeTheme(json, "textColor", color);
+                },
+                change: function(color) {
+                    var color = color + "";
+                    changeTheme(json, "textColor", color);
+                }
+            });
+        }
+    },
+
+    color : function(json, required) {
+        if(required === true) return '<div><h3>background color</h3><input type="text" class="color-required"/></div>';
+        else return '<div><h3>background color</h3><input type="text" class="color"/></div>';
+    },
+
+    hoverColor : function(json, required) {
+        if(required === true) return '<div><h3>background color:hover</h3><input type="text" class="color-required"/></div>';
+        else return '<div><h3>background color:hover</h3><input type="text" class="color"/></div>';
+    },
+
+    borderColor : function(json, required) {
+        if(required === true) return '<div><h3>border color</h3><input type="text" class="color-required"/></div>';
+        else return '<div><h3>border color</h3><input type="text" class="color"/></div>';
+    },
+
+    borderColor : function(json, required) {
+        if(required === true) return '<div><h3>text color</h3><input type="text" class="color-required"/></div>';
+        else return '<div><h3>border color</h3><input type="text" class="color"/></div>';
+    }
 }
