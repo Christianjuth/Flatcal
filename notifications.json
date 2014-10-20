@@ -1,8 +1,8 @@
 [
     {
-        "id" : 6,
-        "title" : "Support us",
-        "message" : "Version 3.0 is coming next month! Improved theme builder, % button, and better more robust code! Please rate.",
+        "id" : 7,
+        "title" : "Almost there!",
+        "message" : "Version 3.0 is almost done and will be out by Halloween. Please submit any bugs ASAP!",
         "important" : true
     }
 ]
