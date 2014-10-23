@@ -30,6 +30,8 @@
         "128": "resources/icons/icon.png"
     },
 
+    "offline_enabled": true,
+
     "permissions": [
         "clipboardWrite",
         "clipboardRead",
