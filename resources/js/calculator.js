@@ -462,27 +462,27 @@ var calculator = {
             copyFrom.select();
             document.execCommand('copy');
             copyFrom.remove();
-        }
-    },
+        },
 
-    paste : function() {
-        var pasteTo = $('<input/>');
-        $('body').append(pasteTo);
-        pasteTo.select();
-        document.execCommand('paste');
-        var number = parseFloat(pasteTo.val());
-        if(!isNaN(parseFloat(number)) && String(number) != "0"){
-            calculator.screen.set(number);
-            if(calculator.op== "") calculator.first = number;
-            else calculator.second = number;
-        }
+        paste : function() {
+            var pasteTo = $('<input/>');
+            $('body').append(pasteTo);
+            pasteTo.select();
+            document.execCommand('paste');
+            var number = parseFloat(pasteTo.val());
+            if(!isNaN(parseFloat(number)) && String(number) != "0"){
+                calculator.screen.set(number);
+                if(calculator.op== "") calculator.first = number;
+                else calculator.second = number;
+            }
 
-        else{
-            calculator.screen.selector.text("ERROR");
-            calculator.screen.clear();
+            else{
+                calculator.screen.selector.text("ERROR");
+                calculator.screen.clear();
+            }
+            pasteTo.remove();
+            return number;
         }
-        pasteTo.remove();
-        return number;
     },
 
     rad : function() {

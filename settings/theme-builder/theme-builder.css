@@ -157,13 +157,14 @@ section > input{
     margin: 0px;
 }
 
-.dragdealer{
-    width: 30% !important;
+.slider{
+    background-color: #eee !important;
     float: right !important;
 }
 
-.dragdealer > div{
-    width: 40% !important;
+.slider_knob{
+    width: 30px !important;
+    background-color: #444 !important;
 }
 
 /*calculator css------------------------------>*/

@@ -5,6 +5,8 @@
     "description": "A themeable calculator for your Browser",
     "version": "2.5.4",
 
+    "author": "Christian Juth",
+
     "browser_action": {
         "default_icon": "resources/icons/icon.png",
         "default_popup": "index.html"

@@ -69,6 +69,7 @@ function tutorial() {
 
                     loadedTheme = themes[themeNumb - 1];
                     theme.load(loadedTheme);
+                    console.log(loadedTheme);
                 }
             }, i * 150);
         }
@@ -143,7 +144,7 @@ function tutorial() {
 }
 
 function scientific(toggle, callback) {
-    Clear();
+    calculator.screen.clear();
 
     $('#scientific').children(".checkbox").iCheck('disable');
 

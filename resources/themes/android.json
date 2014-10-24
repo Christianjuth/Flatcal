@@ -1,12 +1,11 @@
 {
-    "manifest":{
+    "manifest": {
         "name": "android",
         "version": 1.1
     },
 
     "body": {
-        "color": "#000000",
-        "font": "helvetica"
+        "color": "#000000"
     },
 
     "input": {
@@ -20,7 +19,7 @@
         "color": "#222222",
         "hoverColor": "#363636",
         "borderColor": "#000000",
-        "borderWidth":"1px",
+        "borderWidth": "1px",
         "textColor": "#dfdfdf",
 
         "numbers": {

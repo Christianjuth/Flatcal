@@ -111,11 +111,21 @@ header > h1{
 }
 
 .popup > div > h2,
+.popup > div > h3,
 #content > section > div > h2{
     font-size: 16px;
     font-weight: 300 !important;
     margin-top: 5px;
     display: inline-block;
+}
+
+.popup > div > h3{
+    -webkit-user-select:text;
+    user-select:text;
+    font-size: 12px;
+    font-weight: 200 !important;
+    line-height: 25px;
+    float: right;
 }
 
 .popup > div > a,

@@ -68,22 +68,22 @@ $(document).ready(function() {
 
         //windows
         else if(e.keyCode == 67 && event.ctrlKey == true && window.navigator.platform.toLowerCase().indexOf("mac") == -1) {
-            copy(calculator.screen.get());
+            calculator.clipboard.copy(calculator.screen.get());
         }
 
         //mac
         else if(e.keyCode == 67 && event.metaKey == true == true) {
-            copy(calculator.screen.get());
+            calculator.clipboard.copy(calculator.screen.get());
         }
 
         //windows
         else if(e.keyCode == 86 && event.ctrlKey == true && window.navigator.platform.toLowerCase().indexOf("mac") == -1) {
-            paste();
+            calculator.clipboard.paste();
         }
 
         //mac
         else if(e.keyCode == 86 && event.metaKey == true == true) {
-            paste();
+            calculator.clipboard.paste();
         }
 
         //enter

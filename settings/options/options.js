@@ -47,8 +47,9 @@ $(document).ready(function() {
         storage.resetAll()
     });
 
+    $("#guid > h3").text(localStorage.guid);
     $("h1").click(function() {
-        if(tenClick() == true){
+        if(tenClick() == true && event.shiftKey == true){
             if(localStorage.dev != "true"){
                 analyticsEvent("dev-center" , "clicked");
             }
@@ -58,8 +59,9 @@ $(document).ready(function() {
             setTimeout(function(){
                 $(".lightbox").click(function() {
                     $(".lightbox, .popup").hide();
+                    $(".lightbox").unbind("click");
                 });
-            }, 300);
+            }, 600);
         }
     });
 
@@ -112,6 +114,7 @@ function readFile(evt) {
     reader.onload = function() {
         if(theme.validate($.parseJSON(this.result))){
             theme.update($.parseJSON(this.result));
+            Alert("Success!", "theme updated")
         }
 
         else(Alert("Error!", "invalid theme"));

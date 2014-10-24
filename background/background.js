@@ -49,6 +49,10 @@ if(localStorage.notify == undefined){
     });
 }
 
+if(localStorage.guid == undefined){
+    localStorage.guid = guid();
+}
+
 function tutorial() {
     source = "../tutorial/tutorial.html";
     chrome.tabs.query({}, function(tabs) {
@@ -64,4 +68,11 @@ function tutorial() {
             });
         }
     });
+}
+
+function guid(){
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    };
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
