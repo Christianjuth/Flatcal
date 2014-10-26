@@ -43,7 +43,11 @@ var calculator = {
         if(options.max == undefined || options.max > 15) options.max = 15; //validate max screen size
 
         if(options.selector != undefined){
-            this.screen.selector = options.selector;
+            if(typeof options.selector !== "undefined"){
+                this.selector.radDeg = options.selector.radDeg;
+                this.screen.selector = options.selector.screen;
+            }
+
             this.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), options.max); //define number max legnth
             this.lastSecond = "0";
             this.first = "0";
@@ -58,6 +62,9 @@ var calculator = {
             console.error("bad or missing screen selector");
         }
     },
+
+    storage : {},
+    selector : {},
 
     numberClicked : function(lastButtonClicked){
         if(calculator.clear == true) calculator.screen.clear(); //calculator.screen.clears any previous values
@@ -330,26 +337,11 @@ var calculator = {
                 return Math.atan(x) * 180 / Math.PI;
             }
         },
-
-        //other functions
-        percentage : function(){
-            if(calculator.op== ""){
-                calculator.first = String(1 * (calculator.first * 0.01));
-                calculator.clear = true;
-                return calculator.first;
-            }
-
-            else{
-                calculator.second = String(calculator.first * (calculator.second * 0.01));
-                calculator.clear = true;
-                return calculator.second;
-            }
-        }
     },
 
     math : function(fun, x, y){
         var result = calculator["mathFunctions"][fun](x,y);
-        if(result != false) return calculator.screen.set(result);
+        if(result !== false) return calculator.screen.set(result);
         else calculator.screen.get();
     },
 
@@ -391,6 +383,32 @@ var calculator = {
             }
 
             return;
+        },
+
+        radDeg : function() {
+            if(calculator.selector.radDeg.text() == "rad"){
+                localStorage.radDeg = calculator.deg();
+            }
+
+            else if(calculator.selector.radDeg.text() == "deg"){
+                localStorage.radDeg = calculator.rad();
+            }
+
+            return;
+        },
+
+        percentage : function(){
+            if(calculator.op == ""){
+                calculator.first = String(1 * (calculator.first * 0.01));
+                calculator.clear = true;
+                return calculator.screen.set(calculator.first);
+            }
+
+            else{
+                calculator.second = String(calculator.first * (calculator.second * 0.01));
+                calculator.clear = true;
+                return calculator.screen.set(calculator.second);
+            }
         }
     },
 
@@ -498,7 +516,10 @@ var calculator = {
 
 $(document).ready(function() {
     calculator.ini({
-        selector : $("#input"),
+        selector : {
+            screen : $("#input"),
+            radDeg : $("#rad-deg")
+        },
         max : 15
     });
 });

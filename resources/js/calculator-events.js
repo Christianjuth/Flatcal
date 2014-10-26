@@ -6,13 +6,7 @@ $(document).ready(function() {
 
     //even listeners
     $("#rad-deg").mousedown(function () {
-        if($("#rad-deg").text() == "rad"){
-            localStorage.radDeg = calculator.deg();
-        }
-
-        else if($("#rad-deg").text() == "deg"){
-            localStorage.radDeg = calculator.rad();
-        }
+        calculator.event.radDeg();
     });
 
     $(".math").mousedown(function() {
@@ -36,6 +30,10 @@ $(document).ready(function() {
 
     $(".opp").mousedown(function() {
         calculator.operator($(this).attr("value"));
+    });
+
+    $(".event").mousedown(function() {
+        calculator.event[$(this).attr("fun")]();
     });
 
     //point

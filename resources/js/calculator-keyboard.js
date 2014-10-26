@@ -1,12 +1,35 @@
 $(document).ready(function() {
-    //keybord shortcuts----------------------------------->
     window.onkeydown = function(e) {
+
+        if(e.keyCode == 8){
+            setTimeout(function() {
+                if(calculator.op == ""){
+                    calculator.first = calculator.first.substring(0,calculator.first.length -1);
+                    calculator.screen.set(calculator.first);
+                }
+
+                else{
+                    calculator.second = calculator.second.substring(0,calculator.second.length -1);
+                    calculator.screen.set(calculator.second);
+                }
+
+                if(calculator.clear == true || $('#input').text().length == 0){
+                    calculator.screen.clear();
+                }
+
+                if(calculator.screen.get() == ""){
+                    calculator.screen.set(0);
+                }
+            }, 0)
+            return false
+        }
+
         //if a number key is prssed trigger buttonClicked function
-        if (e.keyCode >= 48 && e.keyCode <= 57 && event.shiftKey == false) {
+        else if (e.keyCode >= 48 && e.keyCode <= 57 && event.shiftKey == false) {
             calculator.numberClicked(e.keyCode - 48);
         }
 
-        if (e.keyCode >= 96 && e.keyCode <= 105 && event.shiftKey == false) {
+        else if (e.keyCode >= 96 && e.keyCode <= 105 && event.shiftKey == false) {
             calculator.numberClicked(e.keyCode - 96);
         }
 
@@ -39,27 +62,6 @@ $(document).ready(function() {
         //if divide is clicked trigger calculator.operator function with devide input
         else if(e.keyCode == 191 || e.keyCode == 111) {
             calculator.operator("divide");
-        }
-
-        //backspace
-        else if(e.keyCode == 8) {
-            if(calculator.op == ""){
-                calculator.first = calculator.first.substring(0,calculator.first.length -1);
-                calculator.screen.set(calculator.first);
-            }
-
-            else{
-                calculator.second = calculator.second.substring(0,calculator.second.length -1);
-                calculator.screen.set(calculator.second);
-            }
-
-            if(clear == true || $('#input').text().length == 0){
-                calculator.screen.clear();
-            }
-
-            if(calculator.screen.get() == ""){
-                calculator.screen.set(0);
-            }
         }
 
         else if((e.keyCode == 67 && event.ctrlKey == false && event.metaKey == false) || e.keyCode == 12) {

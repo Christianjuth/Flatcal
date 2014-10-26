@@ -1,4 +1,3 @@
-var enable = "";
 var customCalculatorTheme = jQuery.parseJSON(localStorage.customTheme);
 $(document).ready(function() {
     myLibrary('#theme-builder-container').center()
@@ -32,10 +31,11 @@ $(document).ready(function() {
     themebuilder.option.create("screen","json.input","colortextborderfont",true);
     themebuilder.option.create("buttons","json.button","colorhovertextsizefont",true);
     themebuilder.option.create("numbers","json.button.numbers","colorhovertext",false);
-    themebuilder.option.create("ce button","json.button.ce","colorhovertext",false);
-    themebuilder.option.create("+/- button","json.button.positiveNegative","colorhovertext",false);
     themebuilder.option.create("operators","json.button.operators","colorhovertext",false);
+    themebuilder.option.create("ce button","json.button.ce","colorhovertext",false);
     themebuilder.option.create("equal button","json.button.equal","colorhovertext",false);
+    themebuilder.option.create("+/- button","json.button.positiveNegative","colorhovertext",false);
+    themebuilder.option.create("percentage","json.button.percentage","colorhovertext",false);
     themebuilder.option.create("decmel button","json.button.point","colorhovertext",false);
 });
 
@@ -45,7 +45,6 @@ var themebuilder = {
             var parsedJSON = json.split(".");
             var themeElement = customCalculatorTheme;
             for(i = 0; i < parsedJSON.length - 1; i++){
-                console.log(typeof themeElement[parsedJSON[i+1]] !== "undefined");
                 if(typeof themeElement[parsedJSON[i+1]] !== "undefined"){
                     themeElement = themeElement[parsedJSON[i+1]];
                 }
@@ -56,7 +55,6 @@ var themebuilder = {
                 }
             }
 
-            console.log(themeElement);
             var selector = $('<section><h1>' + title + '</h1></section>').appendTo("#left-container");
 
             if(include.indexOf("color") != -1){

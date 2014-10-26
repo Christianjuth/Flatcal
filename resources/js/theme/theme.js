@@ -123,7 +123,7 @@ var theme = {
         goodTheme = goodTheme && validate(arguments[0].manifest, {
             version: {
                 numericality: {
-                    lessThanOrEqualTo: 1.1
+                    lessThanOrEqualTo: 2
                 }
             }
         }) == undefined;
