@@ -2,7 +2,7 @@
 @import url("../resources/css/button.min.css");
 
 body{
-    background-color: #eee;
+    background-color: #fff;
     min-height: 430px;
     min-width: 820px;
 
@@ -61,23 +61,21 @@ input:active{
 
 #theme-builder-container{
     width: 794px;
-    height: 365px;
+    height: 352px;
     display: inline-block;
 
     background-color: #fff;
     border-radius: 4px;
 
-    padding: 23;
     font-family: oswald;
 
-    box-shadow: rgba(0, 0, 0, .10) 0px 2px 1px, rgba(0, 0, 0, .10) 0px 0px 1px;
     -webkit-user-select: none;
     user-select: none;
 }
 
 #right-container{
     width: 314px;
-    height: 365px;
+    height: 100%;
 
     float: right;
     padding-left: 20px;
@@ -90,7 +88,7 @@ input:active{
 #left-container{
     border-width: 2px;
     width: 439px;
-    height: 351px;
+    height: 100%;
     display:inline-block;
     position: relative;
     float: left;
@@ -251,7 +249,6 @@ input:active{
 
 #margins{
     background-color: #fff;
-    border-radius: 5px;
     border: 1px solid #ddd;
 
     padding: 17px;

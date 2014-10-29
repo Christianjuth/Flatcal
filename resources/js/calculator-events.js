@@ -52,4 +52,19 @@ $(document).ready(function() {
     $("#equal").mousedown(function() {
         calculator.calculate(true); //true if for the clear function
     });
+
+    calculator.section = 1;
+    $(".2x").click(function() {
+        if(calculator.section == 1){
+            $("#scientific-1").hide();
+            $("#scientific-2").show();
+            calculator.section = 2;
+        }
+
+        else{
+            $("#scientific-2").hide();
+            $("#scientific-1").show();
+            calculator.section = 1;
+        }
+    });
 });

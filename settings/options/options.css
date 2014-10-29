@@ -34,7 +34,7 @@
 }
 
 body{
-    background-color: #eee;
+    background-color: #fff;
 
     overflow: auto;
 
@@ -275,7 +275,6 @@ aside{
 
     float: left;
     width: calc(100% + 40px);
-    /*    padding-top: 15px;*/
     margin-bottom: -23px;
 
     top: 0px;
@@ -296,8 +295,6 @@ aside > section{
     vertical-align: top;
     display: inline-block;
     width: calc(50% - 76px);
-
-    box-shadow: rgba(0, 0, 0, .10) 0px 2px 1px, rgba(0, 0, 0, .10) 0px 0px 1px;
 }
 
 aside > section > a  >button{
@@ -330,8 +327,6 @@ aside > section > div{
     width: 100%%;
     margin-top:10px;
 
-    /*    font-family: arial;*/
-    /*    font-weight: bold;*/
     color: #333;
     font-size: 13px;
 }
@@ -342,7 +337,7 @@ aside > section > div > *:not(:first-child){
 
 aside > section > div > p{
     font-weight: 300;
-
+    text-align: justify;
     padding: 0px;
     margin: 0px;
 }

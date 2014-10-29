@@ -3,6 +3,19 @@ var enable = "all";
 localStorage.tutorial = true;
 
 $(document).ready(function() {
+    calculator.ini({
+        storage : "localStorage",
+        selector : {
+            screen : "#input",
+            radDeg : "#rad-deg",
+            radDegInvert : "#rad-deg-invert"
+        },
+        options: {
+            log : true
+        },
+        max : 15
+    });
+
     myLibrary("#theme-builder-container").center();
     progressJs().start();
     $.getJSON(chrome.extension.getURL('resources/themes/themes-list.json'), function(options) {
@@ -43,6 +56,8 @@ $(document).ready(function() {
         theme.load($("#theme-selctor").val());
         return;
     });
+
+    scientific(true);
 });
 
 function tutorial() {
@@ -69,7 +84,6 @@ function tutorial() {
 
                     loadedTheme = themes[themeNumb - 1];
                     theme.load(loadedTheme);
-                    console.log(loadedTheme);
                 }
             }, i * 150);
         }
@@ -150,7 +164,7 @@ function scientific(toggle, callback) {
 
     if(toggle == true){
         $("#input-container").animate({"width":"390px", "padding-right":"11px"}, 300, "linear", function() {
-            $("#scientific-container").fadeIn(300);
+            $("#scientific-1, #input-container > .text").fadeIn(300);
             if(callback != undefined){
                 callback();
             }
@@ -160,7 +174,7 @@ function scientific(toggle, callback) {
 
         $("#margins").animate({"margin-left":"0px"}, 300, "linear");
     } else {
-        $("#scientific-container").fadeOut(200, function() {
+        $("#scientific-1, #input-container > .text").fadeOut(200, function() {
             $("#margins").animate({"margin-left":"108px"}, 300, "linear");
             $("#input-container").animate({"width":"187px", "padding-right":"8px"}, 300, "linear", function() {
                 if(callback != undefined){

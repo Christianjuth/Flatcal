@@ -31,7 +31,7 @@
 ----------------------------VARIABLES-----------------------------
 |                                                                |
 |  calculator.max             - max legnth calculator is allowed |
-|  calculator.screen.selector - selector for calculator screen   |
+|  calculator.selector.screen - selector for calculator screen   |
 |
 |
 |
@@ -40,22 +40,27 @@
 
 var calculator = {
     ini : function(options){
+        this.storage = window[options.storage];
         if(options.max == undefined || options.max > 15) options.max = 15; //validate max screen size
 
-        if(options.selector != undefined){
-            if(typeof options.selector !== "undefined"){
-                this.selector.radDeg = options.selector.radDeg;
-                this.screen.selector = options.selector.screen;
-            }
+        if(typeof options.selector !== undefined){
+            $.each(options.selector, function(key, data){
+                calculator.selector[key] = $(data);
+            });
 
-            this.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), options.max); //define number max legnth
+            $.each(options.options, function(key, data){
+                calculator.options[key] = data;
+            });
+
+            this.options.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), options.max); //define number max legnth
             this.lastSecond = "0";
             this.first = "0";
             this.second = "";
             this.op = "";
-            if(localStorage.radDeg == "rad") this.rad();
+            if(calculator.storage.radDeg == "rad") this.rad();
             else this.deg();
             this.screen.clear();
+            if(calculator.storage.m != "0") $("#m-status").text("m");
         }
 
         else{
@@ -63,22 +68,22 @@ var calculator = {
         }
     },
 
-    storage : {},
     selector : {},
+    options : {},
 
     numberClicked : function(lastButtonClicked){
         if(calculator.clear == true) calculator.screen.clear(); //calculator.screen.clears any previous values
-        var validate = calculator.screen.get() == "0" && lastButtonClicked == 0 && calculator.screen.selector.text().indexOf(".") == -1;
+        var validate = calculator.screen.get() == "0" && lastButtonClicked == 0 && calculator.selector.screen.text().indexOf(".") == -1;
 
         if(calculator.op== "" && validate != true){
-            if(calculator.first.replace(/-/g,"").replace(/\./g,"").length < calculator.maxLength){
+            if(calculator.first.replace(/-/g,"").replace(/\./g,"").length < calculator.options.maxLength){
                 if(this.first.indexOf(".") != -1) this.first = String(parseInt(this.first.split(".")[0]) + "." + this.first.split(".")[1] + lastButtonClicked);
                 else this.first = String(parseInt(this.first + '' + lastButtonClicked));
                 this.screen.set(this.first, false);
             }
         }
         else if(validate != true){
-            if(calculator.second.replace(/-/g,"").replace(/\./g,"").length < calculator.maxLength){
+            if(calculator.second.replace(/-/g,"").replace(/\./g,"").length < calculator.options.maxLength){
                 if(this.second.length == 0) this.second = String(lastButtonClicked);
                 else if(this.second.indexOf(".") != -1) this.second = String(parseInt(this.second.split(".")[0]) + "." + this.second.split(".")[1] + lastButtonClicked);
                 else this.second = String(parseInt(this.second + '' + lastButtonClicked));
@@ -96,26 +101,26 @@ var calculator = {
             if(number.indexOf(".") != -1 && number != "-0") number = String(parseInt(number.split(".")[0]) + "." + number.split(".")[1]);
             else if(number != "-0") number = String(parseInt(number));
             var valid = (number != "" && number != undefined && number != "undefined"); //validate number
-            if(number == "NaN"|| number.split(".")[0].replace(/-/,"").length > calculator.maxLength || !valid){
+            if(number == "NaN"|| number.split(".")[0].replace(/-/,"").length > calculator.options.maxLength || !valid){
                 calculator.screen.clear();
-                calculator.screen.selector.text("ERROR");
+                calculator.selector.screen.text("ERROR");
                 console.error("ERROR");
                 return false;
             }
 
-            if(number.replace(/-/,"").length <= calculator.maxLength && valid){
-                calculator.screen.selector.text(calculator.parse.commas(number));
+            if(number.replace(/-/,"").length <= calculator.options.maxLength && valid){
+                calculator.selector.screen.text(calculator.parse.commas(number));
             }
 
-            else if(number.split(".")[0].replace(/-/,"").length < calculator.maxLength && valid){
-                calculator.screen.selector.text(calculator.parse.commas(math.round(parseFloat(number), calculator.maxLength - number.split(".")[0].length)));
+            else if(number.split(".")[0].replace(/-/,"").length < calculator.options.maxLength && valid){
+                calculator.selector.screen.text(calculator.parse.commas(math.round(parseFloat(number), calculator.options.maxLength - number.split(".")[0].length)));
             }
 
-            return calculator.screen.selector.text().replace(/,/g,"");
+            return calculator.selector.screen.text().replace(/,/g,"");
         },
 
         get: function(){
-            return calculator.screen.selector.text().replace(/,/g,"");
+            return calculator.selector.screen.text().replace(/,/g,"");
         },
 
         length: function(){
@@ -127,7 +132,7 @@ var calculator = {
             calculator.clear= false;
             calculator.first = "0";
             calculator.second = "";
-            this.selector.text("");
+            calculator.selector.screen.text("");
             calculator.animate.op();
             calculator.op= "";
             overall = "";
@@ -188,7 +193,7 @@ var calculator = {
                 overall = this.math.nthroot(parseFloat(calculator.first), parseFloat(calculator.second));
             }
 
-            calculator.screen.selector.text("");
+            calculator.selector.screen.text("");
             setTimeout(calculator.screen.set, 100, overall);
             this.animate.op();
             calculator.first = String(overall);
@@ -229,7 +234,7 @@ var calculator = {
                 overall = this.math.nthroot(parseFloat(calculator.first), parseFloat(calculator.lastSecond));
             }
 
-            calculator.screen.selector.text("");
+            calculator.selector.screen.text("");
             setTimeout(calculator.screen.set, 100, overall);
             this.animate.op();
             calculator.first = String(overall);
@@ -247,15 +252,7 @@ var calculator = {
     mathFunctions:{
         //static functions
         pi : function(){
-            if(calculator.op== ""){
-                calculator.first = String(Math.PI);
-                return  calculator.first;
-            }
-
-            else{
-                calculator.second = String(Math.PI);
-                return Math.PI;
-            }
+            return String(Math.PI);
         },
 
         e : function() {
@@ -264,8 +261,7 @@ var calculator = {
 
         //basic functions
         pow : function(x,y) {
-            calculator.first = String(Math.pow(x,y));
-            return calculator.first;
+            return pow(x, y);
         },
 
         nthroot : function(x, n) {
@@ -280,68 +276,74 @@ var calculator = {
             } catch(e){}
         },
 
-        //trig functions
-        sin : function(x) {
-            return math.sin(parseFloat(x));
-        },
-
-        log : function(x) {
-            return math.log10(parseFloat(x));
-        },
-
-        cos : function(x) {
-            if(localStorage.radDeg == "rad") return Math.cos(x);
-            else return Math.cos( x * Math.PI / 180 ).toFixed(15).replace(/\.?0+$/, "");
-        },
-
-        tan : function(x) {
-            if(localStorage.radDeg == "rad"){
-                return Math.tan(x);
-            }
-
-            else{
-                return Math.tan( x * Math.PI / 180 ).toFixed(15).replace(/\.?0+$/, "");
-            }
-        },
-
-        asin : function(x) {
-            if(localStorage.radDeg == "rad"){
-                return Math.asin(x);
-            }
-
-            else{
-                return Math.asin(x) * 180 / Math.PI;
-            }
-        },
 
         in : function(x) {
             return Math.log(x);
         },
 
-        acos : function(x) {
-            if(localStorage.radDeg == "rad"){
-                return Math.acos(x);
-            }
+        log : function(x, y) {
+            return math.log(parseFloat(x),y);
+        },
 
-            else{
-                return Math.acos(x) * 180 / Math.PI;
-            }
+        //trig functions
+        sin : function(x) {
+            return math.sin(math.unit(x, calculator.storage.radDeg));
+        },
+
+        cos : function(x) {
+            return math.cos(math.unit(x, calculator.storage.radDeg));
+        },
+
+        tan : function(x) {
+            return math.tan(math.unit(x, calculator.storage.radDeg));
+        },
+
+        sinh : function(x) {
+            return math.sinh(math.unit(x, calculator.storage.radDeg));
+        },
+
+        cosh : function(x) {
+            return math.cosh(math.unit(x, calculator.storage.radDeg));
+        },
+
+        tanh : function(x) {
+            return math.tanh(math.unit(x, calculator.storage.radDeg));
+        },
+
+        asin : function(x) {
+            if(calculator.storage.radDeg == "rad") return math.asin(x);
+            else return math.asin(x) * (180 / Math.PI);
+        },
+
+        acos : function(x) {
+            if(calculator.storage.radDeg == "rad") return math.acos(x);
+            else return math.acos(x) * (180 / Math.PI);
         },
 
         atan : function(x) {
-            if(localStorage.radDeg == "rad"){
-                return Math.atan(x);
-            }
+            if(calculator.storage.radDeg == "rad") return math.atan(x);
+            else return math.atan(x) * (180 / Math.PI);
+        },
 
-            else{
-                return Math.atan(x) * 180 / Math.PI;
-            }
+        asinh : function(x) {
+            return Math.asinh(x);
+        },
+
+        acosh : function(x) {
+            return Math.acosh(x);
+        },
+
+        atanh : function(x) {
+            return Math.atanh(x);
         },
     },
 
     math : function(fun, x, y){
-        var result = calculator["mathFunctions"][fun](x,y);
-        if(result !== false) return calculator.screen.set(result);
+        var result = calculator["mathFunctions"][fun](parseFloat(x),parseFloat(y));
+        if(result !== false){
+            if(calculator.op == "") return calculator.first = calculator.screen.set(result);
+            else return calculator.second = calculator.screen.set(result);
+        }
         else calculator.screen.get();
     },
 
@@ -387,11 +389,11 @@ var calculator = {
 
         radDeg : function() {
             if(calculator.selector.radDeg.text() == "rad"){
-                localStorage.radDeg = calculator.deg();
+                calculator.storage.radDeg = calculator.deg();
             }
 
             else if(calculator.selector.radDeg.text() == "deg"){
-                localStorage.radDeg = calculator.rad();
+                calculator.storage.radDeg = calculator.rad();
             }
 
             return;
@@ -415,33 +417,36 @@ var calculator = {
     //memory functions
     m : {
         recall : function() {
-            if(parseFloat(localStorage.m) != 0){
+            if(parseFloat(calculator.storage.m) != 0){
                 if(calculator.op== ""){
-                    calculator.first = localStorage.m;
+                    calculator.first = calculator.storage.m;
                     calculator.screen.set(calculator.first);
                 }
 
                 else{
-                    calculator.second = localStorage.m;
+                    calculator.second = calculator.storage.m;
                     calculator.screen.set(calculator.second);
                 }
             }
-            return false;
+            return calculator.storage.m;
         },
 
         clear : function(){
-            localStorage.m = 0;
-            return false;
+            calculator.storage.m = 0;
+            $("#m-status").text("");
+            return calculator.storage.m;
         },
 
         minus : function() {
-            localStorage.m = parseFloat(localStorage.m) - parseFloat(calculator.screen.get());
-            return false;
+            calculator.storage.m = parseFloat(calculator.storage.m) - parseFloat(calculator.screen.get());
+            if(calculator.storage.m != "0") $("#m-status").text("m");
+            return calculator.storage.m;
         },
 
         plus : function() {
-            localStorage.m = parseFloat(localStorage.m) + parseFloat(calculator.screen.get());
-            return false;
+            calculator.storage.m = parseFloat(calculator.storage.m) + parseFloat(calculator.screen.get());
+            if(calculator.storage.m != "0") $("#m-status").text("m");
+            return calculator.storage.m;
         }
     },
 
@@ -480,6 +485,7 @@ var calculator = {
             copyFrom.select();
             document.execCommand('copy');
             copyFrom.remove();
+            return text;
         },
 
         paste : function() {
@@ -495,7 +501,7 @@ var calculator = {
             }
 
             else{
-                calculator.screen.selector.text("ERROR");
+                calculator.selector.screen.text("ERROR");
                 calculator.screen.clear();
             }
             pasteTo.remove();
@@ -504,21 +510,28 @@ var calculator = {
     },
 
     rad : function() {
-        $("#rad-deg").text("rad");
+        this.selector.radDeg.text("rad");
+        if(typeof this.selector.radDegInvert !== "undefined") this.selector.radDegInvert.text("deg");
         return "rad";
     },
 
     deg : function() {
-        $("#rad-deg").text("deg");
+        this.selector.radDeg.text("deg");
+        if(typeof this.selector.radDegInvert !== "undefined") this.selector.radDegInvert.text("rad");
         return "deg";
     }
 }
 
 $(document).ready(function() {
     calculator.ini({
+        storage : "localStorage",
         selector : {
-            screen : $("#input"),
-            radDeg : $("#rad-deg")
+            screen : "#input",
+            radDeg : "#rad-deg",
+            radDegInvert : "#rad-deg-invert"
+        },
+        options: {
+            log : true
         },
         max : 15
     });

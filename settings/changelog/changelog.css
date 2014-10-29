@@ -2,25 +2,19 @@
 @import url("../../resources/css/button.min.css");
 
 body{
-    background-color: #eee;
+    background-color: #fff;
 }
 
 #table-container{
     position: relative;
     width: 800px;
-    max-height: calc(100% - 146px);
-    margin: 50 auto 50 auto;
-
+    margin: 0 auto 0 auto;
     border-radius: 4px;
 
-    padding: 23;
+    padding-top: 100px;
     background-color: #fff;
 
-    margin-bottom: 20px;
     position:relative;
-
-    box-shadow: rgba(0, 0, 0, .10) 0px 2px 1px, rgba(0, 0, 0, .10) 0px 0px 1px;
-    overflow: auto;
 }
 
 table,th,td

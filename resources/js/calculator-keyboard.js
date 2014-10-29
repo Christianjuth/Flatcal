@@ -1,8 +1,7 @@
 $(document).ready(function() {
     window.onkeydown = function(e) {
-
         if(e.keyCode == 8){
-            setTimeout(function() {
+            setTimeout(function() { //run async
                 if(calculator.op == ""){
                     calculator.first = calculator.first.substring(0,calculator.first.length -1);
                     calculator.screen.set(calculator.first);
@@ -21,7 +20,7 @@ $(document).ready(function() {
                     calculator.screen.set(0);
                 }
             }, 0)
-            return false
+            return false; //dissable keyboard history back THIS IS A HACK
         }
 
         //if a number key is prssed trigger buttonClicked function

@@ -315,12 +315,15 @@ function injectCSS(json) {
     //body
     theme.inject.color("#margins", arguments[0].body.color, "#fff");
 
+    if(arguments[0].body.color == "fff" || arguments[0].body.color == "#ffffff") theme.inject.borderColor("#margins", "#eee");
+    else theme.inject.borderColor("#margins", arguments[0].body.color, "#eee");
+
     //input
     if(typeof arguments[0].input !== "undefined"){
         theme.inject.color("#input-container", arguments[0].input.color, "#eee");
         theme.inject.color("#input-border", arguments[0].input.outlineColor, arguments[0].body.color);
         theme.inject.borderColor("#input-container", arguments[0].input.borderColor, arguments[0].body.color);
-        theme.inject.textColor("#input-container", arguments[0].input.textColor, "#000");
+        theme.inject.textColor("#input-container, #input-container > div > span", arguments[0].input.textColor, "#000");
         theme.inject.font("#input-container", arguments[0].input.font, "arial");
     }
 
