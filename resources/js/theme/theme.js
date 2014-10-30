@@ -326,7 +326,6 @@ function injectCSS(json) {
         theme.inject.color("#input-border", arguments[0].input.outlineColor, arguments[0].body.color);
         theme.inject.borderColor("#input-container", arguments[0].input.borderColor, arguments[0].body.color);
         theme.inject.textColor("#input-container, #input-container > div > span", arguments[0].input.textColor, "#000");
-        theme.inject.font("#input-container", arguments[0].input.font, "arial");
     }
 
     //buttons
@@ -335,7 +334,6 @@ function injectCSS(json) {
         theme.inject.hoverColor(".button", arguments[0].button.hoverColor);
         theme.inject.outlineColor(".button", arguments[0].body.color, "#eee");
         theme.inject.textColor(".button", arguments[0].button.textColor, "#000");
-        theme.inject.font(".button", arguments[0].button.font, "arial");
         theme.inject.borderWidth(".button", arguments[0].button.borderWidth, 1);
 
         //numbers

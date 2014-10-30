@@ -45,7 +45,7 @@ body > input{
 #margins{
     display: inline-block;
     position: relative;
-    font-family: arial;
+    font-family: dosis;
     overflow: hidden;
 }
 
@@ -59,6 +59,7 @@ body > input{
     height: 36px;
     width: 390px;
 
+    letter-spacing: 1px;
     text-align: right;
     padding-right: 11px;
     padding-top: 6px;
@@ -77,6 +78,7 @@ body > input{
 #input-container > span{
     width: 100%;
     overflow: auto;
+    line-height: 30px;
     font-size: 29px;
 }
 
@@ -92,6 +94,7 @@ body > input{
     height: 16px;
     display: inline-block;
     color: #fff;
+    line-height: 15px;
     font-size: 13px;
     text-align: left;
     opacity: 0.9;
@@ -133,6 +136,7 @@ body > input{
     border-radius: 0px;
 
     font-size: 15px;
+    font-weight: 200;
     color: #000;
     text-align: center;
     overflow: hidden;
@@ -153,6 +157,7 @@ body > input{
 }
 
 .number{
+    line-height: 19px;
     font-weight: 300;
     font-size: 20px;
 }
