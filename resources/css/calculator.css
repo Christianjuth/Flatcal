@@ -98,9 +98,7 @@ body > input{
     cursor: pointer;
 }
 
-section{
-    border-top: 1px solid rgba(255, 255, 255, 0);
-    border-right: 1px solid rgba(255, 255, 255, 0);
+#margins > section{
     z-index: 2000;
     margin-top: 16px;
     position: relative;
@@ -109,11 +107,11 @@ section{
     font-size: 0px;
 }
 
-section.left{
+#margins > section.left{
     float: left;
 }
 
-section.right{
+#margins > section.right{
     float: right;
 }
 
@@ -122,6 +120,7 @@ section.right{
     height: 29px;
     padding-top: 12px;
     margin:0px;
+    z-index: 2100;
 
     display: inline-block;
     cursor: pointer;
@@ -151,6 +150,11 @@ section.right{
 
 .button:hover{
     background-color: #ddd;
+}
+
+.number{
+    font-weight: 300;
+    font-size: 20px;
 }
 
 #point{

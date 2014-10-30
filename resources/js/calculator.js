@@ -349,9 +349,7 @@ var calculator = {
 
     event : {
         addDecimal : function() {
-            if(calculator.clear == true){
-                calculator.screen.clear();
-            }
+            if(calculator.clear == true) calculator.screen.clear();
 
             if(calculator.screen.get().indexOf(".") == -1){
                 if(calculator.op== ""){

@@ -23,7 +23,7 @@
         <script type="text/javascript" src="resources/js/calculator-keyboard.js"></script>
         <script type="text/javascript" src="resources/js/calculator-events.js"></script>
     </head>
-    <body>
+    <body class="calculator-background">
         <div id="calculator-container">
             <div id="margins">
                 <div id="input-border"></div>
@@ -160,7 +160,7 @@
 
                     <div id="bottomRow">
                         <div id="zero" class="button long number" value="0">0</div>
-                        <div id="point" class="button">.</div>
+                        <div id="point" class="button event" fun="addDecimal">.</div>
                         <div class="button right" id="equal">=</div>
                     </div>
                 </section>

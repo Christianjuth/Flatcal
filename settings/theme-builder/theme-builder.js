@@ -8,17 +8,20 @@ $(document).ready(function() {
     });
 
     if(localStorage.scientific == "false"){
-        $("#scientific-container").remove();
+        $("#scientific-1").remove();
+        $("#scientific-2").remove();
         $("#number-container").css({"display":"inline-block"});
-        $("#input-text").remove();
-        $("#input-container").css({"width":"183px"});
-        $("#margins").css({"margin-left":"-118px"});
-        $("#margins").css({"padding":"20px"});
+        $("#input-container").css({"width":"184px"});
+        $("#input").css({"width":"100%"});
+        $("#input-container > .text").hide();
+        $("#margins").css({"padding":"16px"});
     }
 
     else{
-        $("#scientific-container").css({"display":"inline-block"});
+        $("#input-container").css({"width":"390px"});
+        $("#scientific-1").css({"display":"inline-block"});
         $("#number-container").css({"display":"inline-block"});
+        $("#margins").css({"padding":"16px"});
     }
 
     $("#left-container").scroll(function() {
@@ -28,8 +31,8 @@ $(document).ready(function() {
     themebuilder.option.create("name","json.manifest","name",true);
     themebuilder.option.create("body","json.body","color",true);
     themebuilder.option.create("screen-border","json.input","outline",false);
-    themebuilder.option.create("screen","json.input","colortextborderfont",true);
-    themebuilder.option.create("buttons","json.button","colorhovertextsizefont",true);
+    themebuilder.option.create("screen","json.input","colortextborder",true);
+    themebuilder.option.create("buttons","json.button","colorhovertextsize",true);
     themebuilder.option.create("numbers","json.button.numbers","colorhovertext",false);
     themebuilder.option.create("operators","json.button.operators","colorhovertext",false);
     themebuilder.option.create("ce button","json.button.ce","colorhovertext",false);
@@ -37,6 +40,21 @@ $(document).ready(function() {
     themebuilder.option.create("+/- button","json.button.positiveNegative","colorhovertext",false);
     themebuilder.option.create("percentage","json.button.percentage","colorhovertext",false);
     themebuilder.option.create("decmel button","json.button.point","colorhovertext",false);
+
+    section = 1;
+    $(".2x").click(function() {
+        if(section == 1){
+            $("#scientific-1").hide();
+            $("#scientific-2").show();
+            section = 2;
+        }
+
+        else{
+            $("#scientific-2").hide();
+            $("#scientific-1").show();
+            section = 1;
+        }
+    });
 });
 
 var themebuilder = {

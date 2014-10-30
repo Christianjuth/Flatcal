@@ -255,12 +255,14 @@ var theme = {
         },
 
         borderWidth : function(selector, value, fallback) {
+            value = parseFloat(value);
+            fallback = parseFloat(fallback);
             if(value != undefined){
-                $(selector).css({"outline-offset": (parseInt(value) - 1) * -1, "outline-width": value});
+                $(selector).css({"outline-offset": String(((value - 1) * -1) * 1) + "px", "outline-width": String(value * 1) + "px"});
             }
 
             else{
-                $(selector).css({"outline-offset": (parseInt(fallback) - 1) * -1, "outline-width": fallback});
+                $(selector).css({"outline-offset": String(((fallback - 1) * -1) * 1) + "px", "outline-width": String(fallback * 1) + "px"});
             }
         }
     }
@@ -313,7 +315,7 @@ function injectCSS(json) {
     calculatorTheme = json;
 
     //body
-    theme.inject.color("#margins", arguments[0].body.color, "#fff");
+    theme.inject.color("#margins, .calculator-background", arguments[0].body.color, "#fff");
 
     if(arguments[0].body.color == "fff" || arguments[0].body.color == "#ffffff") theme.inject.borderColor("#margins", "#eee");
     else theme.inject.borderColor("#margins", arguments[0].body.color, "#eee");
