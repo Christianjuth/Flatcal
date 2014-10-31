@@ -1,21 +1,21 @@
-chrome.windows.getCurrent(function(x){
-    if(x.type == "normal" && localStorage.type == "popout"){
-        chrome.windows.create({
-            url:chrome.extension.getURL('index.html'),
-            type:"popup",
-            focused:true,
-            width:441,
-            height:298
-        });
-        window.close();
-    };
-
-    else{
-        chrome.browserAction.onClicked.addListener(function(tab) {
-            window.close();
-        });
-    }
-});
+//chrome.windows.getCurrent(function(x){
+//    if(x.type == "normal" && localStorage.type == "popout"){
+//        chrome.windows.create({
+//            url:chrome.extension.getURL('index.html'),
+//            type:"popup",
+//            focused:true,
+//            width:441,
+//            height:298
+//        });
+//        window.close();
+//    };
+//
+//    else{
+//        chrome.browserAction.onClicked.addListener(function(tab) {
+//            window.close();
+//        });
+//    }
+//});
 
 if(localStorage.type == "screen-only"){
     $("html,body").css({"width":204, "height":54});
