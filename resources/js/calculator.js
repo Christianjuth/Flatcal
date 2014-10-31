@@ -261,7 +261,7 @@ var calculator = {
 
         //basic functions
         pow : function(x,y) {
-            return pow(x, y);
+            return math.pow(x, y);
         },
 
         nthroot : function(x, n) {

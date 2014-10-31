@@ -1,47 +1,7 @@
 @import url("../../resources/css/reset.min.css");
 @import url("../../resources/css/button.min.css");
 
-body{
-    background-color: #fff;
-}
-
-#table-container{
-    position: relative;
-    width: 800px;
-    margin: 0 auto 0 auto;
-    border-radius: 4px;
-
-    padding-top: 100px;
-    background-color: #fff;
-
-    position:relative;
-}
-
-table,th,td
-{
-    border: none;
-    border-collapse:collapse;
-}
-
-table{
-    width: 100%;
-    font-weight: 300;
-}
-
-.header{
-    font-weight: normal !important;
-}
-
-td{
-    padding: 5px;
-}
-
-/*mobile--------------------------->*/
-@media only screen and (min-width:0px) and (max-width: 900px) {
-    #table-container{
-        margin : 20px;
-        margin-top: 25px;
-        width: calc( 100% - 90px);
-        max-height: calc(100% - 91px);
-    }
+table > tr > td:last-child,
+tbody > tr > td:last-child{
+    text-align: right !important;
 }

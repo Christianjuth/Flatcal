@@ -1,5 +1,32 @@
 @import url("fonts.min.css");
 
+.qtip,
+.qtip-default  {
+    font-family: arial !important;
+}
+
+.lightbox{
+    display: none;
+    height: 100%;
+    width: 100%;
+    background-color: #000;
+    opacity: 0.8;
+    position: fixed;
+    z-index: 10000;
+}
+
+.popup{
+    display: none;
+    min-height: 200px;
+    width: 250px;
+
+    border-radius: 4px;
+    padding: 15;
+    background-color: #fff;
+    z-index: 10001;
+    position: fixed !important;
+}
+
 html,
 body{
     font-size: 0px;
@@ -44,6 +71,17 @@ input{
     font-family: inherit;
     font-weight: 300;
     font-size: 13px;
+}
+
+
+#page{
+    width: 60%;
+    margin: 55px 20% 55px 20%;
+    display: inline-block;
+}
+
+#content{
+    width: 100%;
 }
 
 h1,
@@ -98,4 +136,61 @@ section{
 input[type="button"],
 input[type="image"]{
     outline: none !important;
+}
+
+.center{
+    margin: 0 auto;
+    text-align:center;
+    width:100px;
+}
+
+.breaker{
+    position:relative;
+    z-index: 5;
+    border-top:1px solid #bbb;
+    width:100%;
+    margin:15px;
+    margin-right:auto;
+    margin-left:auto;
+    clear:both;
+}
+
+
+@media only screen and (min-width:0px) and (max-width: 900px) {
+    #page{
+        margin: 23px 23px 75px 23px;
+        width: calc(100% - 46px);
+    }
+
+    #content{
+        width: 100%;
+        border: none;
+        padding-right: 0px;
+    }
+}
+
+table,
+th,
+td{
+    border-collapse:collapse;
+}
+
+table{
+    width: 100%;
+    font-weight: 300;
+}
+
+table > tr:first-child,
+tbody > tr:first-child{
+    font-weight: normal !important;
+}
+
+table > tr,
+tbody > tr{
+    font-size: 14px;
+}
+
+table > tr > td,
+tbody > tr > td{
+    padding: 3px;
 }

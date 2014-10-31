@@ -7,9 +7,8 @@ if(typeof localStorage.customTheme === "undefined"){
         localStorage.customTheme = JSON.stringify(theme);
     });
 }
+if(typeof localStorage.type === "undefined") localStorage.type = "scientific";
 if(typeof localStorage.theme === "undefined") localStorage.theme = "google";
-if(typeof localStorage.scientific === "undefined") localStorage.scientific = "true";
-if(typeof localStorage.screenOnly === "undefined") localStorage.screenOnly = "false";
 if(typeof localStorage.radDeg === "undefined") localStorage.radDeg = "deg";
 if(typeof localStorage.m === "undefined") localStorage.m = "0";
 if(typeof localStorage.dev === "undefined") localStorage.dev = "false";

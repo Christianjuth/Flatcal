@@ -7,22 +7,10 @@ $(document).ready(function() {
         theme.save(localStorage.customTheme);
     });
 
-    if(localStorage.scientific == "false"){
-        $("#scientific-1").remove();
-        $("#scientific-2").remove();
-        $("#number-container").css({"display":"inline-block"});
-        $("#input-container").css({"width":"184px"});
-        $("#input").css({"width":"100%"});
-        $("#input-container > .text").hide();
-        $("#margins").css({"padding":"16px"});
-    }
-
-    else{
-        $("#input-container").css({"width":"390px"});
-        $("#scientific-1").css({"display":"inline-block"});
-        $("#number-container").css({"display":"inline-block"});
-        $("#margins").css({"padding":"16px"});
-    }
+    $("#input-container").css({"width":"390px"});
+    $("#scientific-1").css({"display":"inline-block"});
+    $("#number-container").css({"display":"inline-block"});
+    $("#margins").css({"padding":"16px"});
 
     $("#left-container").scroll(function() {
         $("*").spectrum("hide");
@@ -39,7 +27,7 @@ $(document).ready(function() {
     themebuilder.option.create("equal button","json.button.equal","colorhovertext",false);
     themebuilder.option.create("+/- button","json.button.positiveNegative","colorhovertext",false);
     themebuilder.option.create("percentage","json.button.percentage","colorhovertext",false);
-    themebuilder.option.create("decmel button","json.button.point","colorhovertext",false);
+    themebuilder.option.create("decimal button","json.button.point","colorhovertext",false);
 
     section = 1;
     $(".2x").click(function() {
@@ -175,7 +163,7 @@ var themebuilder = {
             }
 
             if(include.indexOf("font") != -1){
-                $(this.font()).appendTo(selector).find(".selctor").val(themeElement.font).change(function() {
+                $(this.font()).appendTo(selector).find(".selector").val(themeElement.font).change(function() {
                     themebuilder.updateTheme(json, "font", $(this).val());
                     theme.set(customCalculatorTheme);
                 }).chosen({disable_search_threshold: 10});
@@ -217,10 +205,10 @@ var themebuilder = {
         },
 
         font : function() {
-            var selector = $('<div><h3>font</h3><select class="selctor"></select></div>');
+            var selector = $('<div><h3>font</h3><select class="selector"></select></div>');
             var fonts = ["arial","digital","helvetica","san-serif"];
             for(i = 0; i < fonts.length; i++){
-                selector.find(".selctor").append('<option value="' + fonts[i] + '">' + fonts[i] + '</option>');
+                selector.find(".selector").append('<option value="' + fonts[i] + '">' + fonts[i] + '</option>');
             }
             return selector;
         }

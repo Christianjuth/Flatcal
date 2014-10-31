@@ -5,6 +5,10 @@ var theme = {
 
     load : function(json){
         if(typeof json === "string") json = this.get(json);
+        if(json == false){
+            localStorage.theme = "google";
+            json = this.get("google");
+        }
         if(this.validate(json)){
             injectCSS(json);
         }

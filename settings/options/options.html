@@ -16,8 +16,8 @@
         <script type="text/javascript" src="../../background/background.min.js"></script>
 
         <!--load files css and js files-->
-        <link rel="stylesheet" media="screen, print, handheld" type="text/css" href="options.css">
-        <script type="text/javascript" src="options.js"></script>
+        <link rel="stylesheet" media="screen, print, handheld" type="text/css" href="options.min.css">
+        <script type="text/javascript" src="options.min.js"></script>
 
         <!--load plugins-->
         <script type="text/javascript" src="../../resources/plugins/FileSaver.js-master/FileSaver.min.js"></script><!--Filesaver-->
@@ -41,19 +41,14 @@
                         <h1>Settings</h1>
                     </header>
 
-                    <div id="scientific">
-                        <h2>Scientific Calculator</h2>
-                        <input type="checkbox"/>
-                    </div>
-
-                    <div id="screen-only">
-                        <h2>Screen Only</h2>
-                        <input type="checkbox"/>
-                    </div>
-
-                    <div id="only-important-notify">
-                        <h2>Limit Notifications to Important</h2>
-                        <input type="checkbox"/>
+                    <div id="calculator-type-option">
+                        <h2>Calculator type</h2>
+                        <select id="calculator-type">
+                            <option class="theme-selctor-option" value="normal">normal</option>
+                            <option class="theme-selctor-option" value="scientific">scientific</option>
+                            <option class="theme-selctor-option" value="screen-only">screen only</option>
+<!--                            <option class="theme-selctor-option" value="popout">popout</option>-->
+                        </select>
                     </div>
 
                     <div id="theme-selector-setting-container">
@@ -62,12 +57,16 @@
                             <option class="theme-selctor-option" value="custom">custom</option>
                         </select>
                     </div>
+
+                    <div id="only-important-notify">
+                        <h2>Limit Notifications to Important</h2>
+                        <input type="checkbox"/>
+                    </div>
                 </section>
 
                 <section id="custom-themes">
                     <header>
                         <h1>Custom Theming</h1>
-                        <h2>- beta feature</h2>
                     </header>
 
                     <div id="theme-designer-link">
@@ -188,7 +187,7 @@
             <h3></h3>
         </div>
         <div id="dissable-analytics">
-            <h2>Dissable analytics</h2>
+            <h2>Disable analytics</h2>
             <input type="checkbox"/>
         </div>
         <div id="dissable-notify-delay">

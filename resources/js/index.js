@@ -1,8 +1,27 @@
-if(localStorage.screenOnly == "true"){
+chrome.windows.getCurrent(function(x){
+    if(x.type == "normal" && localStorage.type == "popout"){
+        chrome.windows.create({
+            url:chrome.extension.getURL('index.html'),
+            type:"popup",
+            focused:true,
+            width:441,
+            height:298
+        });
+        window.close();
+    };
+
+    else{
+        chrome.browserAction.onClicked.addListener(function(tab) {
+            window.close();
+        });
+    }
+});
+
+if(localStorage.type == "screen-only"){
     $("html,body").css({"width":204, "height":54});
 }
 
-else if(localStorage.scientific == "false"){
+else if(localStorage.type == "normal"){
     $("html,body").css({"width":229, "height":298});
 }
 
@@ -18,7 +37,7 @@ $(document).ready(function() {
         }
     }
 
-    if(localStorage.screenOnly == "true"){
+    if(localStorage.type == "screen-only"){
         $("#input-container").css({"width":"184px", "padding-right":"8px"});
         $("#input").css({"width":"100%"});
         $(".input-text").hide();
@@ -29,7 +48,7 @@ $(document).ready(function() {
         $("#margins").css({"padding":"5px"});
     }
 
-    else if(localStorage.scientific == "false"){
+    else if(localStorage.type == "normal"){
         $("#scientific-1").remove();
         $("#scientific-2").remove();
         $("#number-container").css({"display":"inline-block"});

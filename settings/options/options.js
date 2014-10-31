@@ -25,14 +25,17 @@ $(document).ready(function() {
         progressJs().end();
     });
 
-    option.defineCheck('#scientific', 'scientific', true);
     option.defineCheck('#dissable-notify-delay', 'noNotifyDelay', true);
     option.defineCheck('#only-important-notify', 'limitNotifications', true);
 
-    option.defineCheck('#screen-only', 'screenOnly', true, function(){
-        option.dissableCheck('#scientific');
-    }, function() {
-        option.enableCheck('#scientific');
+    option.defineSelect("#calculator-type", "type", true, function(){
+        if(localStorage.theme == "custom"){
+            customTheme(true);
+        }
+
+        else{
+            customTheme(false);
+        }
     });
 
     document.getElementById('theme-file-upload').addEventListener('change', readFile, false);

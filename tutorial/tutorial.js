@@ -37,27 +37,61 @@ $(document).ready(function() {
 
     tutorial();
 
-    $('input[type=checkbox]').iCheck({
-        checkboxClass: 'icheckbox_square-grey checkbox',
-        increaseArea: '20%' // optional
-    }).on('ifToggled', function(event){
-        if($('#scientific').find("input").prop('checked') != false){
-            scientific(true);
-        }
+    $('#calculator-type').chosen({disable_search_threshold: 10}); //set up chosen
+    $('#calculator-type').change(function() { //on option change
+        calculator.screen.clear();
+        if($(this).val() == "scientific"){
+            $("#input-container").animate({"width":"390px", "padding-right":"11px"}, 300, "linear", function() {
+                $("#scientific-1, #input-container > .text").fadeIn(300);
+                calculator.ini({
+                    storage : "localStorage",
+                    selector : {
+                        screen : "#input",
+                        radDeg : "#rad-deg",
+                        radDegInvert : "#rad-deg-invert"
+                    },
+                    options: {
+                        log : true
+                    },
+                    max : 15
+                });
+                return;
+            });
 
-        else{
-            scientific(false);
+            $("#margins").animate({"margin-left":"0px"}, 300, "linear");
+        } else {
+            $("#scientific-1, #input-container > .text").fadeOut(200, function() {
+                $("#margins").animate({"margin-left":"108px"}, 300, "linear");
+                $("#input-container").animate({"width":"187px", "padding-right":"8px"}, 300, "linear", function() {
+                    calculator.ini({
+                        storage : "localStorage",
+                        selector : {
+                            screen : "#input",
+                            radDeg : "#rad-deg",
+                            radDegInvert : "#rad-deg-invert"
+                        },
+                        options: {
+                            log : true
+                        },
+                        max : 15
+                    });
+                    return;
+                });
+            });
         }
     });
+    $("#scientific-1, #input-container > .text").hide();
+    $("#margins").css({"margin-left":"108px"});
+    $("#input-container").css({"width":"187px", "padding-right":"8px"});
+
+    $('#calculator-type').val("normal"); //get setting from localStorage
+    $('#calculator-type').trigger("chosen:updated"); //refresh chosen
 
     $("#theme-selctor").chosen({disable_search_threshold: 10});
-
     $("#theme-selctor").change(function() {
         theme.load($("#theme-selctor").val());
         return;
     });
-
-    scientific(true);
 });
 
 function tutorial() {
@@ -155,36 +189,6 @@ function tutorial() {
     }
 
     step[1]();
-}
-
-function scientific(toggle, callback) {
-    calculator.screen.clear();
-
-    $('#scientific').children(".checkbox").iCheck('disable');
-
-    if(toggle == true){
-        $("#input-container").animate({"width":"390px", "padding-right":"11px"}, 300, "linear", function() {
-            $("#scientific-1, #input-container > .text").fadeIn(300);
-            if(callback != undefined){
-                callback();
-            }
-            $('#scientific').children(".checkbox").iCheck('enable');
-            return;
-        });
-
-        $("#margins").animate({"margin-left":"0px"}, 300, "linear");
-    } else {
-        $("#scientific-1, #input-container > .text").fadeOut(200, function() {
-            $("#margins").animate({"margin-left":"108px"}, 300, "linear");
-            $("#input-container").animate({"width":"187px", "padding-right":"8px"}, 300, "linear", function() {
-                if(callback != undefined){
-                    callback();
-                }
-                $('#scientific').children(".checkbox").iCheck('enable');
-                return;
-            });
-        });
-    }
 }
 
 window.Alert = function(content, title, effect) {

@@ -1,6 +1,8 @@
 @import url("calculator-fonts.min.css");
 
 body, *{
+    overflow: hidden;
+
     -webkit-user-select: none;
     user-select: none;
 }
