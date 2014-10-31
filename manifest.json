@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
 
-    "name": "Theme Calculator",
+    "name": "FlatCal",
     "description": "A themeable calculator for your Browser",
     "version": "3.0",
 
