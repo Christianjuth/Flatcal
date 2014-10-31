@@ -98,7 +98,6 @@ var theme = {
     },
 
     validate : function() {
-        var fonts = ["arial","digital","helvetica","san-serif"];
         var goodTheme = true;
         var requiredColor = {
             presence: true,
@@ -115,13 +114,6 @@ var theme = {
             format: {
                 pattern: /^(#[0-9a-f]{3}|#[0-9a-f]{6}|\s*$)$/i
             }
-        }
-        var requiredFont = {
-            presence: true,
-            inclusion: fonts
-        }
-        var font = {
-            inclusion: fonts
         }
 
         goodTheme = goodTheme && validate(arguments[0].manifest, {
@@ -141,7 +133,6 @@ var theme = {
                 color : requiredColor,
                 borderColor : requiredColor,
                 textColor : requiredColor,
-                font: requiredFont
             }) == undefined;
         }
 
