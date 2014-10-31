@@ -25,23 +25,26 @@ $(document).ready(function() {
         $("#input-container").css({"width":"184px", "padding-right":"8px"});
         $("#input").css({"width":"100%"});
         $(".input-text").hide();
-        $("#scientific-container").remove();
+        $("#scientific-1").remove();
+        $("#scientific-2").remove();
+        $("#input-container > .text").hide();
         $("#number-container").remove();
         $("#margins").css({"padding":"5px"});
     }
 
     else if(localStorage.scientific == "false"){
-        $("#scientific-container").remove();
+        $("#scientific-1").remove();
+        $("#scientific-2").remove();
         $("#number-container").css({"display":"inline-block"});
         $("#input-container").css({"width":"184px"});
         $("#input").css({"width":"100%"});
-        $(".input-text").hide();
+        $("#input-container > .text").hide();
         $("#margins").css({"padding":"16px"});
     }
 
     else{
         $("#input-container").css({"width":"390px"});
-        $("#scientific-container").css({"display":"inline-block"});
+        $("#scientific-1").css({"display":"inline-block"});
         $("#number-container").css({"display":"inline-block"});
         $("#margins").css({"padding":"16px"});
     }

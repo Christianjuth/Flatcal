@@ -1,6 +1,8 @@
 @import url("calculator-fonts.min.css");
 
 body, *{
+    overflow: hidden;
+
     -webkit-user-select: none;
     user-select: none;
 }
@@ -45,7 +47,8 @@ body > input{
 #margins{
     display: inline-block;
     position: relative;
-    font-family: arial;
+    font-family: dosis;
+    overflow: hidden;
 }
 
 #input-container{
@@ -58,71 +61,63 @@ body > input{
     height: 36px;
     width: 390px;
 
+    letter-spacing: 1px;
     text-align: right;
     padding-right: 11px;
     padding-top: 6px;
 }
 
-#input-text{
-    width: 50px;
-    font-size: 16px;
+#input-border{
+    position: absolute;
+    height: 70px;
+    width: 443px;
+    background-color: #000;
+    z-index: 0;
+    margin-left: -20px;
+    margin-top: -20px;
 }
 
 #input-container > span{
-    width: 84%;
+    width: 100%;
     overflow: auto;
+    line-height: 30px;
     font-size: 29px;
 }
 
-#first{
-    margin-top: -2px;
-}
-
-#second{
-    margin-top: -1px;
-}
-
-#result{
-    position: absolute;
-    margin-top: -1px;
-}
-
-.input-text{
+#input-container > div{
+    width: 25px;
+    margin-left: 10px;
     float: left;
-    font-size: 15;
-    margin-left: 7px;
+    display: inline-block;
 }
 
-#number-container{
-    display: none;
-    position: relative;
-    margin-top: 16px;
-    float: right;
+#input-container > div > span{
+    width: 100%;
+    height: 16px;
+    display: inline-block;
+    color: #fff;
+    line-height: 15px;
+    font-size: 13px;
+    text-align: left;
+    opacity: 0.9;
+    cursor: pointer;
+}
+
+#margins > section{
     z-index: 2000;
-
-    border-top: 1px solid rgba(255, 255, 255, 0);
-    border-right: 1px solid rgba(255, 255, 255, 0);
-
-    font-size: 0px;
-}
-
-#scientific-container{
-    display: none;
-    position: relative;
     margin-top: 16px;
-    /*    margin-right: 15px;*/
-    float: left;
-    z-index: 1900;
-
+    position: relative;
+    display: none;
+    width: auto !important;
     font-size: 0px;
-
-    border-top: 1px solid rgba(255, 255, 255, 0);
-    border-right: 1px solid rgba(255, 255, 255, 0);
 }
 
-#number-container > div,
-#scientific-container > div{
-    font-size: 0px;
+#margins > section.left{
+    float: left;
+}
+
+#margins > section.right{
+    float: right;
 }
 
 .button{
@@ -130,6 +125,7 @@ body > input{
     height: 29px;
     padding-top: 12px;
     margin:0px;
+    z-index: 2100;
 
     display: inline-block;
     cursor: pointer;
@@ -142,6 +138,7 @@ body > input{
     border-radius: 0px;
 
     font-size: 15px;
+    font-weight: 200;
     color: #000;
     text-align: center;
     overflow: hidden;
@@ -161,6 +158,12 @@ body > input{
     background-color: #ddd;
 }
 
+.number{
+    line-height: 19px;
+    font-weight: 300;
+    font-size: 20px;
+}
+
 #point{
     font-weight: bold;
 }
@@ -174,7 +177,7 @@ body > input{
 }
 
 .sup-sqrt{
-    font-size: 8px;
+    font-size: 8px !important;
     position: absolute;
     vertical-align: top;
     margin-top: -2px;

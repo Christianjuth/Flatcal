@@ -1,7 +1,21 @@
 var loadedTheme = "google";
 var enable = "all";
+localStorage.tutorial = true;
 
 $(document).ready(function() {
+    calculator.ini({
+        storage : "localStorage",
+        selector : {
+            screen : "#input",
+            radDeg : "#rad-deg",
+            radDegInvert : "#rad-deg-invert"
+        },
+        options: {
+            log : true
+        },
+        max : 15
+    });
+
     myLibrary("#theme-builder-container").center();
     progressJs().start();
     $.getJSON(chrome.extension.getURL('resources/themes/themes-list.json'), function(options) {
@@ -23,21 +37,57 @@ $(document).ready(function() {
 
     tutorial();
 
-    $('input[type=checkbox]').iCheck({
-        checkboxClass: 'icheckbox_square-grey checkbox',
-        increaseArea: '20%' // optional
-    }).on('ifToggled', function(event){
-        if($('#scientific').find("input").prop('checked') != false){
-            scientific(true);
-        }
+    $('#calculator-type').chosen({disable_search_threshold: 10}); //set up chosen
+    $('#calculator-type').change(function() { //on option change
+        calculator.screen.clear();
+        if($(this).val() == "scientific"){
+            $("#input-container").animate({"width":"390px", "padding-right":"11px"}, 300, "linear", function() {
+                $("#scientific-1, #input-container > .text").fadeIn(300);
+                calculator.ini({
+                    storage : "localStorage",
+                    selector : {
+                        screen : "#input",
+                        radDeg : "#rad-deg",
+                        radDegInvert : "#rad-deg-invert"
+                    },
+                    options: {
+                        log : true
+                    },
+                    max : 15
+                });
+                return;
+            });
 
-        else{
-            scientific(false);
+            $("#margins").animate({"margin-left":"0px"}, 300, "linear");
+        } else {
+            $("#scientific-1, #input-container > .text").fadeOut(200, function() {
+                $("#margins").animate({"margin-left":"108px"}, 300, "linear");
+                $("#input-container").animate({"width":"187px", "padding-right":"8px"}, 300, "linear", function() {
+                    calculator.ini({
+                        storage : "localStorage",
+                        selector : {
+                            screen : "#input",
+                            radDeg : "#rad-deg",
+                            radDegInvert : "#rad-deg-invert"
+                        },
+                        options: {
+                            log : true
+                        },
+                        max : 15
+                    });
+                    return;
+                });
+            });
         }
     });
+    $("#scientific-1, #input-container > .text").hide();
+    $("#margins").css({"margin-left":"108px"});
+    $("#input-container").css({"width":"187px", "padding-right":"8px"});
+
+    $('#calculator-type').val("normal"); //get setting from localStorage
+    $('#calculator-type').trigger("chosen:updated"); //refresh chosen
 
     $("#theme-selctor").chosen({disable_search_threshold: 10});
-
     $("#theme-selctor").change(function() {
         theme.load($("#theme-selctor").val());
         return;
@@ -51,7 +101,7 @@ function tutorial() {
     var step = new Array();
 
     step[1] = function() {
-        analyticsEvent("tutorial", "started"); //analytics start
+        analyticsEvent("tutorial", "20%"); //analytics start
         var animateTheme = true;
         var themes = theme.get();
         themes.sort();
@@ -72,7 +122,7 @@ function tutorial() {
             }, i * 150);
         }
 
-        Alert("Calculator 2.0!", "It is finally here. More power. More customization. But same elegance. ", function() {
+        Alert("Why a Calculator?", "Don't reinvent the wheel, just realign it. \n ~Anthony J. D'Angelo", function() {
             $('#theme-selctor').val(loadedTheme).trigger("chosen:updated");
             animateTheme = false;
             step[2]();
@@ -80,7 +130,8 @@ function tutorial() {
     }
 
     step[2] = function() {
-        Alert("What is new?", "Try this little demo and see what sets us apart. Try the calculator itself in the left, and change the options in the right. When you are ready, click next to continue.", function() {
+        analyticsEvent("tutorial", "40%");
+        Alert("What makes us diffrent?", "Try this little demo and see what sets us apart. Try the calculator on the left, and the options on the right.", function() {
             animateTheme = false;
             $('#theme-selctor').val(loadedTheme).trigger("chosen:updated");
 
@@ -91,6 +142,7 @@ function tutorial() {
     }
 
     step[3] = function() {
+        analyticsEvent("tutorial", "60%");
         if(window.navigator.platform.toLowerCase().indexOf("mac") != -1){
             Alert("Copy and paste?", "Type a number. Click 'Command C' to copy, and 'Command V' to paste.", function() {
                 $("#next").unbind().click(function() {
@@ -109,8 +161,9 @@ function tutorial() {
     }
 
     step[4] = function() {
+        analyticsEvent("tutorial", "80%");
         if(window.navigator.platform.toLowerCase().indexOf("mac") != -1){
-            Alert("Keyboard Shortcuts!", "Try clicking 'Option C'. Once you see the popup you can control it with your number keys and plus, minus, etc. If Option C does not bring up the calculator you may need to delete and reinstall this extension due to a bug in Chrome. We apologize for the inconvenience...", function() {
+            Alert("Keyboard Shortcuts!", "Try clicking 'Option C'. Once you see the popup you can control it with your number keys, plus, minus, etc.", function() {
                 $("#next").unbind().click(function() {
                     step[5]();
                 });
@@ -118,7 +171,7 @@ function tutorial() {
         }
 
         else{
-            Alert("Keyboard Shortcuts!", 'Try clicking "Alt C". Once you see the popup you can control it with your number keys and plus, minus, etc. If Alt C does not bring up the calculator you may need to delete and reinstall this extension due to a bug in Chrome. We apologize for the inconvenience...', function() {
+            Alert("Keyboard Shortcuts!", 'Try clicking "Alt C". Once you see the popup you can control it with your number keys, plus, minus, etc.', function() {
                 $("#next").unbind().click(function() {
                     step[5]();
                 });
@@ -127,46 +180,15 @@ function tutorial() {
     }
 
     step[5] = function() {
-        analyticsEvent("tutorial", "finished");
+        analyticsEvent("tutorial", "100%");
         setTimeout(function() {
-            Alert("You have finished the tutorial!", "Please feel free to contact me at juth.dev@gmail.com. I am looking for testers and more help. You will now be redirected to our settings page.", function() {
-                localStorage.tutorial = true;
+            Alert("You have finished the tutorial!", "You will be redirected to our settings page.", function() {
                 window.open ('../settings/options/options.html','_self',false);
             });
         }, 500);
     }
 
     step[1]();
-}
-
-function scientific(toggle, callback) {
-    Clear();
-
-    $('#scientific').children(".checkbox").iCheck('disable');
-
-    if(toggle == true){
-        $("#input-container").animate({"width":"390px", "padding-right":"11px"}, 300, "linear", function() {
-            $("#scientific-container").fadeIn(300);
-            if(callback != undefined){
-                callback();
-            }
-            $('#scientific').children(".checkbox").iCheck('enable');
-            return;
-        });
-
-        $("#margins").animate({"margin-left":"0px"}, 300, "linear");
-    } else {
-        $("#scientific-container").fadeOut(200, function() {
-            $("#margins").animate({"margin-left":"108px"}, 300, "linear");
-            $("#input-container").animate({"width":"187px", "padding-right":"8px"}, 300, "linear", function() {
-                if(callback != undefined){
-                    callback();
-                }
-                $('#scientific').children(".checkbox").iCheck('enable');
-                return;
-            });
-        });
-    }
 }
 
 window.Alert = function(content, title, effect) {

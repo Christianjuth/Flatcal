@@ -41,19 +41,14 @@
                         <h1>Settings</h1>
                     </header>
 
-                    <div id="scientific">
-                        <h2>Scientific Calculator</h2>
-                        <input type="checkbox"/>
-                    </div>
-
-                    <div id="screen-only">
-                        <h2>Screen Only</h2>
-                        <input type="checkbox"/>
-                    </div>
-
-                    <div id="only-important-notify">
-                        <h2>Limit Notifications to Important</h2>
-                        <input type="checkbox"/>
+                    <div id="calculator-type-option">
+                        <h2>Calculator type</h2>
+                        <select id="calculator-type">
+                            <option class="theme-selctor-option" value="normal">normal</option>
+                            <option class="theme-selctor-option" value="scientific">scientific</option>
+                            <option class="theme-selctor-option" value="screen-only">screen only</option>
+<!--                            <option class="theme-selctor-option" value="popout">popout</option>-->
+                        </select>
                     </div>
 
                     <div id="theme-selector-setting-container">
@@ -62,12 +57,16 @@
                             <option class="theme-selctor-option" value="custom">custom</option>
                         </select>
                     </div>
+
+                    <div id="only-important-notify">
+                        <h2>Limit Notifications to Important</h2>
+                        <input type="checkbox"/>
+                    </div>
                 </section>
 
                 <section id="custom-themes">
                     <header>
                         <h1>Custom Theming</h1>
-                        <h2>- beta feature</h2>
                     </header>
 
                     <div id="theme-designer-link">
@@ -118,9 +117,9 @@
                     </div>
                 </section>
 
-                <section>
+                <section id="changelog">
                     <header>
-                        <h1>Change log for v2.0</h1>
+                        <h1>Change log for v3</h1>
                         <h2><a href="../changelog/changelog.html">full change log</a></h2>
                     </header>
 
@@ -169,7 +168,6 @@
                             <a href="">&#169;Spectrum</a>, and the following fonts
 
                             <!--fonts-->
-                            <a href="https://www.google.com/fonts/specimen/Oswald">&#169;Oswald</a>,
                             <a href="https://www.google.com/fonts/specimen/Oswald">&#169;Oswald</a>.
 
                             These and this extension are all protected under the MIT license.
@@ -182,10 +180,14 @@
 
     <div id="dev" class="popup">
         <header>
-            <h1>Settings</h1>
+            <h1>Dev Settings</h1>
         </header>
+        <div id="guid">
+            <h2>GUID</h2>
+            <h3></h3>
+        </div>
         <div id="dissable-analytics">
-            <h2>Dissable analytics</h2>
+            <h2>Disable analytics</h2>
             <input type="checkbox"/>
         </div>
         <div id="dissable-notify-delay">

@@ -19,8 +19,6 @@ section > input{
     border-radius: 4px;
 
     padding: 23;
-
-    box-shadow: rgba(0, 0, 0, .10) 0px 2px 1px, rgba(0, 0, 0, .10) 0px 0px 1px;
 }
 
 #left-container{
@@ -157,21 +155,20 @@ section > input{
     margin: 0px;
 }
 
-.dragdealer{
-    width: 30% !important;
+.slider{
+    background-color: #eee !important;
     float: right !important;
 }
 
-.dragdealer > div{
-    width: 40% !important;
+.slider_knob{
+    width: 30px !important;
+    background-color: #444 !important;
 }
 
 /*calculator css------------------------------>*/
 #margins{
     background-color: #fff;
-    border-radius: 4px;
 
-    padding: 20px;
     display: inline-block;
 
     position: relative;

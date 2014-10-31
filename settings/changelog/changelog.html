@@ -10,17 +10,23 @@
 
         <!--load files css and js files-->
         <link rel="stylesheet" type="text/css" href="changelog.min.css">
-        <script type="text/javascript" src="changelog.min.js"></script>
+        <script type="text/javascript" src="changelog.js"></script>
     </head>
     <body>
-        <div id="table-container">
-            <table>
-                <tr class="header">
-                    <td>Version</td>
-                    <td>Description</td>
-                    <td>Date</td>
-                </tr>
-            </table>
+        <div id="offline" style="display: none;">
+            <h1>You are offline</h1>
+        </div>
+
+        <div id="page">
+            <div id="content">
+                <table>
+                    <tr class="header">
+                        <td>Version</td>
+                        <td>Description</td>
+                        <td>Date</td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <a class="back" href="/settings/options/options.html">back</a>

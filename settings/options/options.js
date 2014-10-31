@@ -1,3 +1,4 @@
+localStorage.tutorial = true;
 $(document).ready(function() {
     progressJs().start();
     $("#theme-selctor").chosen({disable_search_threshold: 10});
@@ -24,14 +25,17 @@ $(document).ready(function() {
         progressJs().end();
     });
 
-    option.defineCheck('#scientific', 'scientific', true);
     option.defineCheck('#dissable-notify-delay', 'noNotifyDelay', true);
     option.defineCheck('#only-important-notify', 'limitNotifications', true);
 
-    option.defineCheck('#screen-only', 'screenOnly', true, function(){
-        option.dissableCheck('#scientific');
-    }, function() {
-        option.enableCheck('#scientific');
+    option.defineSelect("#calculator-type", "type", true, function(){
+        if(localStorage.theme == "custom"){
+            customTheme(true);
+        }
+
+        else{
+            customTheme(false);
+        }
     });
 
     document.getElementById('theme-file-upload').addEventListener('change', readFile, false);
@@ -46,8 +50,9 @@ $(document).ready(function() {
         storage.resetAll()
     });
 
+    $("#guid > h3").text(localStorage.guid);
     $("h1").click(function() {
-        if(tenClick() == true){
+        if(tenClick() == true && event.shiftKey == true){
             if(localStorage.dev != "true"){
                 analyticsEvent("dev-center" , "clicked");
             }
@@ -57,25 +62,32 @@ $(document).ready(function() {
             setTimeout(function(){
                 $(".lightbox").click(function() {
                     $(".lightbox, .popup").hide();
+                    $(".lightbox").unbind("click");
                 });
-            }, 300);
+            }, 600);
         }
     });
 
     //-----------------------------changelog-----------------------------//
-    $.getJSON("https://raw.githubusercontent.com/Christianjuth/calculator-browser-extension/JSON/changelog.json", function(data) {
-        for(i=0; i< Math.min(data.length, 3); i++){
-            line = data[i];
+    if(clientInformation.onLine != true){
+        $("#changelog").hide();
+    }
 
-            if(i == 0){
-                changelogLine(line);
-            }
+    else{
+        $.getJSON("https://raw.githubusercontent.com/Christianjuth/calculator-browser-extension/JSON/changelog.json", function(data) {
+            for(i=0; i< Math.min(data.length, 3); i++){
+                line = data[i];
 
-            else{
-                changelogLine(line);
-            }
-        };
-    });
+                if(i == 0){
+                    changelogLine(line);
+                }
+
+                else{
+                    changelogLine(line);
+                }
+            };
+        });
+    }
 });
 
 var numClick = 1;
@@ -103,8 +115,9 @@ function readFile(evt) {
     var file = files[0];
     var reader = new FileReader();
     reader.onload = function() {
-        if(validateTheme($.parseJSON(this.result))){
+        if(theme.validate($.parseJSON(this.result))){
             theme.update($.parseJSON(this.result));
+            Alert("Success!", "theme updated")
         }
 
         else(Alert("Error!", "invalid theme"));

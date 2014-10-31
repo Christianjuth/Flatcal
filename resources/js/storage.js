@@ -22,8 +22,8 @@ var storage = {
 
     resetAll : function(){
         var storageItems = this.dump();
-        for(i = 0; i < localStorage.length; i++){
-            this.reset(storageItems[i]);
+        for(i = 0; i < storageItems.length; i++){
+            if(storageItems[i] != "guid" && storageItems[i] != "dev") this.reset(storageItems[i]);
             location.reload();
         }
     }

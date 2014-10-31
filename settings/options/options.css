@@ -1,55 +1,18 @@
 @import url("../../resources/css/reset.min.css");
 @import url("../../resources/css/button.min.css");
 
-.qtip,
-.qtip-default  {
-    font-family: arial !important;
-}
-
-.lightbox{
-    display: none;
-    height: 100%;
-    width: 100%;
-    background-color: #000;
-    opacity: 0.8;
-    position: fixed;
-    z-index: 10000;
-}
-
-.popup{
-    display: none;
-    min-height: 200px;
-    width: 250px;
-
-    border-radius: 4px;
-    padding: 15;
-    background-color: #fff;
-    z-index: 10001;
-    position: fixed !important;
-}
-
 .popup > div{
     font-size: 14px;
     margin-top: 3px !important;
 }
 
 body{
-    background-color: #eee;
+    background-color: #fff;
 
     overflow: auto;
 
     -webkit-user-select:none;
     user-select:none;
-}
-
-#page{
-    width: 60%;
-    margin: 55px 20% 55px 20%;
-    display: inline-block;
-}
-
-#content{
-    width: 100%;
 }
 
 #content > section{
@@ -111,11 +74,21 @@ header > h1{
 }
 
 .popup > div > h2,
+.popup > div > h3,
 #content > section > div > h2{
     font-size: 16px;
     font-weight: 300 !important;
     margin-top: 5px;
     display: inline-block;
+}
+
+.popup > div > h3{
+    -webkit-user-select:text;
+    user-select:text;
+    font-size: 12px;
+    font-weight: 200 !important;
+    line-height: 25px;
+    float: right;
 }
 
 .popup > div > a,
@@ -141,24 +114,6 @@ input[type=checkbox]{
 }
 
 /* format for classes-------------------->*/
-
-.center{
-    margin: 0 auto;
-    text-align:center;
-    width:100px;
-}
-
-.breaker{
-    position:relative;
-    z-index: 5;
-    border-top:1px solid #bbb;
-    width:100%;
-    margin:15px;
-    margin-right:auto;
-    margin-left:auto;
-    clear:both;
-}
-
 .text{
     font-size:14px;
 }
@@ -217,31 +172,6 @@ input.hidden-input {
     border-top-right-radius: 0px;
 }
 
-#backgroundc-color-title{
-    margin:5px;
-    padding-bottom:5px;
-    width: 445;
-    text-align: center;
-
-}
-
-#backgroundc-color-text{
-    display: inline-block;
-    width: 140px;
-    padding-left: 10px;
-    float: right;
-
-}
-
-#backgroundc-color-container{
-    background-color: #fff;
-    border: 2px solid #fff;
-    border-radius:7px;
-    padding:10px;
-    width: 450;
-    margin: 0 auto;
-}
-
 .chosen-container{
     float: right;
     width: auto !important;
@@ -253,19 +183,12 @@ input.hidden-input {
     cursor: pointer;
 }
 
-#save-current-theme{
-    float: right;
-    margin-bottom: -5px;
-    cursor: pointer;
-}
-
 /*-----------------sidebar-------------------->*/
 aside{
     display: inline-block;
 
     float: left;
     width: calc(100% + 40px);
-    /*    padding-top: 15px;*/
     margin-bottom: -23px;
 
     top: 0px;
@@ -275,7 +198,6 @@ aside{
 }
 
 aside > section{
-    min-height: 150px;
 
     border-radius: 4px;
     padding: 23px;
@@ -286,8 +208,6 @@ aside > section{
     vertical-align: top;
     display: inline-block;
     width: calc(50% - 76px);
-
-    box-shadow: rgba(0, 0, 0, .10) 0px 2px 1px, rgba(0, 0, 0, .10) 0px 0px 1px;
 }
 
 aside > section > a  >button{
@@ -320,8 +240,6 @@ aside > section > div{
     width: 100%%;
     margin-top:10px;
 
-    /*    font-family: arial;*/
-    /*    font-weight: bold;*/
     color: #333;
     font-size: 13px;
 }
@@ -332,7 +250,7 @@ aside > section > div > *:not(:first-child){
 
 aside > section > div > p{
     font-weight: 300;
-
+    text-align: justify;
     padding: 0px;
     margin: 0px;
 }
@@ -352,35 +270,9 @@ ul{
     color: #525252;
 }
 
-table,
-th,
-td{
-    border-collapse:collapse;
-}
-
-table{
-    width: 100%;
-    font-weight: 300;
-}
-
-table > tr:first-child,
-tbody > tr:first-child{
-    font-weight: normal !important;
-}
-
-table > tr,
-tbody > tr{
-    font-size: 14px;
-}
-
-table > tr > td,
-tbody > tr > td{
-    padding: 3px;
-}
-
 table > tr > td:last-child,
 tbody > tr > td:last-child{
-    text-align: right;
+    text-align: right !important;
 }
 
 #donate{
@@ -401,7 +293,7 @@ tbody > tr > td:last-child{
     #donate{
         width: 100%;
         height: 30px;
-        background-color: #eee;
+        background-color: #fff;
         padding-top: 10px;
         padding-bottom: 10px;
         bottom: 0;
@@ -439,17 +331,6 @@ tbody > tr > td:last-child{
 
     aside > section:first-child{
         margin-top: 0px;
-    }
-
-    #page{
-        margin: 23px 23px 75px 23px;
-        width: calc(100% - 46px);
-    }
-
-    #content{
-        width: 100%;
-        border: none;
-        padding-right: 0px;
     }
 
     #content > section > .title> h1{

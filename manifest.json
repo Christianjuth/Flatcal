@@ -1,9 +1,11 @@
 {
     "manifest_version": 2,
 
-    "name": "Calculator",
+    "name": "FlatCal",
     "description": "A themeable calculator for your Browser",
-    "version": "2.5.3",
+    "version": "3.0",
+
+    "author": "Christian Juth",
 
     "browser_action": {
         "default_icon": "resources/icons/icon.png",
@@ -29,6 +31,8 @@
         "48": "resources/icons/icon2.png",
         "128": "resources/icons/icon.png"
     },
+
+    "offline_enabled": true,
 
     "permissions": [
         "clipboardWrite",

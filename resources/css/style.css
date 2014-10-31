@@ -1,5 +1,5 @@
 html,
 body{
-    overflow: visible !important;
-    background-color: #fff !important;
+    overflow: hidden !important;
+    background-color: #fff;
 }

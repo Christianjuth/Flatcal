@@ -1,53 +1,23 @@
 {
     "manifest": {
+        "name": "google custom",
         "version": 1.1
     },
     "body": {
-        "color": "#222222"
+        "color": "#ffffff"
     },
     "input": {
-        "color": "#ffffff",
-        "borderColor": "#222222",
-        "textColor": "#000000",
-        "font": "helvetica"
+        "color": "#fff",
+        "borderColor": "#eee",
+        "textColor": "#222",
+        "font": "arial"
     },
     "button": {
-        "color": "#fcfcfc",
-        "hoverColor": "#dddddd",
-        "borderColor": "#222222",
-        "textColor": "#222222",
-        "font": "helvetica",
-        "numbers": {
-            "color": "",
-            "hoverColor": "",
-            "textColor": ""
-        },
-        "point": {
-            "color": "",
-            "hoverColor": "",
-            "textColor": ""
-        },
-        "ce": {
-            "color": "",
-            "hoverColor": "",
-            "textColor": ""
-        },
-        "positiveNegative": {
-            "color": "",
-            "hoverColor": "",
-            "textColor": ""
-        },
-        "operators": {
-            "color": "",
-            "hoverColor": "",
-            "textColor": ""
-        },
-        "equal": {
-            "color": "",
-            "hoverColor": "",
-            "textColor": ""
-        },
-        "borderRadius": 0,
-        "borderWidth": 1
+        "color": "#eee",
+        "hoverColor": "#eee",
+        "borderColor": "#eee",
+        "borderWidth": 0,
+        "textColor": "#222",
+        "font": "arial"
     }
 }
