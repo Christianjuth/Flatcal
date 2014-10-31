@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
 
-    "name": "Calculator",
+    "name": "Theme Calculator",
     "description": "A themeable calculator for your Browser",
-    "version": "2.5.4",
+    "version": "3.0",
 
     "author": "Christian Juth",
 
