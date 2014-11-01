@@ -13,7 +13,7 @@ $(document).ready(function() {
     $("#margins").css({"padding":"16px"});
 
     $("#left-container").scroll(function() {
-        $("*").spectrum("hide");
+        $("*").spectrum("hide"); //spectrum bug fix
     });
 
     themebuilder.option.create("name","json.manifest","name",true);

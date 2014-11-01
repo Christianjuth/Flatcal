@@ -16,9 +16,8 @@ body{
 }
 
 #content > section{
-    padding: 23px;
-    width: calc(100% - 46px);
-    margin-bottom: 20px;
+    width: 100%;
+    margin-bottom: 40px;
 }
 
 .popup > header,
@@ -200,14 +199,13 @@ aside{
 aside > section{
 
     border-radius: 4px;
-    padding: 23px;
     background-color: #fff;
-    margin-bottom: 20px;
-    margin-right: 20px;
+    margin-bottom: 40px;
+    margin-right: 40px;
 
     vertical-align: top;
     display: inline-block;
-    width: calc(50% - 76px);
+    width: calc(50% - 40px);
 }
 
 aside > section > a  >button{
@@ -326,7 +324,7 @@ tbody > tr > td:last-child{
     aside > section{
         margin-top: 20px;
         margin-bottom: 0px;
-        width: calc(100% - 46px);
+        width: 100%;
     }
 
     aside > section:first-child{
