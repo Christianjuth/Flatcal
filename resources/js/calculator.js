@@ -348,23 +348,66 @@ var calculator = {
     },
 
     event : {
+        sq: function(){
+            var number = calculator.screen.get();
+            if(calculator.clear == true) calculator.screen.clear();
+            if(calculator.op == ""){
+                if(calculator.first.indexOf(".") == -1 && calculator.screen.length() < calculator.options.maxLength){
+                    calculator.first = String(calculator.mathFunctions.pow(parseFloat(number), 2));
+                    calculator.screen.set(calculator.first);
+                }
+            }
+
+            else{
+                if(calculator.second.indexOf(".") == -1 && calculator.screen.length() < calculator.options.maxLength){
+                    if(calculator.second == "." || calculator.second == "") calculator.second = "0.";
+                    calculator.second = String(calculator.mathFunctions.pow(parseFloat(number), 2));
+                    calculator.screen.set(calculator.second);
+                }
+            }
+
+            return calculator.screen.get();
+        },
+
+        sqrt: function(){
+            var number = calculator.screen.get();
+            if(calculator.clear == true) calculator.screen.clear();
+            if(calculator.op == ""){
+                if(calculator.first.indexOf(".") == -1){
+                    calculator.first = String(calculator.mathFunctions.nthroot(parseFloat(number), 2));
+                    calculator.screen.set(calculator.first);
+                }
+            }
+
+            else{
+                if(calculator.second.indexOf(".") == -1){
+                    if(calculator.second == "." || calculator.second == "") calculator.second = "0.";
+                    calculator.second = String(calculator.mathFunctions.nthroot(parseFloat(number), 2));
+                    calculator.screen.set(calculator.second);
+                }
+            }
+
+            return calculator.screen.get();
+        },
+
         addDecimal : function() {
             if(calculator.clear == true) calculator.screen.clear();
-
-            if(calculator.screen.get().indexOf(".") == -1){
-                if(calculator.op== ""){
+            if(calculator.op == ""){
+                if(calculator.first.indexOf(".") == -1 && calculator.screen.length() < calculator.options.maxLength){
                     calculator.first = calculator.first + ".";
                     calculator.screen.set(calculator.first);
                 }
+            }
 
-                else{
+            else{
+                if(calculator.second.indexOf(".") == -1 && calculator.screen.length() < calculator.options.maxLength){
                     if(calculator.second == "." || calculator.second == "") calculator.second = "0.";
                     calculator.second = calculator.second + ".";
                     calculator.screen.set(calculator.second);
                 }
             }
 
-            return;
+            return calculator.screen.get();
         },
 
         posNeg : function() {
@@ -382,7 +425,7 @@ var calculator = {
                 calculator.screen.set(calculator.second);
             }
 
-            return;
+            return calculator.screen.get();
         },
 
         radDeg : function() {
@@ -394,7 +437,7 @@ var calculator = {
                 calculator.storage.radDeg = calculator.rad();
             }
 
-            return;
+            return calculator.screen.get();
         },
 
         percentage : function(){
@@ -409,6 +452,8 @@ var calculator = {
                 calculator.clear = true;
                 return calculator.screen.set(calculator.second);
             }
+
+            return calculator.screen.get();
         }
     },
 
@@ -438,12 +483,14 @@ var calculator = {
         minus : function() {
             calculator.storage.m = parseFloat(calculator.storage.m) - parseFloat(calculator.screen.get());
             if(calculator.storage.m != "0") $("#m-status").text("m");
+            else $("#m-status").text("");
             return calculator.storage.m;
         },
 
         plus : function() {
             calculator.storage.m = parseFloat(calculator.storage.m) + parseFloat(calculator.screen.get());
             if(calculator.storage.m != "0") $("#m-status").text("m");
+            else $("#m-status").text("");
             return calculator.storage.m;
         }
     },

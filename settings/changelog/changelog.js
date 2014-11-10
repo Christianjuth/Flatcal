@@ -1,7 +1,10 @@
 $(document).ready(function() {
     if(clientInformation.onLine != true){
-        $("#table-container").hide();
+        $("#content").hide();
         $("#offline").show();
+        myLibrary("#offline").center();
+        setTimeout(timer,1000);
+        setTimeout(function(){location.reload()}, 31000);
     }
 
     else{
@@ -28,4 +31,11 @@ function changelogLine(options){
     var y = d.getFullYear();
 
     $("<tr><td><a href='" + options.link + "'>" + options.version + "</a></td><td>" + options.description + "</td><td>" + m + "-" + day + "-" + y + "</td></tr>").appendTo("table");
+}
+
+var timerNumber = 30;
+function timer(){
+    $("#offline > h1").text($("#offline > h1").text().replace(timerNumber,timerNumber - 1));
+    timerNumber = timerNumber - 1;
+    setTimeout(timer,1000);
 }

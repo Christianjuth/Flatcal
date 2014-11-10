@@ -156,7 +156,7 @@ input[type="image"]{
 }
 
 
-@media only screen and (min-width:0px) and (max-width: 900px) {
+@media only screen and (min-width:0px) and (max-width: 800px) {
     #page{
         margin: 23px 23px 75px 23px;
         width: calc(100% - 46px);

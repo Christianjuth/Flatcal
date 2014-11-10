@@ -2,23 +2,26 @@ $(document).ready(function() {
     window.onkeydown = function(e) {
         if(e.keyCode == 8){
             setTimeout(function() { //run async
-                if(calculator.op == ""){
-                    calculator.first = calculator.first.substring(0,calculator.first.length -1);
-                    calculator.screen.set(calculator.first);
-                }
+                if(calculator.screen.get() == "0") calculator.screen.clear();
 
                 else{
-                    calculator.second = calculator.second.substring(0,calculator.second.length -1);
-                    calculator.screen.set(calculator.second);
+                    if(calculator.op == ""){
+                        calculator.first = calculator.first.substring(0,calculator.first.length -1);
+                        calculator.screen.set(calculator.first);
+                    }
+
+                    else{
+                        calculator.second = calculator.second.substring(0,calculator.second.length -1);
+                        calculator.screen.set(calculator.second);
+                    }
+
+                    if(calculator.clear == true || $('#input').text().length == 0){
+                        calculator.screen.clear();
+                    }
+
+                    if(calculator.screen.get() == "") calculator.screen.set(0);
                 }
 
-                if(calculator.clear == true || $('#input').text().length == 0){
-                    calculator.screen.clear();
-                }
-
-                if(calculator.screen.get() == ""){
-                    calculator.screen.set(0);
-                }
             }, 0)
             return false; //dissable keyboard history back THIS IS A HACK
         }
@@ -34,9 +37,7 @@ $(document).ready(function() {
 
         //if point is clicked trigger point function
         else if(e.keyCode == 190 || e.keyCode == 110) {
-            if(calculator.screen.length() < calculator.maxLength){
-                calculator.event.addDecimal();
-            }
+            calculator.event.addDecimal();
         }
 
         else if(e.keyCode == 53 && event.shiftKey == true) {
@@ -63,6 +64,14 @@ $(document).ready(function() {
             calculator.operator("divide");
         }
 
+        else if(e.keyCode == 77 && event.shiftKey == true) {
+            calculator.m.plus();
+        }
+
+        else if(e.keyCode == 77) {
+            calculator.m.recall();
+        }
+
         else if((e.keyCode == 67 && event.ctrlKey == false && event.metaKey == false) || e.keyCode == 12) {
             calculator.screen.clear();
         }
@@ -83,7 +92,7 @@ $(document).ready(function() {
         }
 
         //mac
-        else if(e.keyCode == 86 && event.metaKey == true == true) {
+        else if(e.keyCode == 86 && event.metaKey == true) {
             calculator.clipboard.paste();
         }
 
