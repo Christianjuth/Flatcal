@@ -19,7 +19,7 @@ $(document).ready(function() {
                         calculator.screen.clear();
                     }
 
-                    if(calculator.screen.get() == "") calculator.screen.set(0);
+                    if(calculator.screen.get() == "" || calculator.screen.get() == "ERROR") calculator.screen.set(0);
                 }
 
             }, 0)

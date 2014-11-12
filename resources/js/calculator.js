@@ -97,18 +97,21 @@ var calculator = {
     screen : {
         set : function(number, stripZeros) {
             number = String(number);
-            if(number == "") number = "0";
-            if(number.indexOf(".") != -1 && number != "-0") number = String(parseInt(number.split(".")[0]) + "." + number.split(".")[1]);
-            else if(number != "-0") number = String(parseInt(number));
-            var valid = (number != "" && number != undefined && number != "undefined"); //validate number
-            if(number == "NaN"|| number.split(".")[0].replace(/-/,"").length > calculator.options.maxLength || !valid){
+            if(number.indexOf("e") == -1){
+                if(number == "") number = "0";
+                if(number.indexOf(".") != -1 && number != "-0") number = String(parseInt(number.split(".")[0]) + "." + number.split(".")[1]);
+                else if(number != "-0") number = String(parseInt(number));
+                var valid = (number != "" && number != undefined && number != "undefined"); //validate number
+            }
+
+            if(number.indexOf("Infinity") != -1 || number.indexOf("e") != -1 || number == "NaN"|| number.split(".")[0].replace(/-/,"").length > calculator.options.maxLength || !valid){
                 calculator.screen.clear();
                 calculator.selector.screen.text("ERROR");
                 console.error("ERROR");
                 return false;
             }
 
-            if(number.replace(/-/,"").length <= calculator.options.maxLength && valid){
+            else if(number.replace(/-/,"").replace(/\./,"").length <= calculator.options.maxLength && valid){
                 calculator.selector.screen.text(calculator.parse.commas(number));
             }
 
@@ -352,14 +355,14 @@ var calculator = {
             var number = calculator.screen.get();
             if(calculator.clear == true) calculator.screen.clear();
             if(calculator.op == ""){
-                if(calculator.first.indexOf(".") == -1 && calculator.screen.length() < calculator.options.maxLength){
+                if(calculator.screen.length() < calculator.options.maxLength){
                     calculator.first = String(calculator.mathFunctions.pow(parseFloat(number), 2));
                     calculator.screen.set(calculator.first);
                 }
             }
 
             else{
-                if(calculator.second.indexOf(".") == -1 && calculator.screen.length() < calculator.options.maxLength){
+                if(calculator.screen.length() < calculator.options.maxLength){
                     if(calculator.second == "." || calculator.second == "") calculator.second = "0.";
                     calculator.second = String(calculator.mathFunctions.pow(parseFloat(number), 2));
                     calculator.screen.set(calculator.second);
@@ -373,18 +376,13 @@ var calculator = {
             var number = calculator.screen.get();
             if(calculator.clear == true) calculator.screen.clear();
             if(calculator.op == ""){
-                if(calculator.first.indexOf(".") == -1){
-                    calculator.first = String(calculator.mathFunctions.nthroot(parseFloat(number), 2));
-                    calculator.screen.set(calculator.first);
-                }
+                calculator.first = String(calculator.mathFunctions.nthroot(parseFloat(number), 2));
+                calculator.screen.set(calculator.first);
             }
 
             else{
-                if(calculator.second.indexOf(".") == -1){
-                    if(calculator.second == "." || calculator.second == "") calculator.second = "0.";
-                    calculator.second = String(calculator.mathFunctions.nthroot(parseFloat(number), 2));
-                    calculator.screen.set(calculator.second);
-                }
+                calculator.second = String(calculator.mathFunctions.nthroot(parseFloat(number), 2));
+                calculator.screen.set(calculator.second);
             }
 
             return calculator.screen.get();
