@@ -51,7 +51,6 @@ var calculator = {
             $.each(options.options, function(key, data){
                 calculator.options[key] = data;
             });
-            this.lastSecond = "0";
             this.options.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), options.max); //define number max legnth
             this.first = "0";
             this.second = "";
@@ -71,6 +70,7 @@ var calculator = {
 
     selector : {},
     options : {},
+    lastSecond : "0",
 
     numberClicked : function(lastButtonClicked){
         if(calculator.clear == true) calculator.screen.clear(); //calculator.screen.clears any previous values
@@ -156,7 +156,7 @@ var calculator = {
         },
 
         resume: function(){
-            calculator.second = calculator.storage.lastSecond;
+            calculator.lastSecond = calculator.storage.lastSecond;
             calculator.clear = calculator.storage.Clear;
             calculator.first = calculator.storage.first;
             calculator.second = calculator.storage.second;
@@ -200,7 +200,7 @@ var calculator = {
         var finalNumber = new Array();
         var output = "";
         if(this.second != "0" && this.second != "") this.lastSecond = this.second;
-        if(this.options.resume == "true") this.options.lastSecond = this.lastSecond;
+        if(this.options.resume == true) this.storage.lastSecond = this.lastSecond;
 
         if(calculator.second != ""){
             if(calculator.op== "plus"){
@@ -250,7 +250,7 @@ var calculator = {
             }
         }
 
-        else if(calculator.lastSecond != "" && calculator.op!= "" && fromOpp != false){
+        else if(calculator.lastSecond != "" && calculator.op != "" && fromOpp != false){
             if(calculator.op== "plus"){
                 overall = parseFloat(calculator.first) + parseFloat(calculator.lastSecond); //addition
             }
@@ -285,6 +285,12 @@ var calculator = {
             calculator.first = String(overall);
             calculator.second = "";
             overall = "";
+
+            if(this.options.resume == true){
+                this.storage.first = this.first;
+                this.storage.second = this.second;
+                this.storage.op = this.op;
+            }
 
             if(clearVaulesAfter == true){
                 this.clear = true;
@@ -387,8 +393,14 @@ var calculator = {
     math : function(fun, x, y){
         var result = calculator["mathFunctions"][fun](parseFloat(x),parseFloat(y));
         if(result !== false){
-            if(calculator.op == "") return calculator.first = calculator.screen.set(result);
-            else return calculator.second = calculator.screen.set(result);
+            if(calculator.op == ""){
+                calculator.first = calculator.screen.set(result);
+                return calculator.storage.first = calculator.first;
+            }
+            else{
+                calculator.second = calculator.screen.set(result);
+                return calculator.storage.second = calculator.second;
+            }
         }
         else calculator.screen.get();
     },
@@ -401,6 +413,7 @@ var calculator = {
                 if(calculator.screen.length() < calculator.options.maxLength){
                     calculator.first = String(calculator.mathFunctions.pow(parseFloat(number), 2));
                     calculator.screen.set(calculator.first);
+                    calculator.storage.first = calculator.first;
                 }
             }
 
@@ -409,6 +422,7 @@ var calculator = {
                     if(calculator.second == "." || calculator.second == "") calculator.second = "0.";
                     calculator.second = String(calculator.mathFunctions.pow(parseFloat(number), 2));
                     calculator.screen.set(calculator.second);
+                    calculator.storage.second = calculator.second;
                 }
             }
 
@@ -421,11 +435,13 @@ var calculator = {
             if(calculator.op == ""){
                 calculator.first = String(calculator.mathFunctions.nthroot(parseFloat(number), 2));
                 calculator.screen.set(calculator.first);
+                calculator.storage.first = calculator.first;
             }
 
             else{
                 calculator.second = String(calculator.mathFunctions.nthroot(parseFloat(number), 2));
                 calculator.screen.set(calculator.second);
+                calculator.storage.second = calculator.second;
             }
 
             return calculator.screen.get();
@@ -437,6 +453,7 @@ var calculator = {
                 if(calculator.first.indexOf(".") == -1 && calculator.screen.length() < calculator.options.maxLength){
                     calculator.first = calculator.first + ".";
                     calculator.screen.set(calculator.first);
+                    calculator.storage.first = calculator.first;
                 }
             }
 
@@ -445,6 +462,7 @@ var calculator = {
                     if(calculator.second == "." || calculator.second == "") calculator.second = "0.";
                     calculator.second = calculator.second + ".";
                     calculator.screen.set(calculator.second);
+                    calculator.storage.second = calculator.second;
                 }
             }
 
@@ -457,6 +475,7 @@ var calculator = {
                 else if(calculator.first.indexOf("-") == -1) calculator.first = "-" + calculator.first;
                 else calculator.first = calculator.first.replace(/-/g,"");
                 calculator.screen.set(calculator.first);
+                calculator.storage.first = calculator.first;
             }
 
             if(calculator.op!= ""){
@@ -464,6 +483,7 @@ var calculator = {
                 else if(calculator.second.indexOf("-") == -1) calculator.second = "-" + calculator.second;
                 else calculator.second = calculator.second.replace(/-/g,"");
                 calculator.screen.set(calculator.second);
+                calculator.storage.second = calculator.second;
             }
 
             return calculator.screen.get();
