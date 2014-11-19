@@ -26,13 +26,13 @@
 
         "numbers": {
             "color": "#eee",
-            "hoverColor": "ddd",
+            "hoverColor": "#f5f5f5",
             "textColor": "#222"
         },
 
         "point": {
             "color": "#eee",
-            "hoverColor": "",
+            "hoverColor": "#f5f5f5",
             "textColor": "#222"
         },
 
