@@ -8,11 +8,13 @@ $(document).ready(function() {
                     if(calculator.op == ""){
                         calculator.first = calculator.first.substring(0,calculator.first.length -1);
                         calculator.screen.set(calculator.first);
+                        calculator.storage.first = calculator.first;
                     }
 
                     else{
                         calculator.second = calculator.second.substring(0,calculator.second.length -1);
                         calculator.screen.set(calculator.second);
+                        calculator.storage.second = calculator.second;
                     }
 
                     if(calculator.clear == true || $('#input').text().length == 0){
