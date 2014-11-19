@@ -51,16 +51,17 @@ var calculator = {
             $.each(options.options, function(key, data){
                 calculator.options[key] = data;
             });
-
-            this.options.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), options.max); //define number max legnth
             this.lastSecond = "0";
+            this.options.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), options.max); //define number max legnth
             this.first = "0";
             this.second = "";
             this.op = "";
             if(calculator.storage.radDeg == "rad") this.rad();
             else this.deg();
-            this.screen.clear();
+            if(this.options.resume != true) this.screen.clear();
+            else this.screen.resume();
             if(calculator.storage.m != "0") $("#m-status").text("m");
+
         }
 
         else{
@@ -80,6 +81,7 @@ var calculator = {
                 if(this.first.indexOf(".") != -1) this.first = String(parseInt(this.first.split(".")[0]) + "." + this.first.split(".")[1] + lastButtonClicked);
                 else this.first = String(parseInt(this.first + '' + lastButtonClicked));
                 this.screen.set(this.first, false);
+                if(this.options.resume == true) calculator.storage.first = this.first;
             }
         }
         else if(validate != true){
@@ -88,6 +90,7 @@ var calculator = {
                 else if(this.second.indexOf(".") != -1) this.second = String(parseInt(this.second.split(".")[0]) + "." + this.second.split(".")[1] + lastButtonClicked);
                 else this.second = String(parseInt(this.second + '' + lastButtonClicked));
                 this.screen.set(this.second, false);
+                if(this.options.resume == true) calculator.storage.second = this.second;
             }
         }
 
@@ -132,7 +135,8 @@ var calculator = {
 
         clear: function(){
             if(calculator.second != "") calculator.lastSecond = calculator.second;
-            calculator.clear= false;
+            calculator.clear = false;
+            calculator.storage.Clear = "false";
             calculator.first = "0";
             calculator.second = "";
             calculator.selector.screen.text("");
@@ -140,6 +144,33 @@ var calculator = {
             calculator.op= "";
             overall = "";
             calculator.screen.set(0);
+
+            if(calculator.options.resume == true){
+                calculator.storage.lastSecond = calculator.lastSecond;
+                calculator.storage.first = "0";
+                calculator.storage.second = "";
+                calculator.storage.op = "";
+                calculator.storage.Clear = "false";
+            }
+            return;
+        },
+
+        resume: function(){
+            calculator.second = calculator.storage.lastSecond;
+            calculator.clear = calculator.storage.Clear;
+            calculator.first = calculator.storage.first;
+            calculator.second = calculator.storage.second;
+            calculator.op = calculator.storage.op;
+            overall = "";
+            if(calculator.storage.op != "" && calculator.storage.Clear != "true"){
+                calculator.animate.op(calculator.op);
+            }
+            if(calculator.storage.second != ""){
+                calculator.screen.set(calculator.storage.second);
+            }
+            else{
+                calculator.screen.set(calculator.storage.first);
+            }
             return;
         }
     },
@@ -148,14 +179,17 @@ var calculator = {
         if(operator == undefined) operator = "";
         if(calculator.op != ""){
             calculator.calculate(false, false);
-            calculator.clear= false;
+            calculator.clear = false;
+            calculator.storage.Clear = "false";
             calculator.op = operator;
             calculator.animate.op(operator);
         }
 
         else{
-            calculator.clear= false;
+            calculator.clear = false;
+            calculator.storage.Clear = "false";
             calculator.op = operator;
+            if(this.options.resume == true) calculator.storage.op = operator;
             calculator.animate.op(operator);
         }
 
@@ -166,6 +200,7 @@ var calculator = {
         var finalNumber = new Array();
         var output = "";
         if(this.second != "0" && this.second != "") this.lastSecond = this.second;
+        if(this.options.resume == "true") this.options.lastSecond = this.lastSecond;
 
         if(calculator.second != ""){
             if(calculator.op== "plus"){
@@ -203,8 +238,15 @@ var calculator = {
             calculator.second = "";
             overall = "";
 
+            if(this.options.resume == true){
+                this.storage.first = this.first;
+                this.storage.second = this.second;
+                this.storage.op = this.op;
+            }
+
             if(clearVaulesAfter == true){
                 this.clear = true;
+                calculator.storage.Clear = "true";
             }
         }
 
@@ -246,6 +288,7 @@ var calculator = {
 
             if(clearVaulesAfter == true){
                 this.clear = true;
+                calculator.storage.Clear = "true";
             }
         }
 
@@ -442,12 +485,14 @@ var calculator = {
             if(calculator.op == ""){
                 calculator.first = String(1 * (calculator.first * 0.01));
                 calculator.clear = true;
+                calculator.storage.Clear = "true";
                 return calculator.screen.set(calculator.first);
             }
 
             else{
                 calculator.second = String(calculator.first * (calculator.second * 0.01));
                 calculator.clear = true;
+                calculator.storage.Clear = "true";
                 return calculator.screen.set(calculator.second);
             }
 
@@ -574,6 +619,7 @@ $(document).ready(function() {
             radDegInvert : "#rad-deg-invert"
         },
         options: {
+            resume : true,
             log : true
         },
         max : 15
