@@ -78,7 +78,7 @@ var calculator = {
 
         if(calculator.op== "" && validate != true){
             if(calculator.first.replace(/-/g,"").replace(/\./g,"").length < calculator.options.maxLength){
-                if(this.first.indexOf(".") != -1) this.first = String(parseInt(this.first.split(".")[0]) + "." + this.first.split(".")[1] + lastButtonClicked);
+                if(this.first.indexOf(".") != -1) this.first = String(this.first.split(".")[0] + "." + this.first.split(".")[1] + lastButtonClicked);
                 else this.first = String(parseInt(this.first + '' + lastButtonClicked));
                 this.screen.set(this.first, false);
                 if(this.options.resume == true) calculator.storage.first = this.first;
@@ -87,7 +87,7 @@ var calculator = {
         else if(validate != true){
             if(calculator.second.replace(/-/g,"").replace(/\./g,"").length < calculator.options.maxLength){
                 if(this.second.length == 0) this.second = String(lastButtonClicked);
-                else if(this.second.indexOf(".") != -1) this.second = String(parseInt(this.second.split(".")[0]) + "." + this.second.split(".")[1] + lastButtonClicked);
+                else if(this.second.indexOf(".") != -1) this.second = String(this.second.split(".")[0] + "." + this.second.split(".")[1] + lastButtonClicked);
                 else this.second = String(parseInt(this.second + '' + lastButtonClicked));
                 this.screen.set(this.second, false);
                 if(this.options.resume == true) calculator.storage.second = this.second;
@@ -101,9 +101,9 @@ var calculator = {
         set : function(number, stripZeros) {
             number = String(number);
             if(number.indexOf("e") == -1){
-                if(number == "") number = "0";
-                if(number.indexOf(".") != -1 && number != "-0") number = String(parseInt(number.split(".")[0]) + "." + number.split(".")[1]);
-                else if(number != "-0") number = String(parseInt(number));
+                if(number == "") number == "0";
+                if(number.indexOf(".") != -1 && number.indexOf("-0") == -1) number = String(parseInt(number.split(".")[0]) + "." + number.split(".")[1]);
+                else if(number.indexOf("-0") == -1) number = String(parseInt(number));
                 var valid = (number != "" && number != undefined && number != "undefined"); //validate number
             }
 
