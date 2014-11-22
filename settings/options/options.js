@@ -144,7 +144,7 @@ function changelogLine(options){
     var day = d.getUTCDate();
     var y = d.getFullYear();
 
-    $("<tr><td><a href='" + options.link + "'>" + options.version + "</a></td><td>" + options.description + "</td><td>" + m + "-" + day + "-" + y + "</td></tr>").appendTo("table");
+    $("<tr><td><a href='" + options.link + "'>" + options.version + "</a></td><td class='description'>" + options.description + "</td><td>" + m + "-" + day + "-" + y + "</td></tr>").appendTo("table");
 }
 
 option = {
