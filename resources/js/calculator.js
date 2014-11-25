@@ -57,8 +57,16 @@ var calculator = {
             this.op = "";
             if(calculator.storage.radDeg == "rad") this.rad();
             else this.deg();
-            if(this.options.resume != true) this.screen.clear();
-            else this.screen.resume();
+            if(this.options.resume != true){
+                this.screen.clear();
+            }
+            else{
+                if(typeof localStorage.first === "undefined") localStorage.first = "0";
+                if(typeof localStorage.second === "undefined") localStorage.second = "";
+                if(typeof localStorage.lastSecond === "undefined") localStorage.lastSecond = "";
+                if(typeof localStorage.op === "undefined") localStorage.op = "";
+                this.screen.resume();
+            }
             if(calculator.storage.m != "0") $("#m-status").text("m");
 
         }
