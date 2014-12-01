@@ -165,7 +165,7 @@ var calculator = {
 
         resume: function(){
             calculator.lastSecond = calculator.storage.lastSecond;
-            calculator.clear = calculator.storage.Clear;
+            calculator.clear = (calculator.storage.Clear == "true");
             calculator.first = calculator.storage.first;
             calculator.second = calculator.storage.second;
             calculator.op = calculator.storage.op;
