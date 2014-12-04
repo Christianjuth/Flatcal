@@ -41,9 +41,9 @@
 var calculator = {
     ini : function(options){
         this.storage = window[options.storage];
-        if(options.max == undefined || options.max > 15) options.max = 15; //validate max screen size
+        if(typeof options.max === "undefined" || options.max > 15) options.max = 15; //validate max screen size
 
-        if(typeof options.selector !== undefined){
+        if(typeof options.selector !== "undefined"){
             $.each(options.selector, function(key, data){
                 calculator.selector[key] = $(data);
             });
