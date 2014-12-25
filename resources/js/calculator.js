@@ -395,7 +395,7 @@ var calculator = {
 
         atanh : function(x) {
             return Math.atanh(x);
-        },
+        }
     },
 
     math : function(fun, x, y){
@@ -532,14 +532,20 @@ var calculator = {
     m : {
         recall : function() {
             if(parseFloat(calculator.storage.m) != 0){
-                if(calculator.op== ""){
+                if(calculator.op == ""){
                     calculator.first = calculator.storage.m;
                     calculator.screen.set(calculator.first);
+                    if(calculator.options.resume == true){
+                        calculator.storage.first = calculator.first;
+                    }
                 }
 
                 else{
                     calculator.second = calculator.storage.m;
                     calculator.screen.set(calculator.second);
+                    if(calculator.options.resume == true){
+                        calculator.storage.second = calculator.second;
+                    }
                 }
             }
             return calculator.storage.m;
