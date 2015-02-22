@@ -1,2 +1,8 @@
 [
+  {
+        "id" : 8,
+        "title" : "Support this Project!",
+        "message" : "Follow me @christianjuth on Twitter",
+        "important" : true
+    }
 ]
