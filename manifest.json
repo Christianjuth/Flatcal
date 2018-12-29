@@ -24,7 +24,7 @@
         }
     },
 
-    "homepage_url": "http://calculatorextension.com",
+    "homepage_url": "https://github.com/christianjuth/flatcal",
 
     "icons": {
         "16": "resources/icons/icon.png",

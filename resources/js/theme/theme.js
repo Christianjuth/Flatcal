@@ -9,18 +9,14 @@ var theme = {
             localStorage.theme = "google";
             json = this.get("google");
         }
-        if(this.validate(json)){
-            injectCSS(json);
-        }
+        injectCSS(json);
         return;
     },
 
-    set : function(json){
+    set: function(json){
         if(typeof json === "string") json = this.get(json);
-        if(this.validate(json)){
-            theme.update(json)
-            injectCSS(json);
-        }
+        theme.update(json)
+        injectCSS(json);
         return;
     },
 
@@ -30,7 +26,7 @@ var theme = {
             themesOut = new Array();
             data = ajaxGetFile("../resources/themes/themes-list.json", "json");
             for(i = 0; i < data.length; i++){
-                themesOut.push(data[i].name.toLowerCase());
+                themesOut.push(data[i].toLowerCase());
             };
         }
 
@@ -84,8 +80,8 @@ var theme = {
         },
 
         reverse : function(a,b){
-            if(a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()) return true;
-            if(a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()) return false;
+            if(a.toLocaleLowerCase() < b.toLocaleLowerCase()) return true;
+            if(a.toLocaleLowerCase() > b.toLocaleLowerCase()) return false;
         }
     },
 
@@ -97,98 +93,21 @@ var theme = {
         }
     },
 
-    validate : function() {
-        var goodTheme = true;
-        var requiredColor = {
-            presence: true,
-            format: {
-                pattern: /^#([0-9a-f]{3}|[0-9a-f]{6})$/i
-            }
-        }
-        var color = {
-            format: {
-                pattern: /^#([0-9a-f]{3}|[0-9a-f]{6})$/i //look for color (e.g. #fff or #ffffff)
-            }
-        }
-        var colorOrBlank = {
-            format: {
-                pattern: /^(#[0-9a-f]{3}|#[0-9a-f]{6}|\s*$)$/i
-            }
-        }
-
-        goodTheme = goodTheme && validate(arguments[0].manifest, {
-            version: {
-                numericality: {
-                    lessThanOrEqualTo: 2
-                }
-            }
-        }) == undefined;
-
-        goodTheme = goodTheme && validate(arguments[0].body, {
-            color : requiredColor
-        }) == undefined;
-
-        if(typeof arguments[0].input !== "undefined"){
-            goodTheme = goodTheme && validate(arguments[0].input, {
-                color : requiredColor,
-                borderColor : requiredColor,
-                textColor : requiredColor,
-            }) == undefined;
-        }
-
-        if(typeof arguments[0].button !== "undefined"){
-            if(arguments[0].button.borderWidth == undefined || (arguments[0].button.borderWidth == "" && arguments[0].button.borderWidth != 0)){
-                arguments[0].button.borderWidth = 1;
-            }
-
-            else{
-                arguments[0].button.borderWidth = parseInt("0" + arguments[0].button.borderWidth);
-            }
-
-            arguments[0].button.borderRadius = parseInt("0" + arguments[0].button.borderRadius);
-            goodTheme = goodTheme && validate(arguments[0].button, {
-                color : requiredColor,
-                hoverColor : requiredColor,
-                borderColor : colorOrBlank,
-                borderWidth: {presence: true, numericality: { greaterThanOrEqualTo: 0, lessThanOrEqualTo: 5 } },
-                textColor : requiredColor
-            }) == undefined;
-
-            var buttonProperties = ["numbers", "point", "ce", "positiveNegative", "operators", "equal"];
-            for(i = 0; i < buttonProperties.length; i++){
-                if(typeof arguments[0].button[buttonProperties[i]] !== "undefined"){
-                    arguments[0].button[buttonProperties[i]].color
-                    goodTheme = goodTheme && validate(arguments[0].button[buttonProperties[i]], {
-                        color : colorOrBlank,
-                        borderColor : colorOrBlank,
-                        textColor : colorOrBlank
-                    }) == undefined;
-                }
-            }
-        }
-
-        else{
-            goodTheme = false;
-        }
-        if(goodTheme == false) console.log("ERROR");
-        return goodTheme;
-    },
-
     inject : {
         color : function(selector, value, fallback) {
             if(typeof value !== "undefined" && value !== ""){
-                $(selector).css({"background-color":value});
+                $(selector).css({"background": value});
                 $(selector).unbind("mouseout");
                 $(selector).mouseout(function() {
-                    $(this).css({"background-color":value});
+                    $(this).css({"background": value});
                 });
             }
 
             else if(typeof fallback != "undefined" && fallback != ""){
-                $(selector).css({"background-color":fallback});
+                $(selector).css({"background": fallback});
                 $(selector).unbind("mouseout");
                 $(selector).mouseout(function() {
-                    $(this).css({"background-color":fallback});
+                    $(this).css({"background": fallback});
                 });
             }
         },
@@ -318,7 +237,6 @@ function injectCSS(json) {
     //input
     if(typeof arguments[0].input !== "undefined"){
         theme.inject.color("#input-container", arguments[0].input.color, "#eee");
-        theme.inject.color("#input-border", arguments[0].input.outlineColor, arguments[0].body.color);
         theme.inject.borderColor("#input-container", arguments[0].input.borderColor, arguments[0].body.color);
         theme.inject.textColor("#input-container, #input-container > div > span", arguments[0].input.textColor, "#000");
     }

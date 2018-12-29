@@ -33,6 +33,8 @@ $(document).ready(function() {
     });
 
     $(".event").mousedown(function() {
+        console.log($(this).attr("fun"));
+        console.log(calculator.event);
         calculator.event[$(this).attr("fun")]();
     });
 

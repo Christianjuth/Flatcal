@@ -73,7 +73,7 @@ $(document).ready(function() {
         }
 
         //mac
-        else if(e.keyCode == 67 && event.metaKey == true == true) {
+        else if(e.keyCode == 67 && event.metaKey == true) {
             calculator.clipboard.copy(calculator.screen.get());
         }
 
@@ -83,7 +83,7 @@ $(document).ready(function() {
         }
 
         //mac
-        else if(e.keyCode == 86 && event.metaKey == true == true) {
+        else if(e.keyCode == 86 && event.metaKey == true) {
             calculator.clipboard.paste();
         }
 

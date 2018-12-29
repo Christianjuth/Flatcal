@@ -1,130 +1,79 @@
 localStorage.tutorial = true;
 $(document).ready(function() {
-    progressJs().start();
-    $("#theme-selctor").chosen({disable_search_threshold: 10});
 
-    $.getJSON(chrome.extension.getURL('resources/themes/themes-list.json'), function(options) {
+    $.getJSON(chrome.extension.getURL('resources/themes/themes.json'), function(options) {
         options.sort(theme.sort.reverse);
 
-        for(i = 0; i < options.length; i++){
-            var name = capitalize(options[i].name).replace(/-/," ");
-            var value = options[i].name.toLocaleLowerCase();
-            $('<option class="theme-selctor-option" value="' + value + '">' + name + '&#174;</option>').prependTo("#theme-selctor");
-        };
+        options.forEach((option) => {
 
-        option.defineSelect("#theme-selctor", "theme", true, function(){
-            if(localStorage.theme == "custom"){
-                customTheme(true);
-            }
+            // convert theme-name to "Theme Name"
+            let name = option.split('-').map((w) => {
+                return w.charAt(0).toUpperCase() + w.slice(1);
+            }).join(' ');
 
-            else{
-                customTheme(false);
-            }
+            let file = option.toLowerCase();
+
+            $(`<option class="theme-selctor-option" value="${file}">${name}</option>`).prependTo("#theme-selctor");
         });
 
-        progressJs().end();
+        option.defineSelect("#theme-selctor", "theme", () => {
+            customTheme(localStorage.theme == "custom");
+        });
     });
 
-    option.defineCheck('#dissable-notify-delay', 'noNotifyDelay', true);
-    option.defineCheck('#only-important-notify', 'limitNotifications', true);
+    option.defineSelect("#calculator-type", "type", () => {});
 
-    option.defineSelect("#calculator-type", "type", true, function(){
-        if(localStorage.theme == "custom"){
-            customTheme(true);
+
+    document.getElementById('theme-file-upload').addEventListener('change', () => {
+        let file = evt.target.files[0];
+        let reader = new FileReader();
+        reader.onload = function() {
+            if(theme.validate($.parseJSON(this.result))){
+                theme.update($.parseJSON(this.result));
+                Alert("Success!", "theme updated")
+            }
+
+            else(Alert("Error!", "invalid theme"));
         }
+        reader.readAsText(file);
+    }, false);
 
-        else{
-            customTheme(false);
-        }
-    });
 
-    document.getElementById('theme-file-upload').addEventListener('change', readFile, false);
-
-    $("#save-current-theme").click(function() {
+    $("#save-current-theme").click(() => {
         theme.save(jQuery.parseJSON(localStorage.customTheme));
     });
 
-    //------------------------------dev------------------------------//
-    option.defineCheck("#dissable-analytics", "dev", true);
-    $("#reset-localStorage").find("a").click(function(){
-        storage.resetAll()
-    });
 
-    $("#guid > h3").text(localStorage.guid);
-    $("h1").click(function() {
-        if(tenClick() == true && event.shiftKey == true){
-            if(localStorage.dev != "true"){
-                analyticsEvent("dev-center" , "clicked");
+    // Unlock dev mode after 10 shift clicks
+    let numClick = 0;
+    $(".logo").click(function() {
+        if(numClick == 10){
+            numClick = 0;
+
+            if(localStorage.dev == 'true'){
+                localStorage.dev = 'false';
+                $('body').removeClass('dev');
+            } else{
+                localStorage.dev = 'true';
+                $('body').addClass('dev');
             }
-            $(".lightbox").unbind();
-            $(".lightbox, .popup").show();
-            myLibrary(".popup").center();
-            setTimeout(function(){
-                $(".lightbox").click(function() {
-                    $(".lightbox, .popup").hide();
-                    $(".lightbox").unbind("click");
-                });
-            }, 600);
+        }
+
+        else{
+            if(event.shiftKey == true) numClick++;
+            setTimeout(() =>{
+                if(numClick !== 0) numClick = 0;
+            }, 2000);
         }
     });
 
-    //-----------------------------changelog-----------------------------//
-    if(clientInformation.onLine != true){
-        $("#changelog").hide();
-    }
-
-    else{
-        $.getJSON("https://raw.githubusercontent.com/Christianjuth/calculator-browser-extension/JSON/changelog.json", function(data) {
-            for(i=0; i< Math.min(data.length, 3); i++){
-                line = data[i];
-
-                if(i == 0){
-                    changelogLine(line);
-                }
-
-                else{
-                    changelogLine(line);
-                }
-            };
-        });
-    }
+    if(localStorage.dev == "true") $('body').addClass('dev');
+    $("#reset-storage").click(() => storage.resetAll());
+    $("#guid").text(localStorage.guid);
 });
 
-var numClick = 1;
-function tenClick(){
-    if(numClick == 10){
-        numClick = 1;
-        return true;
-    }
-    else{
-        numClick = numClick + 1;
-        if(numClick == 2){
-            setTimeout(function(){
-                if(numClick != 1){
-                    numClick = 1;
-                }
-            },2000);
-        }
 
-        return false;
-    }
-}
 
-function readFile(evt) {
-    var files = evt.target.files;
-    var file = files[0];
-    var reader = new FileReader();
-    reader.onload = function() {
-        if(theme.validate($.parseJSON(this.result))){
-            theme.update($.parseJSON(this.result));
-            Alert("Success!", "theme updated")
-        }
-
-        else(Alert("Error!", "invalid theme"));
-    }
-    reader.readAsText(file);
-    return;
-}
 
 function customTheme(animate) {
     if($("#theme-selctor").val() == "custom"){
@@ -137,23 +86,14 @@ function customTheme(animate) {
     return;
 }
 
-function changelogLine(options){
-    var d = new Date(options.date.replace(/-/,"/"));
-    var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    var m = month[d.getMonth()];
-    var day = d.getUTCDate();
-    var y = d.getFullYear();
 
-    $("<tr><td><a href='" + options.link + "'>" + options.version + "</a></td><td>" + options.description + "</td><td>" + m + "-" + day + "-" + y + "</td></tr>").appendTo("table");
-}
 
-option = {
-    defineCheck : function(option, storage, watch, ifTrue, ifFalse){
-        if(ifTrue == undefined) ifTrue = function(){}; //make sure ifTrue defined
-        if(ifFalse == undefined) ifFalse = function(){}; //make sure ifFalse defined
-        option = $(option); //get selector
+
+let option = {
+    defineCheck: function(selector, storage, onChange){
+        $selector = $(selector); //get selector
         if(localStorage[storage] == "true"){ //check true
-            option.find("input").prop('checked', true); //check
+            $selector.find("input").prop('checked', true); //check
             ifTrue(); //call ifTrue
         }
 
@@ -161,121 +101,15 @@ option = {
             option.find("input").prop('checked', false); //uncheck
             ifFalse(); //call ifFalse
         }
-
-        option.iCheck({
-            checkboxClass: 'icheckbox_square-grey checkbox',
-            increaseArea: '20%' // optional
-        }).on('ifToggled', function(event){
-            if(option.find("input").prop('checked') != false){ //check true
-                localStorage[storage] = "true"; //update option localStorage true
-                ifTrue(); //call ifTrue
-            }
-
-            else{
-                localStorage[storage] = "false"; //update option localStorage false
-                ifFalse(); //call ifFalse
-            }
-        });
-
-        if(watch == true){
-            this.watch(storage, 500, function(object){ //watch localStorage object
-                object.defineCheck(option, storage, false, ifTrue, ifFalse); //on chagne refresh option
-            });
-        }
     },
+    defineSelect: function(selector, storage, onChange){
+        let $selector = $(selector); //get selector
+        $selector.val(localStorage[storage]); //get setting from localStorage
 
-    dissableCheck : function(option){
-        option = $(option); //get selector
-        $(option).fadeTo(100, 0.4, function() { //fade option
-            $(option).children(".checkbox").iCheck('disable'); //disable check box
+        onChange();
+        $selector.change(() => {
+            localStorage[storage] = $selector.val();
+            onChange();
         });
-    },
-
-    enableCheck : function(option){
-        option = $(option); //get selector
-        $(option).fadeTo(100, 1, function() { //fade option
-            $(option).children(".checkbox").iCheck('enable'); //enable check box
-        });
-    },
-
-    defineSelect : function(option, storage, watch, change){
-        option = $(option); //get selector
-        option.val(localStorage[storage]); //get setting from localStorage
-        option.chosen({disable_search_threshold: 10}); //set up chosen
-        option.trigger("chosen:updated"); //refresh chosen
-
-        change(); //call change
-        option.change(function() { //on option change
-            localStorage[storage] = option.val(); //update local storage
-            change(); //call change
-        });
-
-        if(watch == true){ //if first iteration of defineSelect
-            this.watch(storage, 1000, function(object){ //watch localStorage object
-                object.defineSelect(option, storage, false, change); //on chagne refresh option
-            });
-        }
-
-        option.trigger("chosen:updated");
-    },
-
-    watch : function(storage, refresh, callback){
-        var value = localStorage[storage]; //get valuse from localStorage
-        setTimeout(function(storage, refresh, callback, value, restart){ //timeout
-            if(localStorage[storage] != value) callback(restart); //check for storage value change
-            restart.watch(storage, refresh, callback); //recall watch
-        }, refresh, storage, refresh, callback, value, this);
     }
-}
-
-function capitalize( str ){
-    var pieces = str.split(" ");
-    for( var i = 0; i < pieces.length; i++ )
-    {
-        var j = pieces[i].charAt(0).toUpperCase();
-        pieces[i] = j + pieces[i].substr(1);
-    }
-    return pieces.join(" ");
-}
-
-window.Alert = function(content, title, effect) {
-    var message = $('<p />', { text: title }),
-        ok = $('<button />', { text: 'Ok', 'class': 'full' });
-
-    dialogue( message.add(ok), content, effect);
-}
-
-function dialogue(content, title, effect) {
-    $('<div />').qtip({
-        content: {
-            text: content,
-            title: title
-        },
-        position: {
-            my: 'center', at: 'center',
-            target: $(window)
-        },
-        show: {
-            ready: true,
-            modal: {
-                on: true,
-                blur: false
-            }
-        },
-        hide: {
-            effect: effect
-        },
-        style: {
-            type:'dialogue',
-            classes: 'qtip-bootstrap'
-        },
-        events: {
-            render: function(event, api) {
-                $('button', api.elements.content).click(function(e) {
-                    api.hide(e);
-                });
-            },
-            hide: function(event, api) { api.destroy(); }
-        }
-    });
 }

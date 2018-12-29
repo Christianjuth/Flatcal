@@ -7,7 +7,6 @@ $(document).ready(function() {
         theme.save(localStorage.customTheme);
     });
 
-    $("#input-container").css({"width":"390px"});
     $("#scientific-1").css({"display":"inline-block"});
     $("#number-container").css({"display":"inline-block"});
     $("#margins").css({"padding":"16px"});

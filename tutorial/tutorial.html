@@ -2,200 +2,188 @@
     <head>
         <title>Tutorial</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="../resources/plugins/progress/progress.min.css" rel="stylesheet"><!--iCheck-->
-        <script src="../resources/plugins/progress/progress.min.js"></script>
-        <script type="text/javascript" src="../resources/js/analytics.min.js"></script>
+        <script type="text/javascript" src="../resources/js/analytics.js"></script>
 
         <!--load javascript libraries-->
         <script type="text/javascript" src="../resources/js/libraries/jquery.min.js"></script>
         <script type="text/javascript" src="../resources/js/libraries/my-library.min.js"></script>
         <script type="text/javascript" src="../resources/js/libraries/validate.min.js"></script>
 
-        <!--load files css and js files-->
-        <link rel="stylesheet" type="text/css" href="tutorial.min.css">
-        <script type="text/javascript" src="tutorial.min.js"></script>
 
+        <script type="text/javascript" src="../resources/js/theme/theme.js"></script>
+        <script type="text/javascript" src="../resources/js/calculator.js"></script>
+        <script type="text/javascript" src="../resources/js/calculator-keyboard.js"></script>
+        <script type="text/javascript" src="../resources/js/calculator-events.js"></script>
+        <link rel="stylesheet" media="screen, print, handheld" type="text/css" href="../resources/css/calculator.css">
 
-        <script type="text/javascript" src="../resources/js/theme/theme.min.js"></script>
-        <script type="text/javascript" src="../resources/js/calculator.min.js"></script>
-        <script type="text/javascript" src="../resources/js/calculator-keyboard.min.js"></script>
-        <script type="text/javascript" src="../resources/js/calculator-events.min.js"></script>
-        <link rel="stylesheet" media="screen, print, handheld" type="text/css" href="../resources/css/calculator.min.css">
-
-        <!----------plugins------------>
-        <link rel="stylesheet" type="text/css" href="../resources/plugins/jquery.qtip.custom/jquery.qtip.min.css"><!--qtip-->
-        <script type="text/javascript" src="../resources/plugins/jquery.qtip.custom/jquery.qtip.min.js"></script>
-
-        <link href="../resources/plugins/iCheck-master/skins/square/grey.min.css" rel="stylesheet"><!--iCheck-->
-        <script src="../resources/plugins/iCheck-master/icheck.min.js"></script>
-
-        <script type="text/javascript" src="../resources/plugins/chosen/chosen.min.js"></script><!--chosen-->
-        <link rel="stylesheet" media="screen, print, handheld" type="text/css" href="../resources/plugins/chosen/chosen.min.css">
+        <link rel="stylesheet" type="text/css" href="tutorial.css">
+        <script type="text/javascript" src="tutorial.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Sofia" rel="stylesheet">
     </head>
     <body>
 
-        <div id="theme-builder-container">
+        <div id="page">
+            <h1 class="logo">Flatcal</h1>
 
-            <div id="right-container">
-                <div id="calculator-type-option" class="setting-container">
-                    <div id="theme-title" class="option-title">Calculator type</div>
-                    <select id="calculator-type">
-                        <option class="theme-selctor-option" value="normal">normal</option>
-                        <option class="theme-selctor-option" value="scientific">scientific</option>
-                    </select>
-                </div>
+            <div id="theme-builder-container">
 
-                <div id="theme-selector-container" class="setting-container">
-                    <div id="theme-title" class="option-title">Select a theme</div>
-                    <select id="theme-selctor">
-                    </select>
-                </div>
-
-                <div id="next">next</div>
-            </div>
-
-            <div id="left-container">
-                <div id="left-container-description">Calculator v3</div>
-
-                <div id="margins">
-                    <div id="input-border"></div>
-                    <div id="input-container">
-                        <div class="text">
-                            <span id="m-status"></span>
-                            <span id="rad-deg"></span>
-                        </div>
-                        <span id="input">0</span>
+                <div id="right-container">
+                    <div id="calculator-type-option" class="option-grp">
+                        <h2 id="theme-title">Calculator type</h2>
+                        <select id="calculator-type">
+                            <option class="theme-selctor-option" value="normal">normal</option>
+                            <option class="theme-selctor-option" value="scientific">scientific</option>
+                        </select>
                     </div>
 
-                    <section class="left" id="scientific-2">
-                        <div id="topRow" >
-                            <div class="button m" fun="clear">mc</div>
-                            <div class="button m" fun="plus">m+</div>
-                            <div class="button m" fun="minus">m-</div>
-                            <div class="button m" fun="recall">mr</div>
-                        </div>
+                    <div id="theme-selector-container" class="option-grp">
+                        <h2 id="theme-title">Select a theme</h2>
+                        <select id="theme-selctor">
+                        </select>
+                    </div>
+                </div>
 
-
-                        <div>
-                            <div class="button math" fun="nthroot" y="2">
-                                <sup class="sup-sqrt">2</sup>&#x221A;y
+                <div id="left-container">
+                    <div id="margins">
+                        <div id="input-border"></div>
+                        <div id="input-container">
+                            <div class="text">
+                                <span id="m-status"></span>
+                                <span id="rad-deg"></span>
                             </div>
-                            <div class="button opp" value="square-root-y">
-                                <sup class="sup-sqrt">X</sup>&#x221A;y
+                            <span id="input">0</span>
+                        </div>
+
+                        <section class="left" id="scientific-2">
+                            <div id="topRow" >
+                                <div class="button m" fun="clear">mc</div>
+                                <div class="button m" fun="plus">m+</div>
+                                <div class="button m" fun="minus">m-</div>
+                                <div class="button m" fun="recall">mr</div>
                             </div>
-                            <div class="button math" fun="pow" y="2">
-                                <span>x<sup class="sup">2</sup></span>
+
+
+                            <div>
+                                <div class="button math" fun="nthroot" y="2">
+                                    <sup class="sup-sqrt">2</sup>&#x221A;y
+                                </div>
+                                <div class="button opp" value="square-root-y">
+                                    <sup class="sup-sqrt">X</sup>&#x221A;y
+                                </div>
+                                <div class="button math" fun="pow" y="2">
+                                    <span>x<sup class="sup">2</sup></span>
+                                </div>
+                                <div class="button opp" value="pow-of-y">
+                                    <span>x<sup class="sup">y</sup></span>
+                                </div>
                             </div>
-                            <div class="button opp" value="pow-of-y">
-                                <span>x<sup class="sup">y</sup></span>
+
+
+                            <div>
+                                <div class="button 2x">1<sup class="sup">st</sup></div>
+                                <div class="button math" fun="acos">cos<sup class="sup">-1</sup></div>
+                                <div class="button math" fun="atan">tan<sup class="sup">-1</sup></div>
+                                <div class="button math" fun="asin">sin<sup class="sup">-1</sup></div>
                             </div>
-                        </div>
 
-
-                        <div>
-                            <div class="button 2x">1<sup class="sup">st</sup></div>
-                            <div class="button math" fun="acos">cos<sup class="sup">-1</sup></div>
-                            <div class="button math" fun="atan">tan<sup class="sup">-1</sup></div>
-                            <div class="button math" fun="asin">sin<sup class="sup">-1</sup></div>
-                        </div>
-
-                        <div>
-                            <div class="button math" fun="log" y="10">log<sup class="sup">10</sup></div>
-                            <div class="button math" fun="acosh">cosh<sup class="sup">-1</sup></div>
-                            <div class="button math" fun="atanh">tanh<sup class="sup">-1</sup></div>
-                            <div class="button math" fun="asinh">sinh<sup class="sup">-1</sup></div>
-                        </div>
-
-                        <div id="bottomRow">
-                            <div class="button math" fun="in">in</div>
-                            <div class="button math" fun="pi">&#960;</div>
-                            <div class="button math" fun="e">e</div>
-                            <div class="button opp" value="mod">mod</div>
-                        </div>
-                    </section>
-
-                    <section class="left" id="scientific-1">
-                        <div id="topRow" >
-                            <div class="button m" fun="clear">mc</div>
-                            <div class="button m" fun="plus">m+</div>
-                            <div class="button m" fun="minus">m-</div>
-                            <div class="button m" fun="recall">mr</div>
-                        </div>
-
-                        <div>
-                            <div class="button math" fun="nthroot" y="2">
-                                <sup class="sup-sqrt">2</sup>&#x221A;y
+                            <div>
+                                <div class="button math" fun="log" y="10">log<sup class="sup">10</sup></div>
+                                <div class="button math" fun="acosh">cosh<sup class="sup">-1</sup></div>
+                                <div class="button math" fun="atanh">tanh<sup class="sup">-1</sup></div>
+                                <div class="button math" fun="asinh">sinh<sup class="sup">-1</sup></div>
                             </div>
-                            <div class="button opp" value="square-root-y">
-                                <sup class="sup-sqrt">X</sup>&#x221A;y
+
+                            <div id="bottomRow">
+                                <div class="button math" fun="in">in</div>
+                                <div class="button math" fun="pi">&#960;</div>
+                                <div class="button math" fun="e">e</div>
+                                <div class="button opp" value="mod">mod</div>
                             </div>
-                            <div class="button math" fun="pow" y="2">
-                                <span>x<sup class="sup">2</sup></span>
+                        </section>
+
+                        <section class="left" id="scientific-1">
+                            <div id="topRow" >
+                                <div class="button m" fun="clear">mc</div>
+                                <div class="button m" fun="plus">m+</div>
+                                <div class="button m" fun="minus">m-</div>
+                                <div class="button m" fun="recall">mr</div>
                             </div>
-                            <div class="button opp" value="pow-of-y">
-                                <span>x<sup class="sup">y</sup></span>
+
+                            <div>
+                                <div class="button math" fun="nthroot" y="2">
+                                    <sup class="sup-sqrt">2</sup>&#x221A;y
+                                </div>
+                                <div class="button opp" value="square-root-y">
+                                    <sup class="sup-sqrt">X</sup>&#x221A;y
+                                </div>
+                                <div class="button math" fun="pow" y="2">
+                                    <span>x<sup class="sup">2</sup></span>
+                                </div>
+                                <div class="button opp" value="pow-of-y">
+                                    <span>x<sup class="sup">y</sup></span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div>
-                            <div class="button 2x">2<sup class="sup">nd</sup></div>
-                            <div class="button math" fun="cos">cos</div>
-                            <div class="button math" fun="tan">tan</div>
-                            <div class="button math" fun="sin">sin</div>
-                        </div>
+                            <div>
+                                <div class="button 2x">2<sup class="sup">nd</sup></div>
+                                <div class="button math" fun="cos">cos</div>
+                                <div class="button math" fun="tan">tan</div>
+                                <div class="button math" fun="sin">sin</div>
+                            </div>
 
-                        <div>
-                            <div class="button math" fun="log" y="2">log<sup class="sup">2</sup></div>
-                            <div class="button math" fun="cosh">cosh</div>
-                            <div class="button math" fun="tanh">tanh</div>
-                            <div class="button math" fun="sinh">sinh</div>
+                            <div>
+                                <div class="button math" fun="log" y="2">log<sup class="sup">2</sup></div>
+                                <div class="button math" fun="cosh">cosh</div>
+                                <div class="button math" fun="tanh">tanh</div>
+                                <div class="button math" fun="sinh">sinh</div>
 
-                        </div>
+                            </div>
 
-                        <div id="bottomRow">
-                            <div class="button math" fun="in">in</div>
-                            <div class="button math" fun="pi">&#960;</div>
-                            <div class="button math" fun="e">e</div>
-                            <div class="button opp" value="mod">mod</div>
-                        </div>
-                    </section>
+                            <div id="bottomRow">
+                                <div class="button math" fun="in">in</div>
+                                <div class="button math" fun="pi">&#960;</div>
+                                <div class="button math" fun="e">e</div>
+                                <div class="button opp" value="mod">mod</div>
+                            </div>
+                        </section>
 
-                    <section class="right" id="number-container">
-                        <div id="topRow" >
-                            <div class="button ce" id="ce">AC</div>
-                            <div class="button pos-neg" id="positive-negative">+/-</div>
-                            <div id="percentage" class="button event" fun="percentage">%</div>
-                            <div id="divide" class="button right opp" value="divide">&divide;</div>
+                        <section class="right" id="number-container">
+                            <div id="topRow" >
+                                <div class="button ce" id="ce">AC</div>
+                                <div class="button pos-neg" id="positive-negative">+/-</div>
+                                <div id="percentage" class="button event" fun="percentage">%</div>
+                                <div id="divide" class="button right opp" value="divide">&divide;</div>
 
-                        </div>
+                            </div>
 
-                        <div>
-                            <div id="seven" class="button number left" value="7">7</div>
-                            <div id="eight" class="button number" value="8">8</div>
-                            <div id="nine" class="button number" value="9">9</div>
-                            <div id="multiply" class="button right opp" value="multiply">x</div>
-                        </div>
+                            <div>
+                                <div id="seven" class="button number left" value="7">7</div>
+                                <div id="eight" class="button number" value="8">8</div>
+                                <div id="nine" class="button number" value="9">9</div>
+                                <div id="multiply" class="button right opp" value="multiply">x</div>
+                            </div>
 
-                        <div>
-                            <div id="four" class="button number left" value="4">4</div>
-                            <div id="five" class="button number" value="5">5</div>
-                            <div id="six" class="button number" value="6">6</div>
-                            <div id="subtract" class="button right opp" value="subtract">-</div>
-                        </div>
+                            <div>
+                                <div id="four" class="button number left" value="4">4</div>
+                                <div id="five" class="button number" value="5">5</div>
+                                <div id="six" class="button number" value="6">6</div>
+                                <div id="subtract" class="button right opp" value="subtract">-</div>
+                            </div>
 
-                        <div>
-                            <div id="one" class="button number left" value="1">1</div>
-                            <div id="two" class="button number" value="2">2</div>
-                            <div id="three" class="button number" value="3">3</div>
-                            <div class="button right opp" id="plus" value="plus">+</div>
-                        </div>
+                            <div>
+                                <div id="one" class="button number left" value="1">1</div>
+                                <div id="two" class="button number" value="2">2</div>
+                                <div id="three" class="button number" value="3">3</div>
+                                <div class="button right opp" id="plus" value="plus">+</div>
+                            </div>
 
-                        <div id="bottomRow">
-                            <div id="zero" class="button long number" value="0">0</div>
-                            <div id="point" class="button">.</div>
-                            <div class="button right" id="equal">=</div>
-                        </div>
-                    </section>
+                            <div id="bottomRow">
+                                <div id="zero" class="button long number" value="0">0</div>
+                                <div id="point" class="button">.</div>
+                                <div class="button right" id="equal">=</div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </div>
         </div>

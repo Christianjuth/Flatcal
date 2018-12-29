@@ -8,7 +8,7 @@ chrome.windows.getCurrent(function(x){
             height:298
         });
         window.close();
-    };
+    }
 
     else{
         chrome.browserAction.onClicked.addListener(function(tab) {
@@ -38,7 +38,7 @@ $(document).ready(function() {
     }
 
     if(localStorage.type == "screen-only"){
-        $("#input-container").css({"width":"184px", "padding-right":"8px"});
+        $("#input-container").css({"padding-right":"8px"});
         $("#input").css({"width":"100%"});
         $(".input-text").hide();
         $("#scientific-1").remove();
@@ -52,14 +52,12 @@ $(document).ready(function() {
         $("#scientific-1").remove();
         $("#scientific-2").remove();
         $("#number-container").css({"display":"inline-block"});
-        $("#input-container").css({"width":"184px"});
         $("#input").css({"width":"100%"});
         $("#input-container > .text").hide();
         $("#margins").css({"padding":"16px"});
     }
 
     else{
-        $("#input-container").css({"width":"390px"});
         $("#scientific-1").css({"display":"inline-block"});
         $("#number-container").css({"display":"inline-block"});
         $("#margins").css({"padding":"16px"});

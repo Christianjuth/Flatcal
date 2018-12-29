@@ -26,7 +26,7 @@
 
         "numbers": {
             "color": "#eee",
-            "hoverColor": "ddd",
+            "hoverColor": "#ddd",
             "textColor": "#222"
         },
 

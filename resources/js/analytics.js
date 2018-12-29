@@ -1,4 +1,4 @@
-if(localStorage.dev != "true"){
+if(localStorage.dev !== "true"){
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-54875825-1']); //account number
     _gaq.push(['_trackPageview']); //push current page

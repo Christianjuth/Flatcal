@@ -5,43 +5,16 @@
 | 8b      88~~~88 88      8b      88    88 88      88~~~88    88    88    88 88`8b    |
 | Y8b  d8 88   88 88booo. Y8b  d8 88b  d88 88booo. 88   88    88    `8b  d8' 88 `88.  |
 |  `Y88P' YP   YP Y88888P  `Y88P' ~Y8888P' Y88888P YP   YP    YP     `Y88P'  88   YD  |
----------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------*/
 
----------------------------FUNCTIONS------------------------------
-|                                                                |
-|  ini(options)               - initiate the calculator          |
-|  numberClicked              - called when number is clicked    |
-|  screen                     - screen functions                 |
-|    set(value)               - set screen value                 |
-|    get                      - get screen value                 |
-|    length                   - get screen length                |
-|    clear                    - clear screen                     |
-|
-|
-|  m                          - memory functions                 |
-|    recall                   - get number in memory             |
-|    clear                    - clear the current memory number  |
-|
-|
-|
-|
-|
-------------------------------------------------------------------
 
-----------------------------VARIABLES-----------------------------
-|                                                                |
-|  calculator.max             - max legnth calculator is allowed |
-|  calculator.selector.screen - selector for calculator screen   |
-|
-|
-|
-|
-------------------------------------------------------------------*/
 
-var calculator = {
-    ini : function(options){
+let calculator = {
+    ini: function(options){
         this.storage = window[options.storage];
-        if(options.max == undefined || options.max > 15) options.max = 15; //validate max screen size
+
+        options.max = options.max || 15;
+        options.max = Math.min(Math.round(($("#input-container").width() / 18) - 1), options.max)
 
         if(typeof options.selector !== undefined){
             $.each(options.selector, function(key, data){
@@ -52,7 +25,8 @@ var calculator = {
                 calculator.options[key] = data;
             });
 
-            this.options.maxLength = Math.min(Math.round(($("#input-container").width() / 18) - 1), options.max); //define number max legnth
+            // resume state
+            this.options.maxLength = options.max;
             this.lastSecond = "0";
             this.first = "0";
             this.second = "";
@@ -68,25 +42,25 @@ var calculator = {
         }
     },
 
+    value: function() {
+        return parseFloat(this.screen.get());
+    },
+
     selector : {},
     options : {},
 
-    numberClicked : function(lastButtonClicked){
-        if(calculator.clear == true) calculator.screen.clear(); //calculator.screen.clears any previous values
-        var validate = calculator.screen.get() == "0" && lastButtonClicked == 0 && calculator.selector.screen.text().indexOf(".") == -1;
+    numberClicked: function(lastButtonClicked){
+        if(calculator.clear == true) calculator.screen.clear();
 
-        if(calculator.op== "" && validate != true){
+        if(calculator.op == ""){
             if(calculator.first.replace(/-/g,"").replace(/\./g,"").length < calculator.options.maxLength){
-                if(this.first.indexOf(".") != -1) this.first = String(parseInt(this.first.split(".")[0]) + "." + this.first.split(".")[1] + lastButtonClicked);
-                else this.first = String(parseInt(this.first + '' + lastButtonClicked));
+                this.first += lastButtonClicked;
                 this.screen.set(this.first, false);
             }
         }
-        else if(validate != true){
-            if(calculator.second.replace(/-/g,"").replace(/\./g,"").length < calculator.options.maxLength){
-                if(this.second.length == 0) this.second = String(lastButtonClicked);
-                else if(this.second.indexOf(".") != -1) this.second = String(parseInt(this.second.split(".")[0]) + "." + this.second.split(".")[1] + lastButtonClicked);
-                else this.second = String(parseInt(this.second + '' + lastButtonClicked));
+        else{
+            if(calculator.second.replace(/(-|\.)/g,"").length < calculator.options.maxLength){
+                this.second += lastButtonClicked;
                 this.screen.set(this.second, false);
             }
         }
@@ -94,12 +68,16 @@ var calculator = {
         return lastButtonClicked;
     },
 
-    screen : {
-        set : function(number, stripZeros) {
+    screen: {
+        set: function(number) {
             number = String(number);
+
             if(number == "") number = "0";
+
             if(number.indexOf(".") != -1 && number != "-0") number = String(parseInt(number.split(".")[0]) + "." + number.split(".")[1]);
+
             else if(number != "-0") number = String(parseInt(number));
+
             var valid = (number != "" && number != undefined && number != "undefined"); //validate number
             if(number == "NaN"|| number.split(".")[0].replace(/-/,"").length > calculator.options.maxLength || !valid){
                 calculator.screen.clear();
@@ -141,8 +119,8 @@ var calculator = {
         }
     },
 
-    operator: function(operator) {
-        if(operator == undefined) operator = "";
+    operator: function(operator = "") {
+
         if(calculator.op != ""){
             calculator.calculate(false, false);
             calculator.clear= false;
@@ -151,7 +129,7 @@ var calculator = {
         }
 
         else{
-            calculator.clear= false;
+            calculator.clear = false;
             calculator.op = operator;
             calculator.animate.op(operator);
         }
@@ -160,40 +138,45 @@ var calculator = {
     },
 
     calculate: function(clearVaulesAfter, fromOpp){
-        var finalNumber = new Array();
-        var output = "";
+        let finalNumber = new Array(),
+            output = "",
+            first,
+            second;
+
         if(this.second != "0" && this.second != "") this.lastSecond = this.second;
 
-        if(calculator.second != ""){
-            if(calculator.op== "plus"){
-                overall = parseFloat(calculator.first) + parseFloat(calculator.second); //addition
-            }
+        first = parseFloat(calculator.first);
 
-            else if(calculator.op== "subtract"){
-                overall = parseFloat(calculator.first) - parseFloat(calculator.second); //subtraction
-            }
+        if(calculator.second != "")
+            second = parseFloat(calculator.second);
+        else if(calculator.lastSecond != "" && calculator.op != "" && fromOpp != false)
+            second = parseFloat(calculator.lastSecond);
 
-            else if(calculator.op== "multiply"){
-                overall = parseFloat(calculator.first) * parseFloat(calculator.second); //multiplication
-            }
+        switch(calculator.op) {
+            case 'plus':
+                overall = first + second;
+                break;
+            case 'subtract':
+                overall = first - second;
+                break;
+            case 'multiply':
+                overall = first * second;
+                break;
+            case 'divide':
+                overall = first / second;
+                break;
+            case 'mod':
+                overall = first % second;
+                break;
+            case 'pow-of-y':
+                overall = Math.pow(first, second);
+                break;
+            case 'square-root-y':
+                overall = this.math.nthroot(first, second);
+                break;
+        };
 
-            else if(calculator.op== "divide"){
-                overall = parseFloat(calculator.first) / parseFloat(calculator.second); //divition
-            }
-
-            else if(calculator.op== "mod"){
-                overall = parseFloat(calculator.first) % parseFloat(calculator.second); //mod
-            }
-
-            else if(calculator.op== "pow-of-y"){
-                overall = Math.pow(parseFloat(calculator.first), parseFloat(calculator.second));
-            }
-
-            else if(calculator.op== "square-root-y"){
-                overall = this.math.nthroot(parseFloat(calculator.first), parseFloat(calculator.second));
-            }
-
-            calculator.selector.screen.text("");
+        calculator.selector.screen.text("");
             setTimeout(calculator.screen.set, 100, overall);
             this.animate.op();
             calculator.first = String(overall);
@@ -203,124 +186,71 @@ var calculator = {
             if(clearVaulesAfter == true){
                 this.clear = true;
             }
-        }
-
-        else if(calculator.lastSecond != "" && calculator.op!= "" && fromOpp != false){
-            if(calculator.op== "plus"){
-                overall = parseFloat(calculator.first) + parseFloat(calculator.lastSecond); //addition
-            }
-
-            else if(calculator.op== "subtract"){
-                overall = parseFloat(calculator.first) - parseFloat(calculator.lastSecond); //subtraction
-            }
-
-            else if(calculator.op== "multiply"){
-                overall = parseFloat(calculator.first) * parseFloat(calculator.lastSecond); //multiplication
-            }
-
-            else if(calculator.op== "divide"){
-                overall = parseFloat(calculator.first) / parseFloat(calculator.lastSecond); //divition
-            }
-
-            else if(calculator.op== "mod"){
-                overall = parseFloat(calculator.first) % parseFloat(calculator.lastSecond); //mod
-            }
-
-            else if(calculator.op== "pow-of-y"){
-                overall = Math.pow(parseFloat(calculator.first), parseFloat(calculator.lastSecond));
-            }
-
-            else if(calculator.op== "square-root-y"){
-                overall = this.math.nthroot(parseFloat(calculator.first), parseFloat(calculator.lastSecond));
-            }
-
-            calculator.selector.screen.text("");
-            setTimeout(calculator.screen.set, 100, overall);
-            this.animate.op();
-            calculator.first = String(overall);
-            calculator.second = "";
-            overall = "";
-
-            if(clearVaulesAfter == true){
-                this.clear = true;
-            }
-        }
 
         return;
     },
 
     mathFunctions:{
         //static functions
-        pi : function(){
-            return String(Math.PI);
-        },
+        pi: () => String(Math.PI),
 
-        e : function() {
-            return Math.E;
-        },
+        e: () => Math.E,
 
         //basic functions
-        pow : function(x,y) {
-            return math.pow(x, y);
-        },
+        pow: (x,y) => math.pow(x, y),
 
-        nthroot : function(x, n) {
+        nthroot: (x, n) => {
             try {
-                var negate = n % 2 == 1 && x < 0;
+                let negate = n % 2 == 1 && x < 0;
                 if(negate)
                     x = -x;
-                var possible = Math.pow(x, 1 / n);
+                let possible = Math.pow(x, 1 / n);
                 n = Math.pow(possible, n);
                 if(Math.abs(x - n) < 1 && (x > 0 == n > 0))
                     return negate ? -possible : possible;
             } catch(e){}
         },
 
+        in: (x) => Math.log(x),
 
-        in : function(x) {
-            return Math.log(x);
-        },
-
-        log : function(x, y) {
-            return math.log(parseFloat(x),y);
-        },
+        log: (x, y) => math.log(x, y),
 
         //trig functions
-        sin : function(x) {
+        sin: (x) => {
             return math.sin(math.unit(x, calculator.storage.radDeg));
         },
 
-        cos : function(x) {
+        cos: (x) => {
             return math.cos(math.unit(x, calculator.storage.radDeg));
         },
 
-        tan : function(x) {
+        tan: (x) => {
             return math.tan(math.unit(x, calculator.storage.radDeg));
         },
 
-        sinh : function(x) {
+        sinh: (x) => {
             return math.sinh(math.unit(x, calculator.storage.radDeg));
         },
 
-        cosh : function(x) {
+        cosh: (x) => {
             return math.cosh(math.unit(x, calculator.storage.radDeg));
         },
 
-        tanh : function(x) {
+        tanh: (x) => {
             return math.tanh(math.unit(x, calculator.storage.radDeg));
         },
 
-        asin : function(x) {
+        asin: (x) => {
             if(calculator.storage.radDeg == "rad") return math.asin(x);
             else return math.asin(x) * (180 / Math.PI);
         },
 
-        acos : function(x) {
+        acos: (x) => {
             if(calculator.storage.radDeg == "rad") return math.acos(x);
             else return math.acos(x) * (180 / Math.PI);
         },
 
-        atan : function(x) {
+        atan: (x) => {
             if(calculator.storage.radDeg == "rad") return math.atan(x);
             else return math.atan(x) * (180 / Math.PI);
         },
@@ -335,11 +265,11 @@ var calculator = {
 
         atanh : function(x) {
             return Math.atanh(x);
-        },
+        }
     },
 
-    math : function(fun, x, y){
-        var result = calculator["mathFunctions"][fun](parseFloat(x),parseFloat(y));
+    math: function(fun, x, y){
+        let result = calculator["mathFunctions"][fun](parseFloat(x),parseFloat(y));
         if(result !== false){
             if(calculator.op == "") return calculator.first = calculator.screen.set(result);
             else return calculator.second = calculator.screen.set(result);
@@ -347,7 +277,7 @@ var calculator = {
         else calculator.screen.get();
     },
 
-    event : {
+    event: {
         addDecimal : function() {
             if(calculator.clear == true) calculator.screen.clear();
 
@@ -397,7 +327,7 @@ var calculator = {
             return;
         },
 
-        percentage : function(){
+        percentage: function(){
             if(calculator.op == ""){
                 calculator.first = String(1 * (calculator.first * 0.01));
                 calculator.clear = true;
@@ -409,90 +339,97 @@ var calculator = {
                 calculator.clear = true;
                 return calculator.screen.set(calculator.second);
             }
+        },
+
+        sq: () => {
+            if(calculator.op == ""){
+                calculator.first = String(calculator.first * calculator.first);
+                calculator.clear = true;
+                return calculator.screen.set(calculator.first);
+            }
+
+            else{
+                calculator.second = String(calculator.second * calculator.second);
+                calculator.clear = true;
+                return calculator.screen.set(calculator.second);
+            }
         }
     },
 
     //memory functions
-    m : {
-        recall : function() {
-            if(parseFloat(calculator.storage.m) != 0){
-                if(calculator.op== ""){
-                    calculator.first = calculator.storage.m;
-                    calculator.screen.set(calculator.first);
-                }
+    m: {
+        recall: () => {
+            if(calculator.op == "")
+                calculator.first = calculator.storage.m;
+            else
+                calculator.second = calculator.storage.m;
 
-                else{
-                    calculator.second = calculator.storage.m;
-                    calculator.screen.set(calculator.second);
-                }
-            }
-            return calculator.storage.m;
+            calculator.screen.set(calculator.storage.m);
         },
 
-        clear : function(){
+        clear: () => {
             calculator.storage.m = 0;
             $("#m-status").text("");
-            return calculator.storage.m;
         },
 
-        minus : function() {
-            calculator.storage.m = parseFloat(calculator.storage.m) - parseFloat(calculator.screen.get());
+        minus: function() {
+            calculator.storage.m -= calculator.value();
             if(calculator.storage.m != "0") $("#m-status").text("m");
-            return calculator.storage.m;
         },
 
-        plus : function() {
-            calculator.storage.m = parseFloat(calculator.storage.m) + parseFloat(calculator.screen.get());
+        plus: function() {
+            calculator.storage.m = parseFloat(calculator.storage.m) + calculator.value();
             if(calculator.storage.m != "0") $("#m-status").text("m");
-            return calculator.storage.m;
         }
     },
 
-    parse : {
-        commas : function(x) {
-            var parts = x.toString().split(".");
-            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            return parts.join(".");
+    parse: {
+        commas: function(x) {
+            // split string at . so 
+            // decimal is not effected
+            let parts = x.toString().split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            return parts.join('.');
         }
     },
 
-    animate : {
-        op : function(selector){
-            $(".opp").css({"-webkit-transform" : "scale(1)"}); //reset scale
+    animate: {
+        op: (opp) => {
+            let $selector = $('#'+opp);
 
-            if(calculator.op != undefined){ //bounce shrink animation
-                $("#" + selector).css({"-webkit-transform" : "scale(0.90)"});
-                setTimeout( function() {
-                    $("#" + selector).css({"-webkit-transform" : "scale(0.95)"});
+            $(".opp").css({"-webkit-transform" : "scale(1)"});
+
+            if(calculator.op != undefined){
+                $selector.css({"-webkit-transform" : "scale(0.90)"});
+                setTimeout(() => {
+                    $selector.css({"-webkit-transform" : "scale(0.95)"});
                 }, 100);
             }
 
             else{
-                $("#" + selector).css({"-webkit-transform" : "scale(1)"});
+                $selector.css({"-webkit-transform" : "scale(1)"});
             }
-
-            return;
         }
     },
 
-    clipboard : {
-        copy : function(text) {
-            var copyFrom = $('<input/>');
-            copyFrom.val(text);
-            $('body').append(copyFrom);
-            copyFrom.select();
+    clipboard: {
+        copy: (text) => {
+            let $input = $('<input/>');
+            $input.val(text);
+            $('body').append($input);
+            $input.select();
             document.execCommand('copy');
-            copyFrom.remove();
-            return text;
+            $input.remove();
         },
 
-        paste : function() {
-            var pasteTo = $('<input/>');
-            $('body').append(pasteTo);
-            pasteTo.select();
+        paste: function() {
+            let $input = $('<input/>');
+            $('body').append($input);
+            $input.select();
             document.execCommand('paste');
-            var number = parseFloat(pasteTo.val());
-            if(!isNaN(parseFloat(number)) && String(number) != "0"){
+            let number = parseFloat($input.val());
+
+            if(!isNaN(parseFloat(number))){
                 calculator.screen.set(number);
                 if(calculator.op== "") calculator.first = number;
                 else calculator.second = number;
@@ -502,31 +439,28 @@ var calculator = {
                 calculator.selector.screen.text("ERROR");
                 calculator.screen.clear();
             }
-            pasteTo.remove();
-            return number;
+            $input.remove();
         }
     },
 
-    rad : function() {
+    rad: function() {
         this.selector.radDeg.text("rad");
-        if(typeof this.selector.radDegInvert !== "undefined") this.selector.radDegInvert.text("deg");
         return "rad";
     },
 
-    deg : function() {
+    deg: function() {
         this.selector.radDeg.text("deg");
-        if(typeof this.selector.radDegInvert !== "undefined") this.selector.radDegInvert.text("rad");
         return "deg";
     }
 }
 
 $(document).ready(function() {
     calculator.ini({
-        storage : "localStorage",
-        selector : {
-            screen : "#input",
-            radDeg : "#rad-deg",
-            radDegInvert : "#rad-deg-invert"
+        storage: "localStorage",
+        selector: {
+            screen: "#input",
+            radDeg: "#rad-deg",
+            radDegInvert: "#rad-deg-invert"
         },
         options: {
             log : true

@@ -1,7 +1,11 @@
 @import url("calculator-fonts.min.css");
 
-body, *{
-    overflow: hidden;
+body,
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 
     -webkit-user-select: none;
     user-select: none;
@@ -40,14 +44,13 @@ body > input{
 #calculator-container{
     width: auto;
     height: auto;
-    display: inline-block;
     position: relative;
 }
 
 #margins{
-    display: inline-block;
     position: relative;
-    font-family: dosis;
+    /*font-family: 'Roboto', sans-serif;*/
+    font-family: 'Open Sans', sans-serif;
     overflow: hidden;
 }
 
@@ -58,8 +61,7 @@ body > input{
     border-style: solid;
     border-color: #aaa;
     border-radius: 0px;
-    height: 36px;
-    width: 390px;
+    height: 47px;
 
     letter-spacing: 1px;
     text-align: right;
@@ -71,7 +73,6 @@ body > input{
     position: absolute;
     height: 70px;
     width: 443px;
-    background-color: #000;
     z-index: 0;
     margin-left: -20px;
     margin-top: -20px;
@@ -108,8 +109,8 @@ body > input{
     margin-top: 16px;
     position: relative;
     display: none;
-    width: auto !important;
     font-size: 0px;
+    width: 196px;
 }
 
 #margins > section.left{
@@ -121,23 +122,18 @@ body > input{
 }
 
 .button{
-    width: 49px;
-    height: 29px;
-    padding-top: 12px;
-    margin:0px;
+    width: 25%;
+    height: 40px;
     z-index: 2100;
 
     display: inline-block;
     cursor: pointer;
     background-color: #eee;
 
-    outline:none;
-    border: none;
     outline: 1px solid;
-    outline-offset: 0px;
-    border-radius: 0px;
 
     font-size: 15px;
+    line-height: 39px;
     font-weight: 200;
     color: #000;
     text-align: center;
@@ -159,28 +155,23 @@ body > input{
 }
 
 .number{
-    line-height: 19px;
+    line-height: 39px;
     font-weight: 300;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 #point{
     font-weight: bold;
 }
 
-.sup{
-    font-size: 10px;
-    vertical-align: top;
-    margin-top: -2px;
-    margin-left: 1px;
-    margin-right: -3px;
+sup {
+  font-size: 70%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+  top: -0.7em;
 }
 
 .sup-sqrt{
-    font-size: 8px !important;
-    position: absolute;
-    vertical-align: top;
-    margin-top: -2px;
-    margin-left: 0px;
-    margin-right: -3px;
+    margin-right: -5px; 
 }

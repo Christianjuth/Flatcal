@@ -13,7 +13,6 @@ if(typeof localStorage.radDeg === "undefined") localStorage.radDeg = "deg";
 if(typeof localStorage.m === "undefined") localStorage.m = "0";
 if(typeof localStorage.dev === "undefined") localStorage.dev = "false";
 if(typeof localStorage.noNotifyDelay === "undefined") localStorage.noNotifyDelay = "false";
-if(typeof localStorage.limitNotifications === "undefined") localStorage.limitNotifications = "false";
 if(typeof localStorage.notify === "undefined"){
     localStorage.notify = JSON.stringify({
         id : 0,

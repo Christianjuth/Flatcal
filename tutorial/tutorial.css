@@ -1,80 +1,129 @@
-@import url("../resources/css/reset.min.css");
-@import url("../resources/css/button.min.css");
-
 body{
-    background-color: #fff;
-    min-height: 430px;
-    min-width: 820px;
+    background: #2b5876;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #4e4376, #2b5876);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #4e4376, #2b5876); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-    padding: 0px;
-    margin: 0px;
-
-    font-family: arial;
-
-    -webkit-user-select: none;
-    user-select: none;
+    color: #fff;
 }
 
-button{
-    cursor: pointer !important;
+#page{
+    margin: 60px auto;
+    width: 919px;
 }
 
-.setting-container{
+
+
+
+/* TEXT */
+*{
+    -webkit-transition: background-color 200ms linear, border-color 200ms linear;
+    transition: background-color 200ms linear, border-color 200ms linear;
+    font-family: 'Roboto', sans-serif;
+}
+
+a{
+    cursor: pointer;
+}
+
+h1{
+    font-size: 28px;
+    margin: 5px 0;
+}
+
+
+.logo{
+    font-size: 75;
+    margin-bottom: 30px;
+    text-align: center;
+    font-family: 'Sofia', cursive;
+    text-shadow: 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+section .option-grp > *{
     position: relative;
-    background-color: #fff;
-    border-radius:5px;
-
-    margin-top: 10px;
-
+    margin: 0;
+    font-size: 17px;
     font-weight: 300;
-    color: #333;
-    font-size: 14px;
-}
-
-.setting-container:first-child{
-    margin-top: 0px;
-}
-
-.chosen-container{
-    float: right;
-    min-width: 120px !important;
-
-    width: auto !important;
-    font-weight: 300;
-}
-
-.option-title{
-    font-size: 16px;
-    font-weight: 300;
-    margin-top: 5px;
     display: inline-block;
 }
 
-.setting-container > .checkbox,
-.setting-container > input[type=checkbox]{
+
+hr{
+    border: none;
+    border-bottom: 1px solid #ebebeb;
+}
+
+section .option-grp a,
+.fakefile > a{
+    margin-top: 5px;
+    display: inline-block;
+    float: right;
+
+    text-decoration: underline;
+
+    -webkit-transition: all .1s ease-out;
+    transition: all .1s ease-out;
+}
+
+select{
+    -webkit-appearance: none;
+    appearance: none;    
+    border-radius: 0;
+    padding: 3px 6px;
+    text-align: center;
+    border: none;
+    background-color: #0000003d;
+    font-size: 15px;
+    min-width: 150px;
+    color: inherit;
+}
+
+
+
+.option-grp{
+    position: relative;
+    margin: 13px 0;
+}
+
+.option-grp *:not(h2){
     float: right;
 }
+
+.option-grp *{
+    position: relative;
+    margin: 0;
+    font-size: 17px;
+    font-weight: 300;
+    display: inline-block;
+}
+
+
+
+
+
+
+
+
+
+
+#theme-builder-container{
+    height: 301px;
+}
+
+
+
+
+
+
+
+
 
 input:active{
     outline: 2px solid rgba(42, 136, 230, 0.38) !important;
 }
 
-#theme-builder-container{
-    width: 794px;
-    height: 352px;
-    display: inline-block;
-
-    background-color: #fff;
-    border-radius: 4px;
-
-    font-family: oswald;
-
-    -webkit-user-select: none;
-    user-select: none;
-}
-
 #right-container{
-    width: 314px;
+    width: 439px;
     height: 100%;
 
     float: right;
@@ -94,14 +143,13 @@ input:active{
     float: left;
 
     padding-right: 20px;
-    border-right: 1px solid #ebebeb;
+    border-right: 1px solid rgba(235, 235, 235, 0.4);
 }
 
 #left-container-description{
     width: 100%;
 
     font-size: 23px;
-    font-family: oswald;
     font-weight: normal;
     text-align: center;
 
@@ -151,9 +199,7 @@ input:active{
     width: 100%;
 
     font-size: 18px;
-    font-family: oswald;
     text-align: right;
-    color: #000;
 
     display: inline-block;
 
@@ -218,7 +264,6 @@ input:active{
     width: 100%;
     margin-top: 4px;
 
-    font-family: oswald;
     font-weight: 300;
     color: #333;
     font-size: 14px;
@@ -234,15 +279,6 @@ input:active{
     line-height: 175%;
 
     margin: 0px;
-}
-
-.dragdealer{
-    width: 30% !important;
-    float: right !important;
-}
-
-.dragdealer > div{
-    width: 40% !important;
 }
 
 /*calculator css------------------------------>*/

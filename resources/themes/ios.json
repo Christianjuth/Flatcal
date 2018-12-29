@@ -5,45 +5,45 @@
     },
 
     "body":{
-        "color":"#272727",
+        "color":"#2e2f35",
         "font": "helvetica"
     },
 
     "input":{
-        "color":"#272727",
+        "color":"#2e2f35",
         "textColor":"#fff",
-        "borderColor":"#272727",
+        "borderColor":"#2e2f35",
         "font":"arial"
     },
 
     "button":{
-        "color":"#eee",
-        "borderColor":"#272727",
+        "color":"#404346",
+        "borderColor":"#2b2e3c",
         "borderRadius":"0",
         "borderWidth":"1px",
         "hoverColor":"#dedede",
-        "textColor":"#272727",
+        "textColor":"#fff",
         "font":"Sans-serif",
 
         "numbers":{
-            "color":"#eee",
+            "color":"#5e6164",
             "hoverColor":""
         },
 
         "point":{
-            "color":"#eee",
+            "color":"#5e6164",
             "hoverColor":""
         },
 
         "ce":{
-            "color":"#eee",
+            "color":"#404346",
             "hoverColor":""
         },
 
         "positiveNegative":{
             "color":"",
-            "hoverColor":""
-            ,"textColor":""
+            "hoverColor":"",
+            "textColor":""
         },
 
         "operators" : {

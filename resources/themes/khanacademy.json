@@ -5,14 +5,14 @@
     },
 
     "body": {
-        "color": "#3b414e",
+        "color": "#1a334c",
         "font": "helvetica"
     },
 
     "input": {
         "color": "#fdfdfd",
         "borderColor": "#dbdfea",
-        "textColor": "#3b414e",
+        "textColor": "#222",
         "font": "arial"
     },
 
@@ -21,13 +21,13 @@
         "hoverColor": "#d9d8d8",
         "borderColor": "#3b414e",
         "borderWidth":"1px",
-        "textColor": "#3b414e",
+        "textColor": "#222",
         "font": "sans-serif",
         "borderRadius": 0,
 
         "numbers": {
-            "color": "#9db63b",
-            "hoverColor": "#839833",
+            "color": "#57bb98",
+            "hoverColor": "#4aa284",
             "textColor": "#ffffff"
         },
 
