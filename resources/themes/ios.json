@@ -4,6 +4,10 @@
         "version": 1.1
     },
 
+    "app": {
+        "color": "linear-gradient(to left bottom, rgb(151, 152, 152), rgb(37, 37, 41))"
+    },
+
     "body":{
         "color":"#2e2f35",
         "font": "helvetica"
@@ -21,7 +25,7 @@
         "borderColor":"#2b2e3c",
         "borderRadius":"0",
         "borderWidth":"1px",
-        "hoverColor":"#dedede",
+        "hoverColor":"#505356",
         "textColor":"#fff",
         "font":"Sans-serif",
 

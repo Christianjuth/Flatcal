@@ -1,6 +1,10 @@
 $(document).ready(function() {
     window.onkeydown = function(e) {
-        if(e.keyCode == 8){
+        let ctrl = (event.ctrlKey == true || event.metaKey == true),
+            shift = event.shiftKey,
+            key = e.keyCode;
+
+        if(key == 8){
             setTimeout(function() { //run async
                 if(calculator.op == ""){
                     calculator.first = calculator.first.substring(0,calculator.first.length -1);
@@ -23,77 +27,116 @@ $(document).ready(function() {
             return false; //dissable keyboard history back THIS IS A HACK
         }
 
+
+
+
         //if a number key is prssed trigger buttonClicked function
-        else if (e.keyCode >= 48 && e.keyCode <= 57 && event.shiftKey == false) {
+        else if (key >= 48 && key <= 57 && !shift) {
             calculator.numberClicked(e.keyCode - 48);
         }
 
-        else if (e.keyCode >= 96 && e.keyCode <= 105 && event.shiftKey == false) {
+
+
+
+        else if (key >= 96 && key <= 105 && !shift) {
             calculator.numberClicked(e.keyCode - 96);
         }
 
+
+
+
         //if point is clicked trigger point function
-        else if(e.keyCode == 190 || e.keyCode == 110) {
+        else if(key == 190 || key == 110) {
             if(calculator.screen.length() < calculator.maxLength){
                 calculator.event.addDecimal();
             }
         }
 
-        else if(e.keyCode == 53 && event.shiftKey == true) {
+
+
+
+        else if(key == 53 && shift) {
             calculator.event.percentage();
         }
 
+
+
+
+        else if(key == 54 && shift) {
+            calculator.operator("pow-of-y");
+        }
+
+
+
+
         //if plus is clicked trigger calculator.operator function with plus input
-        else if((event.shiftKey == true && e.keyCode == 187) || e.keyCode == 107) {
+        else if((shift && key == 187) || key == 107) {
             calculator.operator("plus");
         }
 
+
+
+
         //if minus is clicked trigger calculator.operator function with subtract input
-        else if(event.shiftKey == false && (e.keyCode == 189 || e.keyCode == 109)){
+        else if(!shift && (key == 189 || key == 109)){
             calculator.operator("subtract");
         }
 
+
+
+
         //if multiply is clicked trigger calculator.operator function with multiply input
-        else if((event.shiftKey == true && e.keyCode == 56) || e.keyCode == 88 || e.keyCode == 106) {
+        else if((shift && key == 56) || key == 88 || key == 106) {
             calculator.operator("multiply");
         }
 
+
+
+
         //if divide is clicked trigger calculator.operator function with devide input
-        else if(e.keyCode == 191 || e.keyCode == 111) {
+        else if(key == 191 || key == 111) {
             calculator.operator("divide");
         }
 
-        else if((e.keyCode == 67 && event.ctrlKey == false && event.metaKey == false) || e.keyCode == 12) {
+
+
+
+        else if((!ctrl && key == 67) || key == 12) {
             calculator.screen.clear();
         }
 
-        //windows
-        else if(e.keyCode == 67 && event.ctrlKey == true && window.navigator.platform.toLowerCase().indexOf("mac") == -1) {
+
+
+
+
+        // ctrl-c copy from screen
+        else if(ctrl && key == 67) {
             calculator.clipboard.copy(calculator.screen.get());
         }
 
-        //mac
-        else if(e.keyCode == 67 && event.metaKey == true) {
-            calculator.clipboard.copy(calculator.screen.get());
-        }
 
-        //windows
-        else if(e.keyCode == 86 && event.ctrlKey == true && window.navigator.platform.toLowerCase().indexOf("mac") == -1) {
+
+
+
+        // ctrl-v paste to screen
+        else if(ctrl && key == 86) {
             calculator.clipboard.paste();
         }
 
-        //mac
-        else if(e.keyCode == 86 && event.metaKey == true) {
-            calculator.clipboard.paste();
-        }
+
+
 
         //enter
-        else if((event.shiftKey == false && e.keyCode == 187) || e.keyCode == 13 || e.keyCode == 187){
+        else if((!shift && key == 187) || key == 13 || key == 187){
             calculator.calculate(true); //true if for the clear function
         }
 
-        //if minus is clicked trigger calculator.operator function with subtract input
-        else if(event.shiftKey == true && e.keyCode == 189){
+
+
+
+        // minus key with shift toggles
+        // positive negative number
+        else if(shift && key == 189){
             calculator.event.posNeg();
         }
     }

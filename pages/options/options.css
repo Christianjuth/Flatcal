@@ -1,0 +1,130 @@
+body{
+    color: #fff;
+}
+
+.dev-menu{
+    display: none;
+}
+body.dev .dev-menu{
+    display: block;
+}
+
+#page{
+    width: 722px;
+    margin: 60px auto;
+}
+
+
+/* TEXT */
+
+.logo{
+    font-size: 75;
+    margin: 0 0 20px;
+    text-align: center;
+    font-family: 'Sofia', cursive;
+    text-shadow: 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+#page > section{
+    margin: 50px 0;
+}
+
+
+
+
+section .option-grp a,
+.fakefile > a{
+    margin-top: 5px;
+    display: inline-block;
+    float: right;
+
+    text-decoration: underline;
+
+    -webkit-transition: all .1s ease-out;
+    transition: all .1s ease-out;
+}
+
+
+
+.option-grp{
+    position: relative;
+    margin: 0 0 12px;
+}
+
+.option-grp *:not(h3){
+    float: right;
+}
+
+.option-grp *{
+    position: relative;
+    margin: 0;
+    font-size: 17px;
+    font-weight: 300;
+    display: inline-block;
+}
+
+.option-grp select{
+    font-size: 16px;
+}
+
+
+
+#right-container,
+#left-container{
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+}
+
+#right-container{
+    width: 300px;
+    padding-left: 10px;
+}
+
+#left-container{
+    width: 422px;
+}
+
+
+/*calculator css------------------------------>*/
+
+.calculator{
+    float: right;
+    width: 439px;
+    transform: scale(0.92);
+
+    padding: 16px;
+    display: inline-block;
+    position: relative;
+
+    border-radius: 5px;
+
+    box-shadow: 0px 9px 78px 0px rgba(68, 68, 68, 0.2)
+}
+
+.calculator #number-container,
+.calculator #scientific-1{
+    display: inline-block;
+}
+
+.calculator:not(.scientific):before{
+    content: "Scientific mode to enable";
+    display: block;
+    background-color: rgba(93, 91, 91, 0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 213px;
+    z-index: 2000;
+    font-size: 15px;
+    line-height: 286px;
+    text-align: center;
+}
+
+.calculator:not(.scientific) #scientific-1,
+.calculator:not(.scientific) #scientific-2,
+.calculator:not(.scientific) #rad-deg,
+.calculator:not(.scientific) #m-status{
+    filter: blur(2px);
+}

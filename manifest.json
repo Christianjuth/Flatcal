@@ -43,10 +43,10 @@
     ],
 
     "background" : {
-        "page": "background/background.html"
+        "page": "pages/background/background.html"
     },
 
-    "options_page": "settings/options/options.html",
+    "options_page": "pages/options/options.html",
 
     "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
 }

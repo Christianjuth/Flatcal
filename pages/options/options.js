@@ -20,49 +20,56 @@ $(document).ready(function() {
         });
 
 
-        $("#theme-selctor").val('google');
-        theme.load('google');
-        $("#theme-selctor").change(() => {
-            theme.load($("#theme-selctor").val());
+        option.defineSelect("#theme-selctor", "theme", (val) => {
+            theme.load(val);
         });
     });
 
 
-    $("#number-container").css({"display":"inline-block"});
-    $(".input-text").hide();
-    $("#margins").css({"margin-left":"108px"});
-
-
-    $('#calculator-type').change(function() { //on option change
+    option.defineSelect("#calculator-type", "type", (val) => {
         calculator.screen.clear();
 
-        if($(this).val() == "scientific"){
+        if(val == "scientific")
+            $('.calculator').addClass('scientific');
 
-            $("#margins").animate({
-                'margin-left': '0px',
-                'width': '435px'
-            }, 300, "linear", () => {
-                $("#scientific-1, #input-container > .text").fadeIn(300);
-            });
+        else
+            $('.calculator').removeClass('scientific');
+    });
+    init();
+
+
+
+    // Unlock dev mode after 10 shift clicks
+    let numClick = 0;
+    $(".logo").click(function() {
+        if(numClick == 10){
+            numClick = 0;
+
+            if(localStorage.dev == 'true'){
+                localStorage.dev = 'false';
+                $('body').removeClass('dev');
+            } else{
+                localStorage.dev = 'true';
+                $('body').addClass('dev');
+            }
         }
 
-        else {
-            $("#scientific-1, #input-container > .text").fadeOut(300, () => {
-                $("#margins").animate({
-                    'margin-left': '108px',
-                    'width': '229px'
-                }, 300, "linear");
-            });
+        else{
+            if(event.shiftKey == true) numClick++;
+            setTimeout(() =>{
+                if(numClick !== 0) numClick = 0;
+            }, 2000);
         }
     });
 
-    $("#scientific-1, #input-container > .text").hide();
-    $("#margins").css({"margin-left":"108px"});
+    if(localStorage.dev == "true") $('body').addClass('dev');
+    $("#reset-storage").click(() => storage.resetAll());
+    $("#guid").text(localStorage.guid);
+});
 
-    $('#calculator-type').val("normal");
 
 
-
+let init = () => {
     calculator.ini({
         storage : "localStorage",
         selector : {
@@ -75,8 +82,7 @@ $(document).ready(function() {
         },
         max : 15
     });
-});
-
+}
 
 
 
@@ -95,13 +101,15 @@ let option = {
         }
     },
     defineSelect: function(selector, storage, onChange){
-        let $selector = $(selector); //get selector
-        $selector.val(localStorage[storage]); //get setting from localStorage
+        let $selector = $(selector);
+        let val = localStorage[storage];
+        $selector.val(val);
 
-        onChange();
+        onChange(val);
         $selector.change(() => {
-            localStorage[storage] = $selector.val();
-            onChange();
+            let val = $selector.val();
+            localStorage[storage] = val;
+            onChange(val);
         });
     }
 }

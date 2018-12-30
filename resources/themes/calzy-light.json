@@ -3,6 +3,9 @@
         "name": "calzy-light",
         "version": 1.1
     },
+    "app": {
+        "color": "linear-gradient(to left bottom, rgb(42, 193, 162), rgb(35, 122, 87))"
+    },
     "body": {
         "color": "#2fbf73"
     },

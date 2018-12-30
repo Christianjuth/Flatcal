@@ -20,11 +20,11 @@ var theme = {
         return;
     },
 
-    get : function(name){
+    get: function(name){
         var themesOut = null;
         if(name == undefined){
             themesOut = new Array();
-            data = ajaxGetFile("../resources/themes/themes-list.json", "json");
+            data = ajaxGetFile("../../resources/themes/themes-list.json", "json");
             for(i = 0; i < data.length; i++){
                 themesOut.push(data[i].toLowerCase());
             };
@@ -32,14 +32,14 @@ var theme = {
 
         else{
             themesOut = new Array();
-            data = ajaxGetFile("../resources/themes/" + name + ".json", "json");
+            data = ajaxGetFile("../../resources/themes/" + name + ".json", "json");
             themesOut = data;
         }
 
         return themesOut;
     },
 
-    getCurrent : function(){
+    getCurrent: function(){
         if(localStorage.theme != "custom"){
             return localStorage.theme;
         }
@@ -49,7 +49,7 @@ var theme = {
         }
     },
 
-    save : function(json) {
+    save: function(json) {
         if(typeof json != "object") json = JSON.parse(json);
         if(json.manifest == undefined) json.manifest = {};
         json.manifest.version = 1.1;
@@ -65,27 +65,27 @@ var theme = {
         }
     },
 
-    update : function(json) {
+    update: function(json) {
         localStorage.theme = "custom";
 
         localStorage.customTheme = JSON.stringify(json);
         customCalculatorTheme = jQuery.parseJSON(localStorage.customTheme);
     },
 
-    sort:{
-        foward : function(a,b){
+    sort: {
+        foward: function(a,b){
             if(a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase())return false;
             if(a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase())return true;
             return false;
         },
 
-        reverse : function(a,b){
+        reverse: function(a,b){
             if(a.toLocaleLowerCase() < b.toLocaleLowerCase()) return true;
             if(a.toLocaleLowerCase() > b.toLocaleLowerCase()) return false;
         }
     },
 
-    reconstruct : function(theme){
+    reconstruct: function(theme){
         var settings = [];
 
         for(i = 0; i < settings.length; i++){
@@ -93,8 +93,8 @@ var theme = {
         }
     },
 
-    inject : {
-        color : function(selector, value, fallback) {
+    inject: {
+        color: function(selector, value, fallback) {
             if(typeof value !== "undefined" && value !== ""){
                 $(selector).css({"background": value});
                 $(selector).unbind("mouseout");
@@ -112,7 +112,7 @@ var theme = {
             }
         },
 
-        hoverColor : function(selector, value, fallback) {
+        hoverColor: function(selector, value, fallback) {
             if(value != undefined && value != ""){
                 $(selector).unbind("mouseover");
                 $(selector).mouseover(function() {
@@ -128,7 +128,7 @@ var theme = {
             }
         },
 
-        textColor : function(selector, value, fallback){
+        textColor: function(selector, value, fallback){
             if(value != undefined && value != ""){
                 $(selector).css({"color":value});
             }
@@ -138,7 +138,7 @@ var theme = {
             }
         },
 
-        font : function(selector, value, fallback) {
+        font: function(selector, value, fallback) {
             if(value != undefined && value != ""){
                 $(selector).css({"font-family":value});
             }
@@ -148,7 +148,7 @@ var theme = {
             }
         },
 
-        borderColor : function(selector, value, fallback) {
+        borderColor: function(selector, value, fallback) {
             if(value != undefined && value != ""){
                 $(selector).css({"border-color":value});
             }
@@ -158,7 +158,7 @@ var theme = {
             }
         },
 
-        outlineColor : function(selector, value, fallback) {
+        outlineColor: function(selector, value, fallback) {
             if(value != undefined && value != ""){
                 $(selector).css({"outline-color":value});
             }
@@ -168,7 +168,7 @@ var theme = {
             }
         },
 
-        borderWidth : function(selector, value, fallback) {
+        borderWidth: function(selector, value, fallback) {
             value = parseFloat(value);
             fallback = parseFloat(fallback);
             if(value != undefined){
@@ -228,15 +228,23 @@ var calculatorTheme = "";
 function injectCSS(json) {
     calculatorTheme = json;
 
-    //body
-    theme.inject.color("#margins, .calculator-background", arguments[0].body.color, "#fff");
+    try{
+        theme.inject.color("body", arguments[0].app.color, "#fff");
+    } catch{};
 
-    if(arguments[0].body.color == "fff" || arguments[0].body.color == "#ffffff") theme.inject.borderColor("#margins", "#eee");
-    else theme.inject.borderColor("#margins", arguments[0].body.color, "#eee");
+
+    //body
+    theme.inject.color(".calculator, .calculator-background", arguments[0].body.color, "#fff");
+
+    if(arguments[0].body.color == "fff" || arguments[0].body.color == "#ffffff") 
+        theme.inject.borderColor(".calculator", "#eee");
+    else 
+        theme.inject.borderColor(".calculator", arguments[0].body.color, "#eee");
 
     //input
     if(typeof arguments[0].input !== "undefined"){
         theme.inject.color("#input-container", arguments[0].input.color, "#eee");
+        theme.inject.color("#input-border", arguments[0].input.outlineColor, arguments[0].body.color);
         theme.inject.borderColor("#input-container", arguments[0].input.borderColor, arguments[0].body.color);
         theme.inject.textColor("#input-container, #input-container > div > span", arguments[0].input.textColor, "#000");
     }

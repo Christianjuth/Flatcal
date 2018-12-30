@@ -1,16 +1,3 @@
-@import url("calculator-fonts.min.css");
-
-body,
-*,
-*:before,
-*:after {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-
-    -webkit-user-select: none;
-    user-select: none;
-}
-
 .button { /*general styling for all buttons*/
     position: relative;
     overflow: hidden;
@@ -47,7 +34,7 @@ body > input{
     position: relative;
 }
 
-#margins{
+.calculator{
     position: relative;
     /*font-family: 'Roboto', sans-serif;*/
     font-family: 'Open Sans', sans-serif;
@@ -61,7 +48,7 @@ body > input{
     border-style: solid;
     border-color: #aaa;
     border-radius: 0px;
-    height: 47px;
+    height: 44px;
 
     letter-spacing: 1px;
     text-align: right;
@@ -71,7 +58,7 @@ body > input{
 
 #input-border{
     position: absolute;
-    height: 70px;
+    height: 72px;
     width: 443px;
     z-index: 0;
     margin-left: -20px;
@@ -104,8 +91,7 @@ body > input{
     cursor: pointer;
 }
 
-#margins > section{
-    z-index: 2000;
+.calculator section{
     margin-top: 16px;
     position: relative;
     display: none;
@@ -113,24 +99,23 @@ body > input{
     width: 196px;
 }
 
-#margins > section.left{
+.calculator section.left{
     float: left;
 }
 
-#margins > section.right{
+.calculator section.right{
     float: right;
 }
 
 .button{
     width: 25%;
     height: 40px;
-    z-index: 2100;
 
     display: inline-block;
     cursor: pointer;
     background-color: #eee;
 
-    outline: 1px solid;
+    outline: 1px solid rgba(0,0,0,0);
 
     font-size: 15px;
     line-height: 39px;
