@@ -36,9 +36,11 @@ body > input{
 
 .calculator{
     position: relative;
-    /*font-family: 'Roboto', sans-serif;*/
     font-family: 'Open Sans', sans-serif;
     overflow: hidden;
+
+    border-radius: 5px;
+    /*box-shadow: 0px 8px 65px 0px rgba(88, 88, 88, 0.4);*/
 }
 
 #input-container{

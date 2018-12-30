@@ -5,7 +5,7 @@
     },
 
     "app": {
-        "color": "linear-gradient(to left bottom, rgb(89, 191, 255), rgb(81, 129, 228))"
+        "color": "linear-gradient(to left bottom, rgb(101, 191, 247), rgb(82, 112, 175))"
     },
 
     "body": {
@@ -14,13 +14,13 @@
 
     "input": {
         "color": "#fff",
-        "borderColor": "#ccc",
+        "borderColor": "#d4d6d6",
         "textColor": "#222",
         "font": "arial"
     },
 
     "button": {
-        "color": "#ccc",
+        "color": "#d4d6d6",
         "borderColor": "#fff",
         "borderRadius": "2",
         "borderWidth":"1px",
@@ -30,18 +30,18 @@
 
         "numbers": {
             "color": "#eee",
-            "hoverColor": "#ddd",
+            "hoverColor": "#e4e4e4",
             "textColor": "#222"
         },
 
         "point": {
             "color": "#eee",
-            "hoverColor": "",
+            "hoverColor": "e4e4e4",
             "textColor": "#222"
         },
 
         "ce": {
-            "color": "#ccc",
+            "color": "#d4d6d6",
             "hoverColor": "#ddd",
             "textColor": "#222"
         },
@@ -57,9 +57,9 @@
         },
 
         "equal": {
-            "color": "#4984FF",
+            "color": "#5d8ff7",
             "textColor": "#fff",
-            "hoverColor": "#3D78F1"
+            "hoverColor": "#5786e8"
         }
     }
 }

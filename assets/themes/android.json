@@ -1,57 +1,68 @@
 {
     "manifest": {
-        "name": "calzy-light",
+        "name": "android",
         "version": 1.1
     },
+
     "app": {
-        "color": "linear-gradient(to left bottom, rgb(42, 193, 162), rgb(35, 122, 87))"
+        "color": "linear-gradient(to left bottom, rgb(158, 158, 158), rgb(54, 55, 56))"
     },
+
     "body": {
-        "color": "#2fbf73"
+        "color": "#000000"
     },
+
     "input": {
-        "color": "#2fbf73",
-        "borderColor": "#2fbf73",
-        "textColor": "#ffffff",
-        "font": "helvetica"
+        "color": "#000000",
+        "borderColor": "#000000",
+        "textColor": "#dfdfdf",
+        "font": "arial"
     },
+
     "button": {
-        "color": "#ffffff",
-        "hoverColor": "#f9f9f9",
-        "borderColor": "",
-        "textColor": "#a4a4a4",
-        "font": "sans-serif",
+        "color": "#222222",
+        "hoverColor": "#363636",
+        "borderColor": "#000000",
+        "borderWidth": "1px",
+        "textColor": "#dfdfdf",
+
         "numbers": {
-            "color": "",
+            "color": "#474747",
             "hoverColor": "",
             "textColor": ""
         },
+
         "point": {
             "color": "",
             "hoverColor": "",
             "textColor": ""
         },
+
         "ce": {
             "color": "",
             "hoverColor": "",
-            "textColor": "#f68037"
+            "textColor": ""
         },
+
         "positiveNegative": {
             "color": "",
             "hoverColor": "",
             "textColor": ""
         },
+
         "operators": {
             "color": "",
             "hoverColor": "",
-            "textColor": "#00ae52"
+            "textColor": ""
         },
+
         "equal": {
             "color": "",
             "hoverColor": "",
             "textColor": ""
         },
-        "borderRadius": 0,
-        "borderWidth": 0
+
+        "font": "sans-serif",
+        "borderRadius": "2"
     }
 }

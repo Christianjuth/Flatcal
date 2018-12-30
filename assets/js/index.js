@@ -18,15 +18,15 @@ chrome.windows.getCurrent(function(x){
 });
 
 if(localStorage.type == "screen-only"){
-    $("html,body").css({"width":204, "height":54});
+    $("html,body").css({"width": 204, "height": 54});
 }
 
 else if(localStorage.type == "normal"){
-    $("html,body").css({"width":229, "height":298});
+    $("html,body").css({"width": 229, "height": 292});
 }
 
 else{
-    $("html,body").css({"width":435, "height":298});
+    $("html,body").css({"width": 435, "height": 292});
 }
 
 $(document).ready(function() {
@@ -82,7 +82,7 @@ $(document).ready(function() {
 
         else{
             localStorage.theme = "google";
-            $.getJSON("resources/themes/google.json", function(injectTheme){
+            $.getJSON("assets/themes/google.json", function(injectTheme){
                 theme.load(injectTheme);
             });
         }
@@ -94,3 +94,18 @@ if(localStorage.dev != "true"){
         analyticsEvent(e.target.id , "clicked");
     };
 }
+
+$(document).ready(() => {
+    calculator.ini({
+        storage: "localStorage",
+        selector: {
+            screen: "#input",
+            radDeg: "#rad-deg",
+            radDegInvert: "#rad-deg-invert"
+        },
+        options: {
+            log : true
+        },
+        max : 15
+    });
+});

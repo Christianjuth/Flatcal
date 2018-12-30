@@ -1,10 +1,10 @@
 {
     "manifest": {
-        "name": "calzy-dark",
+        "name": "financial-dark",
         "version": 1.1
     },
     "app": {
-        "color": "linear-gradient(to left bottom, rgb(151, 152, 152), rgb(34, 41, 35))"
+        "color": "linear-gradient(to left bottom, rgb(158, 158, 158), rgb(54, 55, 56))"
     },
     "body": {
         "color": "#000000"
@@ -12,7 +12,7 @@
     "input": {
         "color": "#000000",
         "borderColor": "#000000",
-        "textColor": "#4ecf8b",
+        "textColor": "#63eaa3",
         "font": "helvetica"
     },
     "button": {
@@ -44,7 +44,7 @@
         "operators": {
             "color": "",
             "hoverColor": "",
-            "textColor": "#00ae52"
+            "textColor": "#63eaa3"
         },
         "equal": {
             "color": "",

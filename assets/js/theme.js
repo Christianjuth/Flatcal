@@ -24,7 +24,7 @@ var theme = {
         var themesOut = null;
         if(name == undefined){
             themesOut = new Array();
-            data = ajaxGetFile("../../resources/themes/themes-list.json", "json");
+            data = ajaxGetFile("../../assets/themes/themes-list.json", "json");
             for(i = 0; i < data.length; i++){
                 themesOut.push(data[i].toLowerCase());
             };
@@ -32,7 +32,7 @@ var theme = {
 
         else{
             themesOut = new Array();
-            data = ajaxGetFile("../../resources/themes/" + name + ".json", "json");
+            data = ajaxGetFile("../../assets/themes/" + name + ".json", "json");
             themesOut = data;
         }
 

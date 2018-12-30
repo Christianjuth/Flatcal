@@ -1,31 +1,31 @@
 {
     "manifest":{
-        "name": "google",
+        "name": "purple",
         "version": 1.1
     },
 
     "app": {
-        "color": "linear-gradient(to left bottom, rgb(255, 173, 136) 22%, rgb(228, 137, 141))"
+        "color": "linear-gradient(to left bottom, rgb(226, 220, 239), rgb(106, 113, 148))"
     },
 
     "body": {
-        "color": "#f26f6a"
+        "color": "#7374a9"
     },
 
     "input": {
-        "color": "#e15653",
-        "borderColor": "#e15653",
-        "outlineColor": "#e15653",
+        "color": "#3e3f69",
+        "borderColor": "#3e3f69",
+        "outlineColor": "#3e3f69",
         "textColor": "#fff",
         "font": "arial"
     },
 
     "button": {
-        "color": "#f26f6a",
+        "color": "#7374a9",
         "borderColor": "#fff",
         "borderRadius": "2",
-        "borderWidth":"1px",
-        "hoverColor": "#e86661",
+        "borderWidth":"0",
+        "hoverColor": "#6c6d9e",
         "font": "Sans-serif",
         "textColor":"#fff",
 
@@ -54,6 +54,8 @@
         },
 
         "operators": {
+            "color": "",
+            "hoverColor": "",
             "textColor": ""
         },
 

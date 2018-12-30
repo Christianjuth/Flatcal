@@ -4,19 +4,20 @@ localStorage.tutorial = true;
 
 $(document).ready(function() {
 
-    $.getJSON(chrome.extension.getURL('resources/themes/themes.json'), function(options) {
+    $.getJSON(chrome.extension.getURL('assets/themes/themes.json'), function(options) {
         options.sort();
 
-        options.forEach((option) => {
-
-            // convert theme-name to "Theme Name"
-            let name = option.split('-').map((w) => {
+        // convert theme-name to "Theme Name"
+        options = options.map((option) => {
+            return option.split('-').map((w) => {
                 return w.charAt(0).toUpperCase() + w.slice(1);
             }).join(' ');
+        }).sort();
 
-            let file = option.toLowerCase();
+        options.forEach((option) => {
+            let file = option.replace(/\s/,'-').toLowerCase();
 
-            $(`<option class="theme-selctor-option" value="${file}">${name}</option>`).prependTo("#theme-selctor");
+            $(`<option class="theme-selctor-option" value="${file}">${option}</option>`).appendTo("#theme-selctor");
         });
 
 
@@ -27,15 +28,12 @@ $(document).ready(function() {
 
 
     option.defineSelect("#calculator-type", "type", (val) => {
-        calculator.screen.clear();
-
         if(val == "scientific")
             $('.calculator').addClass('scientific');
 
         else
             $('.calculator').removeClass('scientific');
     });
-    init();
 
 
 
@@ -66,23 +64,6 @@ $(document).ready(function() {
     $("#reset-storage").click(() => storage.resetAll());
     $("#guid").text(localStorage.guid);
 });
-
-
-
-let init = () => {
-    calculator.ini({
-        storage : "localStorage",
-        selector : {
-            screen : "#input",
-            radDeg : "#rad-deg",
-            radDegInvert : "#rad-deg-invert"
-        },
-        options: {
-            log : true
-        },
-        max : 15
-    });
-}
 
 
 

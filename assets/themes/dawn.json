@@ -1,38 +1,38 @@
 {
-    "manifest": {
-        "name": "khanacademy",
+    "manifest":{
+        "name": "dawn",
         "version": 1.1
     },
 
     "app": {
-        "color": "linear-gradient(to bottom left, #2C5364, #203A43, #0F2027)"
+        "color": "linear-gradient(to left bottom, rgb(251, 208, 188) 22%, rgb(216, 151, 154))"
     },
 
     "body": {
-        "color": "#1a334c",
-        "font": "helvetica"
+        "color": "#e6827f"
     },
 
     "input": {
-        "color": "#fdfdfd",
-        "borderColor": "#dbdfea",
-        "textColor": "#222",
+        "color": "#d66a5d",
+        "borderColor": "#d66a5d",
+        "outlineColor": "#d66a5d",
+        "textColor": "#fff",
         "font": "arial"
     },
 
     "button": {
-        "color": "#fdfdfd",
-        "hoverColor": "#d9d8d8",
-        "borderColor": "#3b414e",
+        "color": "#e6827f",
+        "borderColor": "#fff",
+        "borderRadius": "2",
         "borderWidth":"1px",
-        "textColor": "#222",
-        "font": "sans-serif",
-        "borderRadius": 0,
+        "hoverColor": "#d87b78",
+        "font": "Sans-serif",
+        "textColor":"#fff",
 
         "numbers": {
-            "color": "#57bb98",
-            "hoverColor": "#4aa284",
-            "textColor": "#ffffff"
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
         },
 
         "point": {
@@ -54,15 +54,13 @@
         },
 
         "operators": {
-            "color": "",
-            "hoverColor": "",
             "textColor": ""
         },
 
         "equal": {
             "color": "",
-            "hoverColor": "",
-            "textColor": ""
+            "textColor": "",
+            "hoverColor": ""
         }
     }
 }

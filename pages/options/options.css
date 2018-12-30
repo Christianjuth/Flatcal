@@ -22,11 +22,11 @@ body.dev .dev-menu{
     margin: 0 0 20px;
     text-align: center;
     font-family: 'Sofia', cursive;
-    text-shadow: 3px 3px rgba(0, 0, 0, 0.2);
+    text-shadow: 3px 3px rgba(0, 0, 0, 0.08);
 }
 
 #page > section{
-    margin: 50px 0;
+    margin: 45px 0;
 }
 
 
@@ -96,10 +96,6 @@ section .option-grp a,
     padding: 16px;
     display: inline-block;
     position: relative;
-
-    border-radius: 5px;
-
-    box-shadow: 0px 9px 78px 0px rgba(68, 68, 68, 0.2)
 }
 
 .calculator #number-container,
