@@ -1,0 +1,55 @@
+{
+    "manifest": {
+        "name": "financial-dark",
+        "version": 1.1
+    },
+    "app": {
+        "color": "linear-gradient(to left bottom, rgb(158, 158, 158), rgb(54, 55, 56))"
+    },
+    "body": {
+        "color": "#000000"
+    },
+    "input": {
+        "color": "#000000",
+        "borderColor": "#000000",
+        "textColor": "#63eaa3",
+        "font": "helvetica"
+    },
+    "button": {
+        "color": "#1f1f1f",
+        "hoverColor": "#191919",
+        "textColor": "#a4a4a4",
+        "font": "sans-serif",
+        "borderWidth": "0px",
+        "numbers": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+        "point": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+        "ce": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+        "positiveNegative": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+        "operators": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": "#63eaa3"
+        },
+        "equal": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        }
+    }
+}

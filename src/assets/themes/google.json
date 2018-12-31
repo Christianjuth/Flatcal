@@ -1,0 +1,65 @@
+{
+    "manifest":{
+        "name": "google",
+        "version": 1.1
+    },
+
+    "app": {
+        "color": "linear-gradient(to left bottom, rgb(101, 191, 247), rgb(82, 112, 175))"
+    },
+
+    "body": {
+        "color": "#fff"
+    },
+
+    "input": {
+        "color": "#fff",
+        "borderColor": "#d4d6d6",
+        "textColor": "#222",
+        "font": "arial"
+    },
+
+    "button": {
+        "color": "#d4d6d6",
+        "borderColor": "#fff",
+        "borderRadius": "2",
+        "borderWidth":"1px",
+        "hoverColor": "#ddd",
+        "font": "Sans-serif",
+        "textColor":"#222",
+
+        "numbers": {
+            "color": "#eee",
+            "hoverColor": "#e4e4e4",
+            "textColor": "#222"
+        },
+
+        "point": {
+            "color": "#eee",
+            "hoverColor": "e4e4e4",
+            "textColor": "#222"
+        },
+
+        "ce": {
+            "color": "#d4d6d6",
+            "hoverColor": "#ddd",
+            "textColor": "#222"
+        },
+
+        "positiveNegative": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+
+        "operators": {
+            "textColor": "#222"
+        },
+
+        "equal": {
+            "color": "#5d8ff7",
+            "textColor": "#fff",
+            "hoverColor": "#5786e8"
+        }
+    }
+}

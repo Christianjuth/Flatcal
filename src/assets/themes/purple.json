@@ -1,0 +1,68 @@
+{
+    "manifest":{
+        "name": "purple",
+        "version": 1.1
+    },
+
+    "app": {
+        "color": "linear-gradient(to left bottom, rgb(226, 220, 239), rgb(106, 113, 148))"
+    },
+
+    "body": {
+        "color": "#7374a9"
+    },
+
+    "input": {
+        "color": "#3e3f69",
+        "borderColor": "#3e3f69",
+        "outlineColor": "#3e3f69",
+        "textColor": "#fff",
+        "font": "arial"
+    },
+
+    "button": {
+        "color": "#7374a9",
+        "borderColor": "#fff",
+        "borderRadius": "2",
+        "borderWidth":"0",
+        "hoverColor": "#6c6d9e",
+        "font": "Sans-serif",
+        "textColor":"#fff",
+
+        "numbers": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+
+        "point": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+
+        "ce": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+
+        "positiveNegative": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+
+        "operators": {
+            "color": "",
+            "hoverColor": "",
+            "textColor": ""
+        },
+
+        "equal": {
+            "color": "",
+            "textColor": "",
+            "hoverColor": ""
+        }
+    }
+}

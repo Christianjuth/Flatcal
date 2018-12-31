@@ -1,0 +1,2 @@
+var storage={get:function(e){return localStorage[e]},update:function(e,t){return localStorage[e]=t},dump:function(){for(var e=new Array,t=0;t<localStorage.length;t++)e.push(localStorage.key(t));return e},reset:function(e){localStorage.removeItem(e)},resetAll:function(){var e=this.dump();for(i=0;i<e.length;i++)"guid"!=e[i]&&"dev"!=e[i]&&this.reset(e[i]),location.reload()}};
+//# sourceMappingURL=storage.js.map
