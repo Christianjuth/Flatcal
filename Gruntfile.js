@@ -98,19 +98,17 @@ module.exports = function(grunt) {
 
 
     // Testing
-    jslint: {
-      client: {
-        src: [
-          'src/assets/js/**/*.js'
-        ],
-        directives: {
-          browser: true,
-          predef: [
-            'jQuery'
-          ]
-        }
-      }
+    eslint: {
+      options: {
+        configFile: '.eslintrc.json'
+      },
+      target: ['src/assets/js/**/*.js']
+    },
+
+    sasslint: {
+      target: ['src/assets/sass/**/*.scss']
     }
+
   });
 
   // Load the plugin that provides the "uglify" task.
@@ -122,12 +120,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-notify');
+  grunt.loadNpmTasks('grunt-eslint');
+  grunt.loadNpmTasks('grunt-sass-lint');
 
 
   // Default task(s).
   grunt.registerTask('default', ['notify_hooks:errors', 'build', 'watch']);
   grunt.registerTask('build', ['clean', 'copy', 'dart-sass', 'uglify']);
-  grunt.registerTask('test', ['jslint']);
+  grunt.registerTask('lint', ['eslint', 'sasslint']);
   grunt.registerTask('package', ['build', 'compress']);
 
 };

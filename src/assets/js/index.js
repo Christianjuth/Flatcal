@@ -11,7 +11,7 @@ chrome.windows.getCurrent(function(x){
     }
 
     else{
-        chrome.browserAction.onClicked.addListener(function(tab) {
+        chrome.browserAction.onClicked.addListener(() => {
             window.close();
         });
     }
@@ -63,13 +63,6 @@ $(document).ready(function() {
         $(".calculator").css({"padding":"16px"});
     }
 
-    chrome.tabs.getCurrent(function (tab) {
-        if(tab != undefined){
-            $("html,body").css({"width":"100%", "height":"100%"});
-            myLibrary("#calculator-container").center(); //center calculator on page
-        }
-    });
-
     if(localStorage.theme != "custom"){
         theme.load(localStorage.theme);
     }
@@ -89,15 +82,9 @@ $(document).ready(function() {
     }
 });
 
-if(localStorage.dev != "true"){
-    function trackButton(e) {
-        analyticsEvent(e.target.id , "clicked");
-    };
-}
-
 $(document).ready(() => {
     calculator.ini({
-        storage: "localStorage",
+        storage: localStorage,
         selector: {
             screen: "#input",
             radDeg: "#rad-deg",

@@ -1,31 +1,32 @@
-$(document).ready(function() {
+$(document).ready(() => {
 
-    window.onkeydown = function(e) {
+    window.onkeydown = (e) => {
         
-        let ctrl = (event.ctrlKey == true || event.metaKey == true),
-            shift = event.shiftKey,
+        let ctrl = (e.ctrlKey === true || e.metaKey === true),
+            shift = e.shiftKey,
             key = e.keyCode;
         
-        if(key == 8){
-            setTimeout(function() { //run async
-                if(calculator.op == ""){
-                    calculator.first = calculator.first.substring(0,calculator.first.length -1);
-                    calculator.screen.set(calculator.first);
+        if(key === 8){
+            setTimeout(() => {
+                let storage = calculator.storage;
+                if(storage.op === ""){
+                    storage.first = storage.first.substring(0, storage.first.length -1);
+                    calculator.screen.set(storage.first);
                 }
 
                 else{
-                    calculator.second = calculator.second.substring(0,calculator.second.length -1);
-                    calculator.screen.set(calculator.second);
+                    storage.second = storage.second.substring(0, storage.second.length -1);
+                    calculator.screen.set(storage.second);
                 }
 
-                if(calculator.clear == true || $('#input').text().length == 0){
+                if(storage.clear === true || $('#input').text().length === 0){
                     calculator.screen.clear();
                 }
 
-                if(calculator.screen.get() == ""){
+                if(calculator.screen.get() === ""){
                     calculator.screen.set(0);
                 }
-            }, 0)
+            }, 0);
             return false; //dissable keyboard history back THIS IS A HACK
         }
 
@@ -48,7 +49,7 @@ $(document).ready(function() {
 
 
         //if point is clicked trigger point function
-        else if(key == 190 || key == 110) {
+        else if(key === 190 || key === 110) {
             if(calculator.screen.length() < calculator.maxLength){
                 calculator.event.addDecimal();
             }
@@ -57,14 +58,14 @@ $(document).ready(function() {
 
 
 
-        else if(key == 53 && shift) {
+        else if(key === 53 && shift) {
             calculator.event.percentage();
         }
 
 
 
 
-        else if(key == 54 && shift) {
+        else if(key === 54 && shift) {
             calculator.operator("pow-of-y");
         }
 
@@ -72,7 +73,7 @@ $(document).ready(function() {
 
 
         //if plus is clicked trigger calculator.operator function with plus input
-        else if((shift && key == 187) || key == 107) {
+        else if((shift && key === 187) || key === 107) {
             calculator.operator("plus");
         }
 
@@ -80,7 +81,7 @@ $(document).ready(function() {
 
 
         //if minus is clicked trigger calculator.operator function with subtract input
-        else if(!shift && (key == 189 || key == 109)){
+        else if(!shift && (key === 189 || key === 109)){
             calculator.operator("subtract");
         }
 
@@ -88,7 +89,7 @@ $(document).ready(function() {
 
 
         //if multiply is clicked trigger calculator.operator function with multiply input
-        else if((shift && key == 56) || key == 88 || key == 106) {
+        else if((shift && key === 56) || key === 88 || key === 106) {
             calculator.operator("multiply");
         }
 
@@ -96,14 +97,14 @@ $(document).ready(function() {
 
 
         //if divide is clicked trigger calculator.operator function with devide input
-        else if(key == 191 || key == 111) {
+        else if(key === 191 || key === 111) {
             calculator.operator("divide");
         }
 
 
 
 
-        else if((!ctrl && key == 67) || key == 12) {
+        else if((!ctrl && key === 67) || key === 12) {
             calculator.screen.clear();
         }
 
@@ -112,7 +113,7 @@ $(document).ready(function() {
 
 
         // ctrl-c copy from screen
-        else if(ctrl && key == 67) {
+        else if(ctrl && key === 67) {
             calculator.clipboard.copy(calculator.screen.get());
         }
 
@@ -121,7 +122,7 @@ $(document).ready(function() {
 
 
         // ctrl-v paste to screen
-        else if(ctrl && key == 86) {
+        else if(ctrl && key === 86) {
             calculator.clipboard.paste();
         }
 
@@ -129,7 +130,7 @@ $(document).ready(function() {
 
 
         //enter
-        else if((!shift && key == 187) || key == 13 || key == 187){
+        else if((!shift && key === 187) || key === 13 || key === 187){
             calculator.calculate(true); //true if for the clear function
         }
 
@@ -138,8 +139,8 @@ $(document).ready(function() {
 
         // minus key with shift toggles
         // positive negative number
-        else if(shift && key == 189){
+        else if(shift && key === 189){
             calculator.event.posNeg();
         }
-    }
+    };
 });

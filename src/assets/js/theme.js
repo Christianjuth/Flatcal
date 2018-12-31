@@ -1,5 +1,5 @@
 function ajaxGetFile(file, type) {
-    var dataOut = false;
+    let dataOut = false;
     $.ajax({
         url: file,
         async: false,
@@ -16,7 +16,7 @@ function ajaxGetFile(file, type) {
 }
 
 
-var theme = {
+let theme = {
     ini: function(theme) {
         this.load(theme);
     },
@@ -34,25 +34,22 @@ var theme = {
 
     set: function(json){
         if(typeof json === "string") json = this.get(json);
-        theme.update(json)
+        theme.update(json);
         injectCSS(json);
-        return;
     },
 
     get: function(name){
-        var themesOut = null;
-        if(name == undefined){
-            themesOut = [];
-            data = ajaxGetFile("../../assets/themes/themes-list.json", "json");
-            for(i = 0; i < data.length; i++){
-                themesOut.push(data[i].toLowerCase());
-            };
+        let themesOut;
+
+        if(typeof name === 'undefined'){
+            let data = ajaxGetFile("../../assets/themes/themes-list.json", "json");
+            themesOut = data.map(theme => {
+                return theme.toLowerCase();
+            });
         }
 
         else{
-            themesOut = [];
-            data = ajaxGetFile("../../assets/themes/" + name + ".json", "json");
-            themesOut = data;
+            themesOut = ajaxGetFile("../../assets/themes/" + name + ".json", "json");
         }
 
         return themesOut;
@@ -66,52 +63,8 @@ var theme = {
         else{
             return $.parseJSON(localStorage.customTheme).manifest.name;
         }
-    },
-
-    save: function(json) {
-        if(typeof json != "object") json = JSON.parse(json);
-        if(json.manifest == undefined) json.manifest = {};
-        json.manifest.version = 1.1;
-        var blob = new Blob([JSON.stringify(json)], {
-            type: "text/plain;charset=utf-8;",
-        });
-        if(json.manifest.name != undefined && json.manifest.name != undefined){
-            saveAs(blob, json.manifest.name + ".json");
-        }
-
-        else{
-            saveAs(blob, "my-theme.json");
-        }
-    },
-
-    update: function(json) {
-        localStorage.theme = "custom";
-
-        localStorage.customTheme = JSON.stringify(json);
-        customCalculatorTheme = jQuery.parseJSON(localStorage.customTheme);
-    },
-
-    sort: {
-        foward: function(a,b){
-            if(a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase())return false;
-            if(a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase())return true;
-            return false;
-        },
-
-        reverse: function(a,b){
-            if(a.toLocaleLowerCase() < b.toLocaleLowerCase()) return true;
-            if(a.toLocaleLowerCase() > b.toLocaleLowerCase()) return false;
-        }
-    },
-
-    reconstruct: function(theme){
-        var settings = [];
-
-        for(i = 0; i < settings.length; i++){
-            if(arguments[0]);
-        }
     }
-}
+};
 
 
 let baseTheme = {
@@ -218,7 +171,7 @@ let injectCSS = (json) => {
             'color': button.numbers.textColor
         },
 
-        '.decimal': {
+        '#point': {
             'background': button.point.color,
             'backgroundHover': button.point.hoverColor,
             'color': button.point.textColor

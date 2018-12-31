@@ -26,7 +26,7 @@ body.dev .dev-menu{
 }
 
 #page > section{
-    margin: 45px 0;
+    margin: 40px 0;
 }
 
 
@@ -67,7 +67,10 @@ section .option-grp a,
     font-size: 16px;
 }
 
-
+.mac,
+.windows{
+    display: none;
+}
 
 #right-container,
 #left-container{
@@ -106,7 +109,7 @@ section .option-grp a,
 .calculator:not(.scientific):before{
     content: "Scientific mode to enable";
     display: block;
-    background-color: rgba(93, 91, 91, 0.8);
+    background-color: rgba(128, 128, 128, 0.8);
     position: absolute;
     top: 0;
     left: 0;

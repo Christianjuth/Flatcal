@@ -15,3 +15,8 @@ function analyticsEvent(category, action, opt_label, opt_value, opt_noninteracti
         _gaq.push(['_trackEvent', category, action, opt_label, opt_value, opt_noninteraction]);
     }
 }
+
+function trackButton(e) {
+    if(localStorage.dev !== "true") 
+        analyticsEvent(e.target.id , "clicked");
+};

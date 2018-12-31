@@ -13,13 +13,15 @@
     "grunt-contrib-uglify-es": "github:gruntjs/grunt-contrib-uglify#harmony",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-dart-sass": "^1.0.0",
+    "grunt-eslint": "^21.0.0",
     "grunt-jslint": "^1.1.15",
-    "grunt-notify": "^0.4.5"
+    "grunt-notify": "^0.4.5",
+    "grunt-sass-lint": "^0.2.4"
   },
   "scripts": {
     "start": "./node_modules/grunt/bin/grunt",
     "build": "./node_modules/grunt/bin/grunt build",
-    "test": "./node_modules/grunt/bin/grunt test",
+    "test": "./node_modules/grunt/bin/grunt lint",
     "package": "./node_modules/grunt/bin/grunt package"
   },
   "repository": {

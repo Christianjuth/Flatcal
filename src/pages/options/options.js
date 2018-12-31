@@ -4,6 +4,12 @@ localStorage.tutorial = true;
 
 $(document).ready(function() {
 
+    if(navigator.appVersion.indexOf("Mac")){
+        $('.mac').show();
+    } else{
+        $('.windows').show();
+    }
+
     $.getJSON(chrome.extension.getURL('assets/themes/themes.json'), function(options) {
         options.sort();
 
