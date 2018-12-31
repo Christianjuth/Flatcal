@@ -6,6 +6,8 @@
 
         <!--load javascript libraries-->
         <script type="text/javascript" src="../../assets/libs/jquery.min.js"></script>
+        <script type="text/javascript" src="../../assets/libs/spectrum.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../assets/libs/spectrum.min.css">
 
 
         <script type="text/javascript" src="../../assets/js/theme.js"></script>
@@ -19,9 +21,9 @@
     <body>
 
         <div id="page">
+            <h1 class="logo">Flatcal</h1>
+            
             <div>
-                <h1 class="logo">Flatcal</h1>
-
                 <div id="left-container">
 
                     <div class="calculator">
@@ -197,10 +199,11 @@
                     <div id="theme-selector-container" class="option-grp">
                         <h3>Select a theme</h3>
                         <select id="theme-selctor">
+                            <option value="custom">Custom</option>
                         </select>
                     </div>
 
-                    <div id="theme-designer-link" class="option-grp">
+                    <div id="theme-designer-link" class="option-grp hide">
                         <h3>Custom Theme</h3>
                         <a href="../theme-builder/theme-builder.html">open editor</a>
                     </div>

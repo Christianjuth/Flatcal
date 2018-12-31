@@ -18,17 +18,22 @@ $(document).ready(function() {
             return option.split('-').map((w) => {
                 return w.charAt(0).toUpperCase() + w.slice(1);
             }).join(' ');
-        }).sort();
+        }).sort().reverse();
 
         options.forEach((option) => {
             let file = option.replace(/\s/,'-').toLowerCase();
 
-            $(`<option class="theme-selctor-option" value="${file}">${option}</option>`).appendTo("#theme-selctor");
+            $(`<option class="theme-selctor-option" value="${file}">${option}</option>`).prependTo("#theme-selctor");
         });
 
 
         option.defineSelect("#theme-selctor", "theme", (val) => {
             theme.load(val);
+
+            if(val === 'custom')
+                $('#theme-designer-link').show();
+            else
+                $('#theme-designer-link').hide();
         });
     });
 

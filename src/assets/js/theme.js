@@ -1,72 +1,3 @@
-function ajaxGetFile(file, type) {
-    let dataOut = false;
-    $.ajax({
-        url: file,
-        async: false,
-        dataType: type,
-        tryCount : 0,
-        retryLimit : 15,
-        success: (data) => {
-            dataOut = data;
-        },
-        error: () => {}
-    });
-
-    return dataOut;
-}
-
-
-let theme = {
-    ini: function(theme) {
-        this.load(theme);
-    },
-
-    load: function(json) {
-        if(typeof json === "string"){
-            json = theme.get(json);
-        }
-        if(json == false){
-            localStorage.theme = "google";
-            json = theme.get("google");
-        }
-        injectCSS(json);
-    },
-
-    set: function(json){
-        if(typeof json === "string") json = this.get(json);
-        theme.update(json);
-        injectCSS(json);
-    },
-
-    get: function(name){
-        let themesOut;
-
-        if(typeof name === 'undefined'){
-            let data = ajaxGetFile("../../assets/themes/themes-list.json", "json");
-            themesOut = data.map(theme => {
-                return theme.toLowerCase();
-            });
-        }
-
-        else{
-            themesOut = ajaxGetFile("../../assets/themes/" + name + ".json", "json");
-        }
-
-        return themesOut;
-    },
-
-    getCurrent: function(){
-        if(localStorage.theme != "custom"){
-            return localStorage.theme;
-        }
-
-        else{
-            return $.parseJSON(localStorage.customTheme).manifest.name;
-        }
-    }
-};
-
-
 let baseTheme = {
     "app": {
         "color": ""
@@ -128,6 +59,82 @@ let baseTheme = {
             "color": "",
             "textColor": "",
             "hoverColor": ""
+        }
+    }
+};
+
+function ajaxGetFile(file, type) {
+    let dataOut = false;
+    $.ajax({
+        url: file,
+        async: false,
+        dataType: type,
+        tryCount : 0,
+        retryLimit : 15,
+        success: (data) => {
+            dataOut = data;
+        },
+        error: () => {}
+    });
+
+    return dataOut;
+}
+
+
+let theme = {
+    ini: function(theme) {
+        this.load(theme);
+    },
+
+    load: function(json) {
+        if(typeof json === "string"){
+            json = theme.get(json);
+        }
+        if(json == false){
+            localStorage.theme = "google";
+            json = theme.get("google");
+        }
+        injectCSS(baseTheme);
+        injectCSS(json);
+        return json;
+    },
+
+    set: function(json){
+        if(typeof json === "string") json = this.get(json);
+        injectCSS(json);
+    },
+
+    get: function(name){
+        let out;
+
+        if(typeof name === 'undefined'){
+            let data = ajaxGetFile("../../assets/themes/themes-list.json", "json");
+            out = data.map(theme => {
+                return theme.toLowerCase();
+            });
+        }
+
+        else if(name === 'custom'){
+            out = jQuery.parseJSON(localStorage.customTheme);
+            out = $.extend(true, {}, baseTheme, out),
+            // force app background-color
+            out.app.color = 'linear-gradient(to left bottom, rgb(158, 158, 158), rgb(54, 55, 56))';
+        }
+
+        else{
+            out = ajaxGetFile("../../assets/themes/" + name + ".json", "json");
+        }
+
+        return out;
+    },
+
+    getCurrent: function(){
+        if(localStorage.theme != "custom"){
+            return localStorage.theme;
+        }
+
+        else{
+            return $.parseJSON(localStorage.customTheme).manifest.name;
         }
     }
 };
@@ -223,6 +230,7 @@ let injectCSS = (json) => {
         $selector.css(css);
 
         // check if backgorundHover exsists
+        $selector.unbind();
         if(![null, ''].includes(css.backgroundHover)){
             $selector.mouseover(function() {
                 $(this).css({background: css.backgroundHover});

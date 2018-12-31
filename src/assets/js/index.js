@@ -63,21 +63,15 @@ $(document).ready(function() {
         $(".calculator").css({"padding":"16px"});
     }
 
-    if(localStorage.theme != "custom"){
+    if(localStorage.theme !== 'custom'){
         theme.load(localStorage.theme);
     }
 
     else{
-        let injectTheme = $.parseJSON(localStorage.customTheme);
-        if(injectTheme.manifest != undefined && injectTheme.manifest.version != undefined && injectTheme.manifest.version > 0 && theme.validate(injectTheme)){
-            theme.load(injectTheme);
-        }
-
-        else{
-            localStorage.theme = "google";
-            $.getJSON("assets/themes/google.json", function(injectTheme){
-                theme.load(injectTheme);
-            });
+        try{
+            theme.load('custom');
+        } catch(e){
+            theme.load('google');
         }
     }
 });

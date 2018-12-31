@@ -36,6 +36,14 @@ a{
     cursor: pointer;
 }
 
+.logo{
+    font-size: 75;
+    margin: 0 0 10px; 
+    text-align: center;
+    font-family: 'Sofia', cursive;
+    text-shadow: 3px 3px rgba(0, 0, 0, 0.08);
+}
+
 h1{
     font-size: 28px;
     margin: 5px 0;
@@ -68,4 +76,8 @@ select{
     font-size: 16px;
     min-width: 135px;
     color: inherit;
+}
+
+.hide{
+    display: none;
 }

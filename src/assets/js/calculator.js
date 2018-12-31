@@ -1,14 +1,3 @@
-/*-------------------------------------------------------------------------------------
-|   o88b.  .d8b.  db       .o88b. db    db db       .d8b.  d888888b  .d88b.  d8888b.  |
-| d8P  Y8 d8' `8b 88      d8P  Y8 88    88 88      d8' `8b `~~88~~' .8P  Y8. 88  `8D  |
-| 8P      88ooo88 88      8P      88    88 88      88ooo88    88    88    88 88oobY'  |
-| 8b      88~~~88 88      8b      88    88 88      88~~~88    88    88    88 88`8b    |
-| Y8b  d8 88   88 88booo. Y8b  d8 88b  d88 88booo. 88   88    88    `8b  d8' 88 `88.  |
-|  `Y88P' YP   YP Y88888P  `Y88P' ~Y8888P' Y88888P YP   YP    YP     `Y88P'  88   YD  |
---------------------------------------------------------------------------------------*/
-
-
-
 let calculator = {
     ini: function(options){
         this.storage = options.storage;
@@ -28,9 +17,8 @@ let calculator = {
 
             // resume state
             this.options.maxLength = options.max;
-            if(storage.radDeg == "rad") this.rad();
-            else this.deg();
             if(storage.m != "0") $("#m-status").text("m");
+            $(options.selector.radDeg).text(localStorage.radDeg);
 
             if(storage.op === '' || storage.second === '')
                 this.screen.set(storage.first);
@@ -63,17 +51,18 @@ let calculator = {
                 this.screen.set(storage.second, false);
             }
         }
-
-        return lastButtonClicked;
     },
 
     screen: {
         set: function(number) {
             number = String(number);
 
-            if(number == "") number = "0";
+            if(number == '') number = '0';
 
-            if(number.indexOf(".") != -1 && number != "-0") number = String(parseInt(number.split(".")[0]) + "." + number.split(".")[1]);
+            if(number.indexOf('.') != -1 && number !== '-0'){
+                let splitNumber = number.split('.');
+                number = `${parseInt(splitNumber[0])}.${splitNumber[1]}`;
+            }
 
             else if(number != "-0") number = String(parseInt(number));
 
@@ -173,14 +162,20 @@ let calculator = {
                     overall = Math.pow(first, second);
                     break;
                 case 'square-root-y':
-                    overall = this.math.nthroot(first, second);
+                    overall = math.nthRoot(first, second);
                     break;
             };
 
-            calculator.screen.set(overall);
             this.animate.op();
             storage.first = String(overall);
             storage.second = '';
+
+            // make input flash incase result
+            // is the same as current screen value
+            $(calculator.selector.screen).text('');
+            setTimeout(() => {
+                calculator.screen.set(overall);
+            }, 50);
 
             if(clearVaulesAfter === true) this.clear = true;
         }
@@ -275,79 +270,100 @@ let calculator = {
 
     event: {
         addDecimal : function() {
-            if(calculator.clear == true) calculator.screen.clear();
+            let storage = calculator.storage;
 
-            if(calculator.screen.get().indexOf(".") == -1){
-                if(calculator.op== ""){
-                    calculator.first = calculator.first + ".";
-                    calculator.screen.set(calculator.first);
+            if(storage.clear == true) calculator.screen.clear();
+
+            if(calculator.screen.get().indexOf('.') == -1){
+                if(storage.op === ''){
+                    storage.first = storage.first + '.';
+                    calculator.screen.set(storage.first);
                 }
 
                 else{
-                    if(calculator.second == "." || calculator.second == "") calculator.second = "0.";
-                    calculator.second = calculator.second + ".";
-                    calculator.screen.set(calculator.second);
+                    if(storage.second === '.' || storage.second === '') storage.second = '0.';
+                    storage.second = storage.second + ".";
+                    calculator.screen.set(storage.second);
                 }
             }
-
-            return;
         },
 
-        posNeg : function() {
-            if(calculator.op== ""){
-                if(calculator.first.length == 0) calculator.first = "-0";
-                else if(calculator.first.indexOf("-") == -1) calculator.first = "-" + calculator.first;
-                else calculator.first = calculator.first.replace(/-/g,"");
-                calculator.screen.set(calculator.first);
+        posNeg: function() {
+            let storage = calculator.storage;
+
+            if(storage.op === ''){
+                if(storage.first.length == 0) storage.first = "-0";
+                else if(storage.first.indexOf("-") == -1) storage.first = "-" + storage.first;
+                else storage.first = storage.first.replace(/-/g,"");
+                calculator.screen.set(storage.first);
             }
 
-            if(calculator.op!= ""){
-                if(calculator.second.length == 0) calculator.second = "-0";
-                else if(calculator.second.indexOf("-") == -1) calculator.second = "-" + calculator.second;
-                else calculator.second = calculator.second.replace(/-/g,"");
-                calculator.screen.set(calculator.second);
+            if(storage.op !== ''){
+                if(storage.second.length == 0) storage.second = "-0";
+                else if(storage.second.indexOf("-") == -1) storage.second = "-" + storage.second;
+                else storage.second = storage.second.replace(/-/g,"");
+                calculator.screen.set(storage.second);
             }
-
-            return;
         },
 
-        radDeg : function() {
-            if(calculator.selector.radDeg.text() == "rad"){
-                calculator.storage.radDeg = calculator.deg();
+        radDeg: function() {
+            let storage = calculator.storage;
+
+            if(calculator.selector.radDeg.text() === 'rad'){
+                $(calculator.selector.radDeg).text('deg');
+                storage.radDeg = 'deg';
             }
 
-            else if(calculator.selector.radDeg.text() == "deg"){
-                calculator.storage.radDeg = calculator.rad();
+            else if(calculator.selector.radDeg.text() === 'deg'){
+                $(calculator.selector.radDeg).text('rad');
+                storage.radDeg = 'rad';
             }
-
-            return;
         },
 
         percentage: function(){
-            if(calculator.op == ""){
-                calculator.first = String(1 * (calculator.first * 0.01));
-                calculator.clear = true;
-                return calculator.screen.set(calculator.first);
+            let storage = calculator.storage;
+
+            if(storage.op === ''){
+                storage.first = String(1 * (storage.first * 0.01));
+                storage.clear = true;
+                return calculator.screen.set(storage.first);
             }
 
             else{
-                calculator.second = String(calculator.first * (calculator.second * 0.01));
-                calculator.clear = true;
-                return calculator.screen.set(calculator.second);
+                storage.second = String(storage.first * (storage.second * 0.01));
+                storage.clear = true;
+                return calculator.screen.set(storage.second);
             }
         },
 
         sq: () => {
-            if(calculator.op == ""){
-                calculator.first = String(calculator.first * calculator.first);
-                calculator.clear = true;
-                return calculator.screen.set(calculator.first);
+            let storage = calculator.storage;
+
+            if(storage.op === ''){
+                storage.first = String(storage.first * storage.first);
+                storage.clear = true;
+                calculator.screen.set(storage.first);
             }
 
             else{
-                calculator.second = String(calculator.second * calculator.second);
-                calculator.clear = true;
-                return calculator.screen.set(calculator.second);
+                storage.second = String(storage.second * storage.second);
+                storage.clear = true;
+                calculator.screen.set(storage.second);
+            }
+        },
+
+        sqrt: () => {
+            let storage = calculator.storage;
+            if(storage.op == ""){
+                storage.first = String(Math.sqrt(storage.first));
+                storage.clear = true;
+                calculator.screen.set(storage.first);
+            }
+
+            else{
+                storage.second = String(Math.sqrt(storage.second));
+                storage.clear = true;
+                calculator.screen.set(storage.second);
             }
         }
     },
@@ -437,15 +453,5 @@ let calculator = {
             }
             $input.remove();
         }
-    },
-
-    rad: function() {
-        this.selector.radDeg.text("rad");
-        return "rad";
-    },
-
-    deg: function() {
-        this.selector.radDeg.text("deg");
-        return "deg";
     }
 };

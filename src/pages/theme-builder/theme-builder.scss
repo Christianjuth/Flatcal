@@ -1,0 +1,88 @@
+body{
+    color: #fff;
+}
+
+.dev-menu{
+    display: none;
+}
+body.dev .dev-menu{
+    display: block;
+}
+
+.page{
+    margin: 60px auto;
+}
+
+
+
+#theme-builder{
+    width: 760px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 4px;
+}
+
+#left-container,
+#right-container{
+    display: inline-block;
+    vertical-align: top;
+}
+
+#left-container{
+    padding: 0px 20px 5px;
+    width: 325px;
+    height: 400px;
+    overflow-y: scroll;
+}
+
+#right-container{
+    width: 435px;
+    height: 400px;
+    position: relative;
+    padding-left: 10px;
+}
+
+
+.option-grp{
+    position: relative;
+    margin: 0 0 13px;
+
+    & > *{
+        position: relative;
+        margin: 0;
+        font-size: 17px;
+        font-weight: 300;
+        display: inline-block;
+    }
+
+    *:not(h3){
+        float: right;
+    }
+
+    select{
+        font-size: 16px;
+    }
+
+    input[type=number]{
+        width: 49px;
+    }
+
+    .sp-replacer{
+        margin-top: -1px;
+    }
+}
+
+
+.calculator{
+    width: 439px;
+    transform: scale(0.92);
+    margin: 55px  0 0 -16px;
+    padding: 16px;
+    display: inline-block;
+    position: relative;
+}
+
+.calculator #number-container,
+.calculator #scientific-1{
+    display: inline-block;
+}

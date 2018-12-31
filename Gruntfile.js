@@ -13,14 +13,14 @@ module.exports = function(grunt) {
       flatcal: {
         options: {
           sourceMap: true,
-          outFile: 'dist/assets/css',
+          outFile: 'dist',
           outputStyle: 'compressed'
         },
         files: [{
           expand: true,
-          cwd: 'src/assets/sass',
-          src: ['*.scss'],
-          dest: 'dist/assets/css',
+          cwd: 'src',
+          src: ['**/*.scss'],
+          dest: 'dist',
           ext: '.css'
         }]
       }
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
           cwd: 'src',
           src: [
             '**',
-            '!assets/sass/**',
+            '!**/*.scss',
             '!assets/js/**'
           ],
           dest: 'dist'
