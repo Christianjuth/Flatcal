@@ -91,8 +91,8 @@ let theme = {
             json = theme.get(json);
         }
         if(json == false){
-            localStorage.theme = "google";
-            json = theme.get("google");
+            delete localStorage.theme;
+            location.reload();
         }
         injectCSS(baseTheme);
         injectCSS(json);
@@ -114,8 +114,15 @@ let theme = {
             });
         }
 
+        // load custom theme
         else if(name === 'custom'){
-            out = jQuery.parseJSON(localStorage.customTheme);
+            try{
+                out = jQuery.parseJSON(localStorage.customTheme); 
+            } catch(e){
+                delete localStorage.customTheme;
+                setTimeout(() => location.reload(), 500);
+            }
+            
             out = $.extend(true, {}, baseTheme, out),
             // force app background-color
             out.app.color = 'linear-gradient(to left bottom, rgb(158, 158, 158), rgb(54, 55, 56))';

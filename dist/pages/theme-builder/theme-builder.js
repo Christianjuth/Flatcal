@@ -113,7 +113,7 @@ $(document).ready(() => {
                     }
 
                     else{
-                        $input = $(`<input type='${selector[prop]}'>`);
+                        $input = $(`<input type='${selector[prop]}' min='0' max='5'>`);
                         $optionGrp.append($input);
                         $input.change(function() {
                             selectorTheme[prop] = $(this).val() + unit;

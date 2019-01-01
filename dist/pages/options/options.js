@@ -4,11 +4,10 @@ localStorage.tutorial = true;
 
 $(document).ready(function() {
 
-    if(navigator.appVersion.indexOf("Mac")){
+    if(navigator.appVersion.indexOf("Mac"))
         $('.mac').show();
-    } else{
+    else
         $('.windows').show();
-    }
 
     $.getJSON(chrome.extension.getURL('assets/themes/themes.json'), function(options) {
         options.sort();
@@ -72,7 +71,14 @@ $(document).ready(function() {
     });
 
     if(localStorage.dev == "true") $('body').addClass('dev');
-    $("#reset-storage").click(() => storage.resetAll());
+    $("#reset-storage").click(() => {
+        Object.keys(localStorage).forEach(key => {
+            if(!['guid', 'dev'].includes(key)){
+                delete localStorage[key];
+            }
+        });
+        chrome.runtime.reload();
+    });
     $("#guid").text(localStorage.guid);
 });
 
