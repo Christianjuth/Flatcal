@@ -166,7 +166,7 @@ let injectCSS = (json) => {
             'color': theme.input.textColor
         },
 
-        '#input-border': {
+        '.input-border': {
             'background': theme.input.outlineColor || theme.input.color
         },
 
@@ -224,6 +224,7 @@ let injectCSS = (json) => {
     };
 
     // selectors
+    $('.button').unbind();
     Object.keys(mappings).forEach(selector => {
         let css = mappings[selector],
             $selector = $(selector);
@@ -237,7 +238,6 @@ let injectCSS = (json) => {
         $selector.css(css);
 
         // check if backgorundHover exsists
-        $selector.unbind();
         if(![null, ''].includes(css.backgroundHover)){
             $selector.mouseover(function() {
                 $(this).css({background: css.backgroundHover});

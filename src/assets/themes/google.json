@@ -15,6 +15,7 @@
     "input": {
         "color": "#fff",
         "borderColor": "#d4d6d6",
+        "outlineColor": "#fff",
         "textColor": "#222",
         "font": "arial"
     },

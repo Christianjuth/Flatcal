@@ -38,11 +38,14 @@ $(document).ready(function() {
 
 
     option.defineSelect("#calculator-type", "type", (val) => {
-        if(val == "scientific")
+        $('.calculator').removeClass('scientific');
+        $('.calculator').removeClass('screenOnly');
+
+        if(val == 'scientific')
             $('.calculator').addClass('scientific');
 
-        else
-            $('.calculator').removeClass('scientific');
+        if(val == 'screen-only')
+            $('.calculator').addClass('screenOnly');
     });
 
 

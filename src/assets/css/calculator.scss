@@ -30,21 +30,12 @@ body > input{
 
 
 
-
-
-#calculator-container{
-    width: auto;
-    height: auto;
-    position: relative;
-}
-
 .calculator{
     position: relative;
     font-family: 'Open Sans', sans-serif;
     overflow: hidden;
 
-    border-radius: 5px;
-    /*box-shadow: 0px 8px 65px 0px rgba(88, 88, 88, 0.4);*/
+    border-radius: 4px;
 
 
     section{
@@ -91,7 +82,7 @@ body > input{
         }
 
         .sup-sqrt{
-            margin-right: -5px; 
+            margin-right: -4px; 
         }
     }
 
@@ -123,19 +114,17 @@ body > input{
     #input-container{
         position: relative;
 
-        border-width: 1px;
-        border-style: solid;
-        border-color: #aaa;
-        border-radius: 0px;
+        border: 1px solid #fff;
+        border-radius: 0;
         height: 44px;
 
         letter-spacing: 1px;
         text-align: right;
-        padding-right: 14px;
+        padding-right: 13px;
         padding-top: 6px;
     }
 
-    #input-border{
+    .input-border{
         position: absolute;
         height: 72px;
         width: 443px;
@@ -151,11 +140,12 @@ body > input{
         font-size: 29px;
     }
 
-    #input-container > div{
+    #input-container .text{
         width: 25px;
         margin-left: 10px;
         float: left;
         display: inline-block;
+        font-weight: 300;
     }
 
     #input-container > div > span{

@@ -6,6 +6,7 @@ let options = {
     "input": {
         "color": "color",
         "borderColor": "color",
+        "outlineColor": "color",
         "textColor": "color"
     },
 

@@ -18,7 +18,7 @@ chrome.windows.getCurrent(function(x){
 });
 
 if(localStorage.type == "screen-only"){
-    $("html,body").css({"width": 204, "height": 54});
+    $("html,body").css({"width": 300, "height": 54});
 }
 
 else if(localStorage.type == "normal"){
@@ -39,7 +39,6 @@ $(document).ready(function() {
 
     if(localStorage.type == "screen-only"){
         $("#input-container").css({"padding-right":"8px"});
-        $("#input").css({"width":"100%"});
         $(".input-text").hide();
         $("#scientific-1").remove();
         $("#scientific-2").remove();

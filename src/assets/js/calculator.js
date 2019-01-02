@@ -67,9 +67,9 @@ let calculator = {
             else if(number != "-0") number = String(parseInt(number));
 
             var valid = (number != "" && number != undefined && number != "undefined"); //validate number
-            if(number == "NaN"|| number.split(".")[0].replace(/-/,"").length > calculator.options.maxLength || !valid){
+            if(number == "NaN" || !isFinite(number) || number.split(".")[0].replace(/-/,"").length > calculator.options.maxLength || !valid){
                 calculator.screen.clear();
-                calculator.selector.screen.text("ERROR");
+                $(calculator.selector.screen).text("ERROR");
                 return false;
             }
 
@@ -89,6 +89,10 @@ let calculator = {
 
         get: function(){
             return calculator.selector.screen.text().replace(/,/g,"");
+        },
+
+        value: function() {
+            return parseFloat(this.get());
         },
 
         length: function(){
@@ -181,16 +185,26 @@ let calculator = {
         }
     },
 
-    mathFunctions:{
+    mathFunctions: {
         //static functions
-        pi: () => String(Math.PI),
+        pi: () => {
+            let s = calculator.storage,
+                val = calculator.screen.value();
 
-        e: () => Math.E,
+            return Math.PI * (val !== 0 ? val : 1);
+        },
+
+        e: () => {
+            let s = calculator.storage,
+                val = calculator.screen.value();
+
+            return Math.E * (val !== 0 ? val : 1);
+        },
 
         //basic functions
-        pow: (x,y) => math.pow(x, y),
+        pow: (mode, x, y) => math.pow(x, y),
 
-        nthroot: (x, n) => {
+        nthroot: (mode, x, n) => {
             try {
                 let negate = n % 2 == 1 && x < 0;
                 if(negate)
@@ -202,70 +216,71 @@ let calculator = {
             } catch(e){}
         },
 
-        in: (x) => Math.log(x),
+        ln: (mode, x) => Math.log(x),
 
-        log: (x, y) => math.log(x, y),
+        log: (mode, x, y) => math.log(x, y),
+
 
         //trig functions
-        sin: (x) => {
+        sin: (mode, x) => {
             return math.sin(math.unit(x, calculator.storage.radDeg));
         },
 
-        cos: (x) => {
+        cos: (mode, x) => {
             return math.cos(math.unit(x, calculator.storage.radDeg));
         },
 
-        tan: (x) => {
+        tan: (mode, x) => {
             return math.tan(math.unit(x, calculator.storage.radDeg));
         },
 
-        sinh: (x) => {
+        sinh: (mode, x) => {
             return math.sinh(math.unit(x, calculator.storage.radDeg));
         },
 
-        cosh: (x) => {
+        cosh: (mode, x) => {
             return math.cosh(math.unit(x, calculator.storage.radDeg));
         },
 
-        tanh: (x) => {
+        tanh: (mode, x) => {
             return math.tanh(math.unit(x, calculator.storage.radDeg));
         },
 
-        asin: (x) => {
-            if(calculator.storage.radDeg == "rad") return math.asin(x);
-            else return math.asin(x) * (180 / Math.PI);
+        asin: (mode, x) => {
+            return math.asin(x) * (mode === 'rad' ? 1 : (180 / Math.PI));
         },
 
-        acos: (x) => {
-            if(calculator.storage.radDeg == "rad") return math.acos(x);
-            else return math.acos(x) * (180 / Math.PI);
+        acos: (mode, x) => {
+            return math.acos(x) * (mode === 'rad' ? 1 : (180 / Math.PI));
         },
 
-        atan: (x) => {
-            if(calculator.storage.radDeg == "rad") return math.atan(x);
-            else return math.atan(x) * (180 / Math.PI);
+        atan: (mode, x) => {
+            return math.atan(x) * (mode === 'rad' ? 1 : (180 / Math.PI));
         },
 
-        asinh : function(x) {
+        asinh: function(mode, x) {
             return Math.asinh(x);
         },
 
-        acosh : function(x) {
+        acosh: function(mode, x) {
             return Math.acosh(x);
         },
 
-        atanh : function(x) {
+        atanh: function(mode, x) {
             return Math.atanh(x);
         }
     },
 
     math: function(fun, x, y){
-        let result = calculator["mathFunctions"][fun](parseFloat(x),parseFloat(y));
-        if(result !== false){
-            if(calculator.op == "") return calculator.first = calculator.screen.set(result);
-            else return calculator.second = calculator.screen.set(result);
-        }
-        else calculator.screen.get();
+        let storage = calculator.storage,
+            mode = calculator.storage.radDeg,
+            result = calculator.mathFunctions[fun](mode, parseFloat(x), parseFloat(y));
+
+        if(storage.op === '')
+            storage.first = result;
+        else
+            storage.second = result
+        calculator.screen.set(result);
     },
 
     event: {

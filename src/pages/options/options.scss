@@ -10,7 +10,7 @@ body.dev .dev-menu{
 }
 
 #page{
-    width: 722px;
+    width: 723px;
     margin: 60px auto;
 }
 
@@ -66,7 +66,7 @@ body.dev .dev-menu{
 
 .calculator{
     float: right;
-    width: 439px;
+    width: 440px;
     transform: scale(0.92);
 
     padding: 16px;
@@ -79,21 +79,33 @@ body.dev .dev-menu{
     display: inline-block;
 }
 
-.calculator:not(.scientific):before{
-    content: "Scientific mode to enable";
+.calculator:before{
     display: block;
-    background-color: rgba(208, 209, 216, 0.76);
     position: absolute;
-    top: 0;
+    background-color: rgba(162, 162, 167, 0.76);
     left: 0;
-    height: 100%;
-    width: 213px;
     z-index: 2000;
     font-size: 15px;
-    line-height: 286px;
     text-align: center;
 }
 
+.calculator:not(.scientific):before{
+    content: 'Scientific mode to enable';
+    top: 0;
+    height: 100%;
+    width: 214px;
+    line-height: 286px;
+}
+
+.calculator.screenOnly:before{
+    content: 'Scientific or Normal mode to enable';
+    top: 68px;
+    height: 224px;
+    width: 439px;
+    line-height: 219px;
+}
+
+.calculator.screenOnly section,
 .calculator:not(.scientific) #scientific-1,
 .calculator:not(.scientific) #scientific-2,
 .calculator:not(.scientific) #rad-deg,
