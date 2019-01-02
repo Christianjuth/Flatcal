@@ -156,6 +156,10 @@ let injectCSS = (json) => {
             'background': theme.app.color
         },
 
+        '.calculator-mask': {
+            'background': theme.app.color
+        },
+
         '.calculator': {
             'background': theme.body.color
         },
@@ -175,7 +179,7 @@ let injectCSS = (json) => {
             'backgroundHover': button.hoverColor,
             'color': button.textColor,
             'outline-color': theme.body.color,
-            'outline-width': `${button.borderWidth}`,
+            'outline-width': `${button.borderWidth}px`,
             'outline-offset': `${-(parseInt(button.borderWidth) - 1)}px`
         },
 

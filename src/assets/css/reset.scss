@@ -64,6 +64,7 @@ a{
     cursor: pointer;
     text-decoration: underline;
     font-size: 18px;
+    font-weight: 300;
     display: block;
 }
 
@@ -86,6 +87,20 @@ h2{
     margin: 6px 0;
 }
 
+h3{
+    font-size: 17px;
+}
+
+p{
+    display: block;
+    background-color: rgba(68, 68, 68, 0.4);
+    padding: 2px 6px;
+    margin-top: -1px;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 300;
+}
+
 .text-center{
     text-align: center;
 }
@@ -103,14 +118,27 @@ hr{
 select{
     -webkit-appearance: none;
     appearance: none;    
-    border-radius: 0;
+    border-radius: 3px;
     padding: 3px 6px;
     text-align: center;
     border: none;
-    background-color: #0000003d;
-    font-size: 16px;
+    background-color: rgba(68, 68, 68, 0.4);
+    font-size: 15px;
     min-width: 135px;
     color: inherit;
+}
+
+.select-wrap:after{
+    content: "▼";
+    display: block;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    font-size: 10px;
+    padding-left: 4px;
+    opacity: .7;
+    height: 11px;
+    pointer-events: none;
 }
 
 .hide{

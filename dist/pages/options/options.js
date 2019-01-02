@@ -47,6 +47,9 @@ $(document).ready(function() {
         if(val == 'screen-only')
             $('.calculator').addClass('screenOnly');
     });
+    $('.calculator-mask').click(() => {
+        $('#calculator-type').val('scientific').change();
+    });
 
 
 

@@ -13,7 +13,7 @@ let options = {
     "button": {
         "color": "color",
         "borderColor": "color",
-        "borderWidth": "number",
+        "borderWidth": "range",
         "hoverColor": "color",
         "textColor": "color",
 

@@ -63,12 +63,13 @@ body.dev .dev-menu{
         font-size: 16px;
     }
 
-    input[type=number]{
-        width: 49px;
+    input[type=range]{
+        margin-top: 2px;
+        width: 100px;
     }
 
     .sp-replacer{
-        margin-top: -1px;
+        margin-top: -2px;
     }
 }
 

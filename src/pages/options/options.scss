@@ -31,13 +31,8 @@ body.dev .dev-menu{
 .option-grp *{
     position: relative;
     margin: 0;
-    font-size: 17px;
     font-weight: 300;
     display: inline-block;
-}
-
-.option-grp select{
-    font-size: 16px;
 }
 
 .mac,
@@ -72,43 +67,60 @@ body.dev .dev-menu{
     padding: 16px;
     display: inline-block;
     position: relative;
-}
 
-.calculator #number-container,
-.calculator #scientific-1{
-    display: inline-block;
-}
+    #number-container,
+    #scientific-1{
+        display: inline-block;
+    }
 
-.calculator:before{
-    display: block;
-    position: absolute;
-    background-color: rgba(162, 162, 167, 0.76);
-    left: 0;
-    z-index: 2000;
-    font-size: 15px;
-    text-align: center;
-}
+    .calculator-mask{
+        position: absolute;
+        background-color: rgba(129, 129, 138, 0.76);
+        left: 0;
+        z-index: 1000;
+        font-size: 17px;
+        font-weight: 300;
+        text-align: center;
+        opacity: 0.9;
+        
+        &:before{
+            display: block;
+            background: rgba(0, 0, 0, 0.26);
+            height: 100%;
+            cursor: pointer;
+        }
+    }
 
-.calculator:not(.scientific):before{
-    content: 'Scientific mode to enable';
-    top: 0;
-    height: 100%;
-    width: 214px;
-    line-height: 286px;
-}
+    &:not(.scientific) .calculator-mask{
+        top: 0;
+        height: 100%;
+        width: 214px;
 
-.calculator.screenOnly:before{
-    content: 'Scientific or Normal mode to enable';
-    top: 68px;
-    height: 224px;
-    width: 439px;
-    line-height: 219px;
-}
+        &:before{
+            content: 'Scientific mode to enable';
+            line-height: 286px;
+        }
+    }
 
-.calculator.screenOnly section,
-.calculator:not(.scientific) #scientific-1,
-.calculator:not(.scientific) #scientific-2,
-.calculator:not(.scientific) #rad-deg,
-.calculator:not(.scientific) #m-status{
-    filter: blur(2px);
+    &.screenOnly .calculator-mask{
+        top: 68px;
+        height: 224px;
+        width: 440px;
+
+        &:before{
+            content: 'Scientific or Normal mode to enable';
+            line-height: 219px;
+        }
+    }
+
+    &.screenOnly section,
+    &:not(.scientific) #scientific-1,
+    &:not(.scientific) #scientific-2,
+    &:not(.scientific) #rad-deg{
+        filter: blur(2px);
+    }
+
+    &.screenOnly #rad-deg{
+        display: none;
+    }
 }

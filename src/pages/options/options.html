@@ -5,16 +5,14 @@
         <script type="text/javascript" src="../../assets/js/storage.js"></script>
         <script type="text/javascript" src="../../assets/js/analytics.js"></script>
 
-        <!--load javascript libraries-->
         <script type="text/javascript" src="../../assets/libs/jquery.min.js"></script>
         <script type="text/javascript" src="../../assets/libs/spectrum.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="../../assets/libs/spectrum.min.css">
-
 
         <script type="text/javascript" src="../../assets/js/theme.js"></script>
-        <link rel="stylesheet" type="text/css" href="../../assets/css/calculator.css">
 
         <link rel="stylesheet" type="text/css" href="../../assets/css/reset.css">
+        <link rel="stylesheet" type="text/css" href="../../assets/css/calculator.css">
+        
         <link rel="stylesheet" type="text/css" href="options.css">
         <script type="text/javascript" src="options.js"></script>
     </head>
@@ -27,6 +25,8 @@
                 <div id="left-container">
 
                     <div class="calculator">
+                        <div class="calculator-mask"></div>
+
                         <div class="input-border"></div>
                         <div id="input-container">
                             <span id="input">0</span>
@@ -190,18 +190,22 @@
                     <h2>Settings</h2>
                     <div id="calculator-type-option" class="option-grp">
                         <h3>Calculator mode</h3>
-                        <select id="calculator-type">
-                            <option class="theme-selctor-option" value="normal">Normal</option>
-                            <option class="theme-selctor-option" value="scientific">Scientific</option>
-                            <option class="theme-selctor-option" value="screen-only">Screen only</option>
-                        </select>
+                        <div class="select-wrap">
+                            <select id="calculator-type">
+                                <option class="theme-selctor-option" value="normal">Normal</option>
+                                <option class="theme-selctor-option" value="scientific">Scientific</option>
+                                <option class="theme-selctor-option" value="screen-only">Screen only</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div id="theme-selector-container" class="option-grp">
                         <h3>Select a theme</h3>
-                        <select id="theme-selctor">
-                            <option value="custom">Custom</option>
-                        </select>
+                        <div class="select-wrap">
+                            <select id="theme-selctor">
+                                <option value="custom">Custom</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div id="theme-designer-link" class="option-grp hide">
