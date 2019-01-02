@@ -23,7 +23,6 @@
     "button":{
         "color":"#404346",
         "borderColor":"#2b2e3c",
-        "borderRadius":"0",
         "borderWidth":"1px",
         "hoverColor":"#505356",
         "textColor":"#fff",

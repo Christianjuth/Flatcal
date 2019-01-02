@@ -151,6 +151,8 @@ let injectCSS = (json) => {
     let theme = $.extend(true, {}, baseTheme, json),
         button = theme.button;
 
+        console.log(button.borderWidth);
+
     let mappings = {
         'body': {
             'background': theme.app.color
@@ -179,7 +181,7 @@ let injectCSS = (json) => {
             'backgroundHover': button.hoverColor,
             'color': button.textColor,
             'outline-color': theme.body.color,
-            'outline-width': `${button.borderWidth}px`,
+            'outline-width': `${parseInt(button.borderWidth)}px`,
             'outline-offset': `${-(parseInt(button.borderWidth) - 1)}px`
         },
 
@@ -246,10 +248,10 @@ let injectCSS = (json) => {
             $selector.mouseover(function() {
                 $(this).css({background: css.backgroundHover});
             });
-            $selector.mouseout(function() {
-                $(this).css({background: css.background});
-            });
         }
+        $selector.mouseout(function() {
+            $(this).css({background: css.background});
+        });
     });
 
 };
