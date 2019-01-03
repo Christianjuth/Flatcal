@@ -386,10 +386,11 @@ let calculator = {
     //memory functions
     m: {
         recall: () => {
-            if(calculator.op == "")
-                calculator.first = calculator.storage.m;
+            let storage = calculator.storage;
+            if(storage.op == '')
+                storage.first = calculator.storage.m;
             else
-                calculator.second = calculator.storage.m;
+                storage.second = calculator.storage.m;
 
             calculator.screen.set(calculator.storage.m);
         },
@@ -457,9 +458,10 @@ let calculator = {
             let number = parseFloat($input.val());
 
             if(!isNaN(parseFloat(number))){
+                let storage = calculator.storage;
                 calculator.screen.set(number);
-                if(calculator.op== "") calculator.first = number;
-                else calculator.second = number;
+                if(storage.op == '') storage.first = number;
+                else storage.second = number;
             }
 
             else{

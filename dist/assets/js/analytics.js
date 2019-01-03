@@ -1,2 +1,0 @@
-if("true"!==localStorage.dev){var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-54875825-1"]),_gaq.push(["_trackPageview"]),function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="https://ssl.google-analytics.com/ga.js";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}()}function analyticsEvent(t,e,a,c,n){"true"!=localStorage.dev&&_gaq.push(["_trackEvent",t,e,a,c,n])}function trackButton(t){"true"!==localStorage.dev&&analyticsEvent(t.target.id,"clicked")}
-//# sourceMappingURL=analytics.js.map

@@ -126,7 +126,7 @@ $(document).ready(() => {
                         });
 
                         try{
-                            $input.val(selectorTheme[prop].replace(unit, ''));
+                            $input.val(String(selectorTheme[prop]).replace(unit, ''));
                         } catch(e){};
                     }
 

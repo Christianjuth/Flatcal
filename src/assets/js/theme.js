@@ -91,7 +91,7 @@ let theme = {
             json = theme.get(json);
         }
         if(json == false){
-            delete localStorage.theme;
+            // delete localStorage.customTheme;
             location.reload();
         }
         injectCSS(baseTheme);
