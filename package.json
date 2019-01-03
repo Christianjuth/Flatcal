@@ -1,7 +1,7 @@
 {
   "name": "flatcal",
   "version": "1.0.0",
-  "description": "FlatCal is the second Chrome Extension I launched on the Chrome Webstore and the first big step I took in developing my web design skills. FlatCal took the simplest idea, a calculator, and made it the most customizable thing ever. FlatCal comes with eight built-in themes and the option to design your own. The purpose of FlatCal was to create a simple, elegant calculator you can use from your browser.",
+  "description": "The best calculator for Google Chrome",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
@@ -9,6 +9,7 @@
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-compress": "^1.4.3",
     "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-htmlmin": "^3.0.0",
     "grunt-contrib-uglify": "^4.0.0",
     "grunt-contrib-uglify-es": "github:gruntjs/grunt-contrib-uglify#harmony",
     "grunt-contrib-watch": "^1.1.0",

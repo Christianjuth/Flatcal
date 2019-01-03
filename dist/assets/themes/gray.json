@@ -5,7 +5,7 @@
     },
 
     "app": {
-        "color": "linear-gradient(to left bottom, rgb(208, 191, 208), rgb(160, 185, 206))"
+        "color": "linear-gradient(to left bottom, rgb(199, 184, 199), rgb(160, 185, 206))"
     },
 
     "body": {

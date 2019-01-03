@@ -29,7 +29,6 @@ body > input{
 }
 
 
-
 .calculator{
     position: relative;
     font-family: 'Open Sans', sans-serif;
@@ -145,17 +144,13 @@ body > input{
         margin-left: 10px;
         float: left;
         display: inline-block;
+        font-size: 13px;
         font-weight: 300;
+        text-align: left;
     }
 
-    #input-container > div > span{
-        width: 100%;
-        height: 16px;
-        display: inline-block;
+    #input-container .text span{
         line-height: 15px;
-        font-size: 13px;
-        text-align: left;
-        opacity: 0.9;
-        cursor: pointer;
+        display: inline-block;
     }
 }

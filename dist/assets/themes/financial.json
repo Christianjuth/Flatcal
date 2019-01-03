@@ -4,7 +4,7 @@
         "version": 1.1
     },
     "app": {
-        "color": "linear-gradient(to left bottom, rgb(163, 228, 188), rgb(11, 35, 26))"
+        "color": "linear-gradient(to left bottom, rgb(161, 191, 172), rgb(14, 39, 30))"
     },
     "body": {
         "color": "#4dc184"
@@ -17,9 +17,9 @@
     },
     "button": {
         "color": "#ffffff",
-        "hoverColor": "#f9f9f9",
+        "hoverColor": "#f3f3f3",
         "borderColor": "",
-        "textColor": "#a7a1a1",
+        "textColor": "#929090",
         "font": "sans-serif",
         "numbers": {
             "color": "",

@@ -28,7 +28,7 @@
 
     "icons": {
         "16": "assets/icons/icon.png",
-        "48": "assets/icons/icon2.png",
+        "48": "assets/icons/icon.png",
         "128": "assets/icons/icon.png"
     },
 
@@ -36,10 +36,7 @@
 
     "permissions": [
         "clipboardWrite",
-        "clipboardRead",
-        "notifications",
-        "http://calculatorextension.com/*",
-        "https://raw.githubusercontent.com/*"
+        "clipboardRead"
     ],
 
     "background" : {

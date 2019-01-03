@@ -13,9 +13,9 @@
     },
 
     "input": {
-        "color": "#3e3f69",
-        "borderColor": "#3e3f69",
-        "outlineColor": "#3e3f69",
+        "color": "#454669",
+        "borderColor": "#454669",
+        "outlineColor": "#454669",
         "textColor": "#fff",
         "font": "arial"
     },

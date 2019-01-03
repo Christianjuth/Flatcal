@@ -34,6 +34,8 @@ module.exports = function(grunt) {
           src: [
             '**',
             '!**/*.scss',
+            '!**/*.html',
+            '!**/*.js',
             '!assets/js/**'
           ],
           dest: 'dist'
@@ -48,9 +50,25 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true,
-          cwd: 'src/assets/js',
-          src: '*.js',
-          dest: 'dist/assets/js'
+          cwd: 'src',
+          src: '**/*.js',
+          dest: 'dist'
+        }]
+      }
+    },
+
+
+    htmlmin: {
+      main: {
+        options: {
+          removeComments: true,
+          collapseWhitespace: true
+        },
+        files: [{
+          expand: true,
+          cwd: 'src',
+          src: '**/*.html',
+          dest: 'dist'
         }]
       }
     },
@@ -122,11 +140,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-notify');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-sass-lint');
+  grunt.loadNpmTasks('grunt-contrib-htmlmin');
 
 
   // Default task(s).
   grunt.registerTask('default', ['notify_hooks:errors', 'build', 'watch']);
-  grunt.registerTask('build', ['clean', 'copy', 'dart-sass', 'uglify']);
+  grunt.registerTask('build', ['clean', 'copy', 'dart-sass', 'uglify', 'htmlmin']);
   grunt.registerTask('lint', ['eslint', 'sasslint']);
   grunt.registerTask('package', ['build', 'compress']);
 
