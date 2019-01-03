@@ -43,3 +43,6 @@ if(typeof localStorage.customTheme === 'undefined'){
         localStorage.customTheme = JSON.stringify(theme);
     });
 }
+
+
+console.log('FlatCal is open source: https://github.com/christianjuth/flatcal')
