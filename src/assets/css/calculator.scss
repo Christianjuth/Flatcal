@@ -147,10 +147,15 @@ body > input{
         font-size: 13px;
         font-weight: 300;
         text-align: left;
-    }
 
-    #input-container .text span{
-        line-height: 15px;
-        display: inline-block;
+        span{
+            height: 16px;
+            line-height: 14px;
+            display: block;
+        }
+
+        #rad-deg{
+            cursor: pointer;
+        }
     }
 }

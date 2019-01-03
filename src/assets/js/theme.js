@@ -151,8 +151,6 @@ let injectCSS = (json) => {
     let theme = $.extend(true, {}, baseTheme, json),
         button = theme.button;
 
-        console.log(button.borderWidth);
-
     let mappings = {
         'body': {
             'background': theme.app.color
