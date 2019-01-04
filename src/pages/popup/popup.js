@@ -22,11 +22,11 @@ if(localStorage.type == "screen-only"){
 }
 
 else if(localStorage.type == "normal"){
-    $("html,body").css({"width": 229, "height": 292});
+    $("html,body").css({"width": 229, "height": 303});
 }
 
 else{
-    $("html,body").css({"width": 435, "height": 292});
+    $("html,body").css({"width": 434, "height": 303});
 }
 
 $(document).ready(function() {
@@ -53,13 +53,11 @@ $(document).ready(function() {
         $("#number-container").css({"display":"inline-block"});
         $("#input").css({"width":"100%"});
         $("#input-container > .text").hide();
-        $(".calculator").css({"padding":"16px"});
     }
 
     else{
         $("#scientific-1").css({"display":"inline-block"});
         $("#number-container").css({"display":"inline-block"});
-        $(".calculator").css({"padding":"16px"});
     }
 
     if(localStorage.theme !== 'custom'){

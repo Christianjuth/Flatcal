@@ -189,13 +189,13 @@ let injectCSS = (json) => {
             'color': button.numbers.textColor
         },
 
-        '#point': {
+        '.decimal': {
             'background': button.point.color,
             'backgroundHover': button.point.hoverColor,
             'color': button.point.textColor
         },
 
-        '#percentage': {
+        '.percent': {
             'background': button.percentage.color,
             'backgroundHover': button.percentage.hoverColor,
             'color': button.percentage.textColor
@@ -213,13 +213,13 @@ let injectCSS = (json) => {
             'color': button.positiveNegative.textColor
         },
 
-        '.main-op': {
+        '.op': {
             'background': button.operators.color,
             'backgroundHover': button.operators.hoverColor,
             'color': button.operators.textColor
         },
 
-        '#equal': {
+        '.equal': {
             'background': button.equal.color,
             'backgroundHover': button.equal.hoverColor,
             'color': button.equal.textColor

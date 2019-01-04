@@ -17,9 +17,7 @@ let defaultStorage = {
     m: '0',
     dev: false,
     guid: guid(),
-    first: '0',
-    second: '',
-    op: ''
+    screen: '0'
 };
 
 

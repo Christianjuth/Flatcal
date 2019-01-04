@@ -34,6 +34,7 @@ body > input{
     font-family: 'Open Sans', sans-serif;
     overflow: hidden;
 
+    padding: 14px;
     border-radius: 4px;
 
 
@@ -115,28 +116,36 @@ body > input{
 
         border: 1px solid #fff;
         border-radius: 0;
-        height: 44px;
+        height: 59px;
 
         letter-spacing: 1px;
         text-align: right;
-        padding-right: 13px;
+        padding-right: 10px;
         padding-top: 6px;
+
+        span{
+            display: block;
+            line-height: 31px;
+            font-size: 27px;
+        }
+
+        .after,
+        .before{
+            padding-right: 1px;
+            opacity: 0.7;
+            font-size: 13px;
+            line-height: 16px;
+            margin-bottom: 1px;
+        }
     }
 
     .input-border{
         position: absolute;
-        height: 72px;
+        height: 80px;
         width: 443px;
         z-index: 0;
         margin-left: -20px;
         margin-top: -20px;
-    }
-
-    #input-container > span{
-        width: 100%;
-        overflow: auto;
-        line-height: 30px;
-        font-size: 29px;
     }
 
     #input-container .text{

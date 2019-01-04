@@ -33,8 +33,7 @@ module.exports = function(grunt) {
           cwd: 'src',
           src: [
             '**',
-            '!**/*.scss',
-            '!**/*.js'
+            '!**/*.scss'
           ],
           dest: 'dist'
         }]
@@ -48,7 +47,7 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true,
-          cwd: 'src',
+          cwd: 'dist',
           src: '**/*.js',
           dest: 'dist'
         }]
@@ -143,8 +142,8 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['notify_hooks:errors', 'build', 'watch']);
-  grunt.registerTask('build', ['clean', 'copy', 'dart-sass', 'uglify']);
+  grunt.registerTask('build', ['clean', 'copy', 'dart-sass']);
   grunt.registerTask('lint', ['eslint', 'sasslint']);
-  grunt.registerTask('package', ['build', 'htmlmin', 'compress']);
+  grunt.registerTask('package', ['build', 'uglify', 'htmlmin', 'compress']);
 
 };
