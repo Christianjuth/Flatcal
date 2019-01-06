@@ -46,6 +46,9 @@ $(document).ready(function() {
 
         if(val == 'screen-only')
             $('.calculator').addClass('screenOnly');
+    }, () => {
+        delete localStorage.before;
+        delete localStorage.screen;
     });
     $('.calculator-mask').click(() => {
         $('#calculator-type').val('scientific').change();
@@ -104,15 +107,16 @@ let option = {
             ifFalse(); //call ifFalse
         }
     },
-    defineSelect: function(selector, storage, onChange){
+    defineSelect: function(selector, storage, callback, onChange){
         let $selector = $(selector);
         let val = localStorage[storage];
         $selector.val(val);
 
-        onChange(val);
+        callback(val);
         $selector.change(() => {
             let val = $selector.val();
             localStorage[storage] = val;
+            callback(val);
             onChange(val);
         });
     }

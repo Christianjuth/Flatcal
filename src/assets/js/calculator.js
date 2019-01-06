@@ -10,7 +10,10 @@ let calculator = {
             if(storage.m != "0") $("#m-status").text("m");
             $(options.selector.radDeg).text(localStorage.radDeg);
 
-            $('.before').text(storage.before);
+            if(storage.before != ''){
+                $(calculator.selector.screenWrap).addClass('before');
+                $(calculator.selector.screenBefore).text(storage.before);
+            }
             this.screen.value(storage.screen);
         }
     },
@@ -22,7 +25,21 @@ let calculator = {
         value: function(val) {
             if(typeof val !== 'undefined'){
                 calculator.storage.screen = val;
-                $(calculator.selector.screen).text(val);
+
+                let screenWidth = $(calculator.selector.screen).width();
+                let textWidth = calculator.screen.textWidth(val);
+                let space = screenWidth - textWidth;
+
+                if(space <= 50){
+                    let scale = 300;
+                    $(calculator.selector.screen).css({'font-size': (space + scale)/(50 + scale) + 'em'});
+                    $(calculator.selector.screen).text(val);
+                }
+
+                else{
+                    $(calculator.selector.screen).css({'font-size': ''});
+                    $(calculator.selector.screen).text(val);
+                }
             } 
 
             else{
@@ -30,13 +47,17 @@ let calculator = {
             }
 
             if(val != calculator.calculate()){
-                $('.before').hide();
+                $(calculator.selector.screenWrap).removeClass('before');
                 let after = calculator.calculate();
-                if(!isNaN(after)) $('.after').text(after).show();
+
+                if(!isNaN(after)){
+                    $(calculator.selector.screenWrap).addClass('after');
+                    $(calculator.selector.screenAfter).text(after);
+                }
             }
 
             else{
-                $('.after').hide();
+                $(calculator.selector.screenWrap).removeClass('after');
             }
         },
 
@@ -49,9 +70,9 @@ let calculator = {
 
             // ban these repeated characters
             let noRepeat = [
-                '+','-','x','/'
+                '+','-','x','/', 'mod', '^'
             ];
-            let isRepeate = noRepeat.includes(char) && lastSegment == char;
+            let isRepeate = noRepeat.includes(char) && lastSegment.indexOf(char) != -1;
 
 
             // add spaces to separate data types
@@ -59,7 +80,7 @@ let calculator = {
                 let out,
                     cats = {
                     'op': /\+|-|x|\//,
-                    'digit': /([0-9]|\.|^%|P|e|\^)$/,
+                    'digit': /([0-9]|\.|^%|P|e|!)$/,
                     'close': /\)/
                 };
 
@@ -80,13 +101,15 @@ let calculator = {
             ];
 
 
-            if(isZero && !eceptions.includes(char) && type(char) !== 'close'){
+            if(!isRepeate && isZero && !eceptions.includes(char) && type(char) !== 'close'){
                 val = val.replace(/0$/, char);
                 calculator.screen.value(val);
             } 
 
-            else if(!isZero || char != 0){
-                calculator.screen.value(val+char);
+            else if(!isRepeate && (!isZero || char != 0)){
+                if(lastSegment.length < 15 || type(char) != type(lastSegment)){
+                    calculator.screen.value(val+char);
+                }
             }
         },
 
@@ -97,10 +120,27 @@ let calculator = {
         clear: function(){
             let val = calculator.screen.value(),
                 split = val.split(' ');
+            
+            if(split.length == 1){
+                calculator.screen.allClear();
+            } else{
+                split.pop();
+                calculator.screen.value(split.join(' ') || 0);
+            }
+        },
 
-            split.pop();
-            val = split.join(' ') || 0;
-            calculator.screen.value(val);
+        allClear: () => {
+            calculator.storage.before = '';
+            $(calculator.selector.screenBefore).text('');
+            $(calculator.selector.screenWrap).removeClass('before').removeClass('after');
+
+            calculator.screen.value('0');
+        },
+
+        textWidth: function(text){
+            $input = $(`<p class="simulate-input">${text}</p>`);
+            let width = $input.appendTo($('.input-wrap')).width();
+            return width;
         }
     },
 
@@ -135,20 +175,33 @@ let calculator = {
 
         value = calculator.format(value);
 
-        // vars
-        let vars = {
-            '%': '0.01',
-            'P': Math.PI,
-            'e': Math.E
-        };
 
-        Object.keys(vars).forEach(str => {
-            value = value.replace(new RegExp(str, 'g'), `(${vars[str]})`);
+        // rationalize
+        let rationalize = function(num) {
+          if (Math.round(num) === num) return num;
+          var parts = num.toString().split('.');
+          return '(' + (parts[0]==='0' ? parts[1] : parts[0]+parts[1]) + '/1'
+                     + Array(parts[1].length+1).join('0') + ')';
+        };
+        value = value.split(' ').map((part) => {
+            return /^\s*[0-9]+\.[0-9]+\s*$/.test(part) ? rationalize(part) : part;
+        }).join(' ');
+
+
+
+        // vars
+        let algebriteVars = {
+            'P': 'pi',
+            'Ans': $.parseJSON(calculator.storage.history).pop()
+        };
+        Object.keys(algebriteVars).forEach(str => {
+            value = value.replace(new RegExp(str, 'g'), `(${algebriteVars[str]})`);
         });
 
         // operators
         let ops = {
             'x': '*',
+            '%': '* 0.01',
             'mod': '%',
             'ln': 'log'
         };
@@ -157,21 +210,74 @@ let calculator = {
         });
 
         // set mode
-        value = value.replace(/([a-z]{3}\()/, `$1${storage.radDeg} `);
+        let degToRad = storage.radDeg == 'deg' ? '(pi/180)' : 1;
+        value = value.replace(/(\s+(sin|cos|tan)\()/, `$1${degToRad} * `);
 
-        console.log(value);
+        let radToDeg = storage.radDeg == 'deg' ? '(180/pi)' : 1;
+        value = value.replace(/(\s+(asin|acos|atan)\()/, `${radToDeg} * $1`);
 
         // calculate
-        value = math.eval(parseFloat(math.eval(value)).toPrecision(12));
+        value = value.replace(/\!/g, 'j');
+        value = Algebrite.run(value);
+        value = value.replace(/\*j/g, '!');
+
+
+        // pre mathjs
+        let mathJSVars = {
+            'pi': Math.PI,
+            'e': Math.E
+        };
+        Object.keys(mathJSVars).forEach(str => {
+            value = value.replace(new RegExp(`^\s*${str}\s*$`, 'g'), `(${mathJSVars[str]})`);
+        });
+
+        value = math.eval(value).toString();
+
 
         return value;
     },
 
+    history: {
+        position: 0,
+        future: '',
+
+        up: function() {
+            let storage = calculator.storage,
+                history = $.parseJSON(storage.history);
+
+            if(this.position == 0)
+                this.future = calculator.screen.value();
+
+            if(this.position < history.length)
+                this.position++;
+            
+            let value = history.slice(this.position * -1)[0];
+            calculator.screen.value(value);
+        },
+
+        down: function() {
+            let storage = calculator.storage;
+            let value;
+
+            if(this.position > 0){
+                this.position--;
+                let history = $.parseJSON(storage.history);
+                value = history.slice(this.position * -1)[0];
+            } else{
+                value = this.future;
+            }
+
+            calculator.screen.value(value);  
+        }
+    },
+
     functions: {
         clear: () => {
-            calculator.storage.before = '';
-            $('.before').text('');
             calculator.screen.clear();
+        },
+
+        allClear: () => {
+            calculator.screen.allClear();
         },
 
         calculate: () => {
@@ -180,8 +286,13 @@ let calculator = {
 
             if(before != value){
                 calculator.storage.before = before;
-                $('.before').text(before).show();
 
+                let history = $.parseJSON(calculator.storage.history);
+                history.push(before);
+                calculator.storage.history = JSON.stringify(history);
+
+                $(calculator.selector.screenBefore).text(before);
+                $(calculator.selector.screenWrap).addClass('before');
                 calculator.screen.value(value);
             }
         },
@@ -189,15 +300,26 @@ let calculator = {
         radDeg: function() {
             let storage = calculator.storage;
 
-            if($(calculator.selector.radDeg).text() === 'rad'){
-                $(calculator.selector.radDeg).text('deg');
+            if(localStorage.radDeg == 'rad'){
                 storage.radDeg = 'deg';
+                $(calculator.selector.radDeg).text('deg');
             }
 
-            else if($(calculator.selector.radDeg).text() === 'deg'){
-                $(calculator.selector.radDeg).text('rad');
+            else if(localStorage.radDeg == 'deg'){
                 storage.radDeg = 'rad';
+                $(calculator.selector.radDeg).text('rad');
             }
+
+            // force screen refresh
+            calculator.screen.value(calculator.screen.value());
+        },
+
+        historyUp: () => {
+            calculator.history.up();
+        },
+
+        historyDown: () => {
+            calculator.history.down();
         }
     },
 

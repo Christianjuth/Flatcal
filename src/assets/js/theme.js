@@ -164,7 +164,7 @@ let injectCSS = (json) => {
             'background': theme.body.color
         },
 
-        '#input-container': {
+        '.input-wrap': {
             'background': theme.input.color,
             'border-color': theme.input.borderColor,
             'color': theme.input.textColor

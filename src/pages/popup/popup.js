@@ -18,11 +18,11 @@ chrome.windows.getCurrent(function(x){
 });
 
 if(localStorage.type == "screen-only"){
-    $("html,body").css({"width": 300, "height": 54});
+    $("html,body").css({"width": 300, "height": 73});
 }
 
 else if(localStorage.type == "normal"){
-    $("html,body").css({"width": 229, "height": 303});
+    $("html,body").css({"width": 222, "height": 286});
 }
 
 else{
@@ -38,13 +38,9 @@ $(document).ready(function() {
     }
 
     if(localStorage.type == "screen-only"){
-        $("#input-container").css({"padding-right":"8px"});
-        $(".input-text").hide();
+        $('.calculator').addClass('screenOnly');
         $("#scientific-1").remove();
         $("#scientific-2").remove();
-        $("#input-container > .text").hide();
-        $("#number-container").remove();
-        $(".calculator").css({"padding":"5px"});
     }
 
     else if(localStorage.type == "normal"){
@@ -56,6 +52,7 @@ $(document).ready(function() {
     }
 
     else{
+        $('.calculator').addClass('scientific');
         $("#scientific-1").css({"display":"inline-block"});
         $("#number-container").css({"display":"inline-block"});
     }
@@ -77,7 +74,10 @@ $(document).ready(() => {
     calculator.ini({
         storage: localStorage,
         selector: {
-            screen: "#input",
+            screenWrap: ".input-wrap",
+            screen: ".input",
+            screenBefore: ".input-before",
+            screenAfter: ".input-after",
             radDeg: "#rad-deg",
             radDegInvert: "#rad-deg-invert"
         },

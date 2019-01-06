@@ -55,6 +55,7 @@ body.dev .dev-menu{
 
 #left-container{
     width: 422px;
+    height: 303px;
 }
 
 
@@ -65,9 +66,14 @@ body.dev .dev-menu{
     width: 440px;
     transform: scale(0.92);
 
-    padding: 16px;
     display: inline-block;
     position: relative;
+
+    &, 
+    &.screenOnly,
+    &.scientific{
+        padding: 16px;
+    }
 
     #number-container,
     #scientific-1{
@@ -104,8 +110,8 @@ body.dev .dev-menu{
     }
 
     &.screenOnly .calculator-mask{
-        top: 68px;
-        height: 224px;
+        top: 88px;
+        height: 219px;
         width: 440px;
 
         &:before{

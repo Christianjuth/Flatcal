@@ -1,27 +1,59 @@
 $(document).ready(() => {
 
-    window.onkeydown = (e) => {
+    let phrase = '';
+    $(document).keydown((e) => {
         let code = e.keyCode,
             key = e.key;
 
+        phrase = phrase.slice(-1) + key;
 
-        let functions = {
-            'c': 'clear',
-            '=': 'calculate',
-            13: 'calculate'
+
+        // allow user to type trig functions
+        let phrases = {
+            'co': 'cos(',
+            'si': 'sin(',
+            'ta': 'tan(',
+            'ln': 'ln(',
+            'log': 'log2('
+        };
+        if(Object.keys(phrases).includes(phrase)){
+            calculator.screen.add(phrases[phrase]);
+            phrase = '';
+            return false;
         }
 
-        if(typeof calculator.functions[functions[key]] == 'function')
-            calculator.functions[functions[key]]();
 
-        else if(typeof calculator.functions[functions[code]] == 'function')
-            calculator.functions[functions[code]]();
+
+
+        let functionCodes = {
+            '8':       'clear',
+            'shift-8': 'allClear',
+            '13':      'calculate',
+            '9':       'radDeg',
+            '38':      'historyUp',
+            '40':      'historyDown'
+        }
+        let fnName = `${e.shiftKey ? 'shift-' : ''}${code}`;
+        if(calculator.functions[functionCodes[fnName]]){
+            calculator.functions[functionCodes[fnName]]();
+            return false;
+        }
+
+
+        let functionKeys = {
+            '=': 'calculate'
+        }
+        if(calculator.functions[functionKeys[key]]){
+            calculator.functions[functionKeys[key]]();
+            return false;
+        }
 
 
 
         // fix pi
         let subs = {
             'p': 'P',
+            'E': 'e',
             '*': 'x',
             'X': 'x'
         }
@@ -33,10 +65,14 @@ $(document).ready(() => {
             /[0-9]/,
             '-',
             '+',
+            'x',
+            '/',
             '%',
             '^',
             'P',
-            'x'
+            'e',
+            '!',
+            '(', ')'
         ],
         permitted = false
         permits.forEach((permit) => {
@@ -48,6 +84,9 @@ $(document).ready(() => {
         });
 
 
-        if(permitted) calculator.screen.add(key);
-    };
+        if(permitted){
+            calculator.screen.add(key);
+            return false;
+        }
+    });
 });
