@@ -62,119 +62,121 @@ let calculator = {
         },
 
         add: function(char) {
-            let val = this.value(),
-                segments = val.split(' '),
-                lastSegment = segments[segments.length-1],
-                isZero = lastSegment == 0 && lastSegment.split('.').length == 1;
+            let val = this.value();
 
+            // replace zero if needed
+            if(val == 0)
+                val = char;
+            else
+                val += char;
 
-            // ban these repeated characters
-            let noRepeat = [
-                '+','-','x','/', 'mod', '^'
-            ];
-            let isRepeate = noRepeat.includes(char) && lastSegment.indexOf(char) != -1;
-
-
-            // add spaces to separate data types
-            let type = (str) => {
-                let out,
-                    cats = {
-                    'op': /\+|-|x|\//,
-                    'digit': /([0-9]|\.|^%|P|e|!)$/,
-                    'close': /\)/
-                };
-
-                Object.keys(cats).forEach((cat, i) => {
-                    if(cats[cat].test(str)) out = cat;
-                });
-
-                return out;
-            }
-            if(type(char) != type(lastSegment)) char = ' '+char;
-
-
-            // exceptions
-            let eceptions = [
-                '.',
-                '0',
-                '%'
-            ];
-
-
-            if(!isRepeate && isZero && !eceptions.includes(char) && type(char) !== 'close'){
-                val = val.replace(/0$/, char);
+            // validate
+            if(calculator.validate(val+' 1') || calculator.validate(val))
                 calculator.screen.value(val);
-            } 
-
-            else if(!isRepeate && (!isZero || char != 0)){
-                if(lastSegment.length < 15 || type(char) != type(lastSegment)){
-                    calculator.screen.value(val+char);
-                }
-            }
         },
 
         lastSegment: function() {
             this.get(val.split(' ').pop());
         },
 
+
         clear: function(){
-            let val = calculator.screen.value(),
-                split = val.split(' ');
+            calculator.history.position = 0;
+            let val = calculator.screen.value();
+
+            if(/([a-z]{3,4}[0-9]*|ln)\($/.test(val))
+                val = val.replace(/([a-z]{3,4}[0-9]*|ln)\($/, '');
+            else
+                val = val.substr(0,val.length-1);
             
-            if(split.length == 1){
+
+            if(val.length == 0){
                 calculator.screen.allClear();
-            } else{
-                split.pop();
-                calculator.screen.value(split.join(' ') || 0);
+            }
+            else{
+                calculator.history.future = val;
+                calculator.screen.value(val);
             }
         },
+
 
         allClear: () => {
             calculator.storage.before = '';
             $(calculator.selector.screenBefore).text('');
             $(calculator.selector.screenWrap).removeClass('before').removeClass('after');
 
+            calculator.history.position = 0;
+            calculator.history.future = '0';
             calculator.screen.value('0');
         },
 
         textWidth: function(text){
             $input = $(`<p class="simulate-input">${text}</p>`);
             let width = $input.appendTo($('.input-wrap')).width();
+            $input.remove();
             return width;
         }
     },
 
-    operator: function(op) {
-        let storage = this.storage,
-            value = this.screen.value();
 
-        let operators = {
-            multiply: 'x',
-            subtract: '-',
-            plus: '+',
-            divide: '/'
-        };
+    solveForRoot: (eq) => {
 
-        this.screen.add(operators[op]);
+        eq = eq.split('rt');
+        let middle = eq.splice(-1)[0];
+        eq = eq.join('rt');
+
+        let end,
+            openIndex = 0,
+            closeIndex = 0;
+
+
+        let finished = false;
+        middle.split('').forEach((char, i) => {
+            if(char == '(') openIndex++;
+            if(char == ')') closeIndex++;
+
+            if((i > 0 || char != ' ') && !finished && closeIndex == openIndex){
+                finished = true;
+
+                end = middle.substr(i+1);
+                middle = middle.substr(0, i+1);
+            }
+        });
+
+
+        let out = `${eq}^(1/${middle})${end}`;
+
+        if(out.indexOf('rt') !== -1) out = calculator.solveForRoot(out);
+
+        return out;
     },
 
-    format: (value) => {
+
+
+    complete: (equation) => {
+        let opens = (equation.match(/\(/g) || []).length,
+            closes = (equation.match(/\)/g) || []).length;
+
+        // math parentheses
+        if(opens > closes) equation += ')'.repeat(opens - closes);
+        else equation = '( '.repeat(closes - opens) + equation;
+
+        // substitute Ans
+        equation = equation.replace(/Ans/g, $.parseJSON(calculator.storage.history).pop());
+
+        return equation;
+    },
+
+
+
+    format: (value, exact = true) => {
         // close parentheses
-        let opens = (value.match(/\(/g) || []).length,
-            closes = (value.match(/\)/g) || []).length;
+        let storage = calculator.storage;
 
-        if(opens > closes) value += ' )'.repeat(opens - closes);
-        else value = '( '.repeat(closes - opens) + value;
+        value = calculator.complete(value);
 
-        return value.replace(/\s+/,' ');
-    },
-
-    calculate: () => {
-        let storage = calculator.storage,
-            value = calculator.screen.value();
-
-        value = calculator.format(value);
-
+        if(value.indexOf('rt') !== -1)
+            value = calculator.solveForRoot(value);
 
         // rationalize
         let rationalize = function(num) {
@@ -188,21 +190,19 @@ let calculator = {
         }).join(' ');
 
 
-
         // vars
         let algebriteVars = {
-            'P': 'pi',
-            'Ans': $.parseJSON(calculator.storage.history).pop()
+            'P': 'pi'
         };
         Object.keys(algebriteVars).forEach(str => {
-            value = value.replace(new RegExp(str, 'g'), `(${algebriteVars[str]})`);
+            let insert = algebriteVars[str]; 
+            insert = /^\s*\(.*\)\s*$/.test(insert) ? insert : `(${insert})`;
+            value = value.replace(new RegExp(str, 'g'), insert);
         });
 
         // operators
         let ops = {
-            'x': '*',
             '%': '* 0.01',
-            'mod': '%',
             'ln': 'log'
         };
         Object.keys(ops).forEach(str => {
@@ -210,36 +210,82 @@ let calculator = {
         });
 
         // set mode
-        let degToRad = storage.radDeg == 'deg' ? '(pi/180)' : 1;
-        value = value.replace(/(\s+(sin|cos|tan)\()/, `$1${degToRad} * `);
+        value = value.replace(/((a|)(sin|cos|tan)\()/g, function(x, trig, a) {
+            let degToRad = storage.radDeg == 'deg' ? '(pi/180)*' : '';
 
-        let radToDeg = storage.radDeg == 'deg' ? '(180/pi)' : 1;
-        value = value.replace(/(\s+(asin|acos|atan)\()/, `${radToDeg} * $1`);
-
-        // calculate
-        value = value.replace(/\!/g, 'j');
-        value = Algebrite.run(value);
-        value = value.replace(/\*j/g, '!');
-
-
-        // pre mathjs
-        let mathJSVars = {
-            'pi': Math.PI,
-            'e': Math.E
-        };
-        Object.keys(mathJSVars).forEach(str => {
-            value = value.replace(new RegExp(`^\s*${str}\s*$`, 'g'), `(${mathJSVars[str]})`);
+            if(a) return trig;
+            else  return trig+degToRad;
         });
 
-        value = math.eval(value).toString();
+        let radToDeg = storage.radDeg == 'deg' ? '(180/pi)*' : '';
+        value = value.replace(/((asin|acos|atan)\()/g, `${radToDeg}$1`);
 
+
+        if(!exact){
+            // pre mathjs
+            let mathJSVars = {
+                'pi': Math.PI,
+                'e': Math.E
+            };
+            Object.keys(mathJSVars).forEach(str => {
+                value = value.replace(new RegExp(`^\s*${str}\s*$`, 'g'), `(${mathJSVars[str]})`);
+            });
+        }
+
+        return value;
+    },
+
+
+    validate: (equation) => {
+        let valid = true,
+            bans = [
+            /(\+|\-){2}/,
+            /([0-9]|\.){15}/
+        ];
+
+        equation = calculator.format(equation);
+
+        bans.forEach((ban) => {
+            if(ban.test(equation))
+                valid = false;
+        });
+
+        try{
+            math.eval(equation);
+            valid = valid && true;
+        } catch(e){
+            valid = false;
+        }
+
+        return valid;
+    },
+
+
+
+
+    calculate: () => {
+        let storage = calculator.storage,
+            value = calculator.screen.value();
+
+        // deside wether Algebrite
+        // is needs to simplify
+        if(value.match(/(sin|cos|tan)/)){
+            value = calculator.format(value);
+            console.log(value);
+            value = value.replace(/\!/g, '^j');
+            value = Algebrite.run(value);
+            value = value.replace(/\^j/g, '!');
+        }
+
+        value = calculator.format(value, false);
+        value = math.eval(value).toString();
 
         return value;
     },
 
     history: {
         position: 0,
-        future: '',
+        future: null,
 
         up: function() {
             let storage = calculator.storage,
@@ -259,11 +305,16 @@ let calculator = {
             let storage = calculator.storage;
             let value;
 
-            if(this.position > 0){
+            // prevent going sub zero
+            if(this.position > 0)
                 this.position--;
+
+            if(this.position > 0){
                 let history = $.parseJSON(storage.history);
                 value = history.slice(this.position * -1)[0];
-            } else{
+            } 
+
+            else if(this.future){
                 value = this.future;
             }
 
@@ -281,14 +332,14 @@ let calculator = {
         },
 
         calculate: () => {
-            let before = calculator.format(calculator.screen.value()),
+            let before = calculator.complete(calculator.screen.value()),
                 value = calculator.calculate();
 
             if(before != value){
                 calculator.storage.before = before;
 
                 let history = $.parseJSON(calculator.storage.history);
-                history.push(before);
+                history.push(before.replace(/Ans/g, `${history.slice(-1)[0]}`));
                 calculator.storage.history = JSON.stringify(history);
 
                 $(calculator.selector.screenBefore).text(before);
@@ -320,13 +371,12 @@ let calculator = {
 
         historyDown: () => {
             calculator.history.down();
-        }
-    },
+        },
 
-    clipboard: {
-        copy: (text) => {
+        copy: () => {
             let $input = $('<input/>');
-            $input.val(text);
+            let text = calculator.screen.value();
+            $input.val(calculator.format(text));
             $('body').append($input);
             $input.select();
             document.execCommand('copy');
@@ -341,14 +391,7 @@ let calculator = {
             let number = parseFloat($input.val());
 
             if(!isNaN(parseFloat(number))){
-                let storage = calculator.storage;
-                calculator.screen.set(number);
-                if(storage.op == '') storage.first = number;
-                else storage.second = number;
-            }
-
-            else{
-                calculator.screen.clear();
+                calculator.screen.add(number);
             }
             $input.remove();
         }

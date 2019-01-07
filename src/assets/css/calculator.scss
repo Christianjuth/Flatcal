@@ -74,7 +74,7 @@ body > input{
         -webkit-transition: none !important;
 
         sup{
-            font-size: 70%;
+            font-size: 0.67em;
             line-height: 0;
             position: relative;
             vertical-align: baseline;
@@ -83,6 +83,12 @@ body > input{
 
         .sup-sqrt{
             margin-right: -4px; 
+        }
+
+        &.rt .sup-sqrt{
+            top: -0.9em;
+            font-size: 0.7em;
+            margin-right: -5px;
         }
     }
 
@@ -121,18 +127,17 @@ body > input{
         height: 44px;
 
         font-size: 26px;
-        letter-spacing: 1px;
         text-align: right;
         padding-right: 13px;
-        padding-top: 5px;
+        padding-top: 3px;
 
 
         .input,
         .simulate-input{
             display: block;
             font-size: 1em;
-            line-height: 32px;
-            letter-spacing: 0px;
+            line-height: 34px;
+            letter-spacing: 1px;
         }
 
         .simulate-input{
@@ -145,6 +150,7 @@ body > input{
         .input-after,
         .input-before{
             display: none;
+            letter-spacing: 0;
         }
     }
 
@@ -160,11 +166,11 @@ body > input{
 
         .input-wrap{
             height: 59px;
-            font-size: 27px;
+            font-size: 26px;
 
             .input,
             .simulate-input{
-                line-height: 46px;
+                line-height: 50px;
                 font-size: 1.2em; 
             }
 
@@ -172,7 +178,7 @@ body > input{
             &.before{
                 .input,
                 .simulate-input{
-                    line-height: 31px;
+                    line-height: 33px;
                     font-size: 1em;
                 }
             }
@@ -183,7 +189,7 @@ body > input{
                 padding-right: 1px;
                 opacity: 0.7;
                 font-size: 13px;
-                line-height: 16px;
+                line-height: 17px;
                 margin-bottom: 1px;
             }
             

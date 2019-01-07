@@ -5,23 +5,31 @@ $(document).ready(() => {
         let code = e.keyCode,
             key = e.key;
 
-        phrase = phrase.slice(-1) + key;
+        if(key.length == 1){
+            phrase = phrase.slice(-1) + key.toLowerCase();
 
-
-        // allow user to type trig functions
-        let phrases = {
-            'co': 'cos(',
-            'si': 'sin(',
-            'ta': 'tan(',
-            'ln': 'ln(',
-            'log': 'log2('
-        };
-        if(Object.keys(phrases).includes(phrase)){
-            calculator.screen.add(phrases[phrase]);
-            phrase = '';
-            return false;
+            // allow user to type trig functions
+            let phrases = {
+                'co': 'cos(',
+                'ac': 'acos(',
+                'si': 'sin(',
+                'as': 'asin(',
+                'ta': 'tan(',
+                'at': 'atan(',
+                'ln': 'ln(',
+                'lo': 'log10(',
+                'an': 'Ans',
+                'rt': 'rt',
+                'ro': 'rt',
+                'sq': 'sqrt('
+            };
+            if(Object.keys(phrases).includes(phrase)){
+                let add = phrases[phrase];
+                phrase = '';
+                calculator.screen.add(add);
+                return false;
+            }
         }
-
 
 
 
@@ -31,9 +39,14 @@ $(document).ready(() => {
             '13':      'calculate',
             '9':       'radDeg',
             '38':      'historyUp',
-            '40':      'historyDown'
+            '40':      'historyDown',
+            'ctrl-86':  'paste',
+            'ctrl-67':  'copy'
         }
         let fnName = `${e.shiftKey ? 'shift-' : ''}${code}`;
+        fnName = `${e.metaKey||e.ctrlKey ? 'ctrl-' : ''}${fnName}`;
+
+
         if(calculator.functions[functionCodes[fnName]]){
             calculator.functions[functionCodes[fnName]]();
             return false;
@@ -54,8 +67,8 @@ $(document).ready(() => {
         let subs = {
             'p': 'P',
             'E': 'e',
-            '*': 'x',
-            'X': 'x'
+            'x': '*',
+            'X': '*'
         }
         if(typeof subs[key] !== 'undefined') key = subs[key];
 
@@ -65,7 +78,7 @@ $(document).ready(() => {
             /[0-9]/,
             '-',
             '+',
-            'x',
+            '*',
             '/',
             '%',
             '^',
