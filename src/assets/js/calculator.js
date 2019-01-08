@@ -6,7 +6,7 @@ class Calculator {
 
 
         // resume state
-        $(config.radDeg).text(storage.radDeg);
+        $(config.radDeg).prepend(`<span>${storage.radDeg}</span>`);
         this.value(storage.screen);
 
 
@@ -54,6 +54,17 @@ class Calculator {
         this.value(value);  
     }
 
+    historyRecord(eq) {
+        let storage = this.storage,
+            history = $.parseJSON(storage.history);
+
+        if(eq !== history[history.length-1]){
+            history.push(eq);
+            history = history.slice(-50);
+            storage.history = JSON.stringify(history);
+        }
+    }
+
 
 
     fontSize(text){
@@ -83,6 +94,7 @@ class Calculator {
 
     value(text) {
         let storage = this.storage,
+            history = $.parseJSON(storage.history),
             mode = storage.radDeg,
             config = this.config;
 
@@ -100,7 +112,7 @@ class Calculator {
             return config.screen.text();
         }
 
-        let eq = new Equation(text),
+        let eq = new Equation(text.replace(/Ans/g, `(${history.slice(-1)[0]})`)),
             solution = eq.isValid() ? eq.solve(mode) : false;
 
         if(solution && solution !== eq.toString()){
@@ -124,12 +136,12 @@ class Calculator {
 
         if(storage.radDeg === 'rad'){
             storage.radDeg = 'deg';
-            config.radDeg.text('deg');
+            config.radDeg.find('span').text('deg');
         }
 
         else if(localStorage.radDeg == 'deg'){
             storage.radDeg = 'rad';
-            config.radDeg.text('rad');
+            config.radDeg.find('span').text('rad');
         }
 
         // force screen refresh
@@ -139,9 +151,9 @@ class Calculator {
 
 
     add(char) {
-        let val = this.value(),
-            storage = this.storage,
-            history = $.parseJSON(storage.history);
+        let storage = this.storage,
+            history = $.parseJSON(storage.history),
+            val = this.value();
 
         char = char.toString();
 
@@ -152,8 +164,9 @@ class Calculator {
             val += char;
 
         // validate
-        let eq1 = new Equation(val),
-            eq2 = new Equation(val+' 1');
+        let eqIn = val.replace(/Ans/g, `(${history.slice(-1)[0]})`),
+            eq1 = new Equation(eqIn),
+            eq2 = new Equation(eqIn+' 1');
 
         if(eq1.isValid() || eq2.isValid())
             this.value(val);
@@ -164,7 +177,7 @@ class Calculator {
         let config = this.config,
             storage = this.storage,
             history = $.parseJSON(storage.history),
-            val = this.value().replace(/Ans/g, `${history.slice(-1)[0]}`),
+            val = this.value().replace(/Ans/g, `(${history.slice(-1)[0]})`),
             eq = new Equation(val),
             before = eq.toString();
 
@@ -173,11 +186,7 @@ class Calculator {
             config.screenBefore.text(before);
             config.screenWrap.addClass('before');
 
-            // update history
-            if(before !== history[history.length-1]){
-                history.push(before);
-                storage.history = JSON.stringify(history);
-            }
+            this.historyRecord(before);
         }
 
         this.value(eq.solve(storage.radDeg));
@@ -254,11 +263,11 @@ class Equation {
 
     constructor(equation) {
         this.equation = equation;
-        this.complete();
+        this.beautify();
         return this;
     }
 
-    complete() {
+    beautify() {
         let equation = this.equation,
             opens = (equation.match(/\(/g) || []).length,
             closes = (equation.match(/\)/g) || []).length;
@@ -266,6 +275,14 @@ class Equation {
         // math parentheses
         if(opens > closes) equation += ')'.repeat(opens - closes);
         else equation = '( '.repeat(closes - opens) + equation;
+
+        // remove unnesisary start + end ()
+        if(/^\(.+\)$/.test(equation))
+            equation = equation.replace(/(^\(|\)$)/g,'');
+
+        // remove * next to ( )
+        // eq 4*(3+3) --> 4(3+3)
+        equation = equation.replace(/(\)\*)/g,')').replace(/(\*\()/g,'(');
 
         return this.equation = equation;
     }
@@ -311,7 +328,7 @@ class Equation {
         let value = this.equation;
 
         if(value.indexOf('rt') !== -1)
-            value = calculator.solveForRoot(value);
+            value = this.solveForRoot(value);
 
         // vars
         let algebriteVars = {
@@ -362,9 +379,6 @@ class Equation {
     solve(mode) {
         let eq = this.preSolve(mode);
 
-        if(eq.indexOf('rt') !== -1)
-            eq = this.solveForRoot();
-
         if(eq.match(/(sin|cos|tan|Ans)/)){
             eq = eq.replace(/\!/g, '^j');
             eq = Algebrite.run(eq);
@@ -378,7 +392,8 @@ class Equation {
         let valid = true,
             bans = [
             /(\+|\-){2}/,
-            /([0-9]|\.){15}/
+            /([0-9]|\.){15}/,
+            /Ans/
         ];
 
         let equation = this.equation;
@@ -392,9 +407,9 @@ class Equation {
             math.eval(equation);
             valid = valid && true;
         } catch(e){
-            valid = false;
+            valid = valid && Algebrite.run(equation).indexOf('Stop') == -1;
         }
 
-        return valid || Algebrite.run(equation).indexOf('Stop') == -1;
+        return valid;
     }
 }
