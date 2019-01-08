@@ -10,7 +10,7 @@ let guid = () => {
 
 
 let defaultStorage = {
-    tutorial: false,
+    tutorial: 0,
     type: 'scientific',
     theme: 'google',
     radDeg: 'deg',
@@ -29,10 +29,14 @@ Object.keys(defaultStorage).forEach(key => {
 });
 
 
-if(typeof localStorage.tutorial === 'undefined' || localStorage.tutorial == 'false'){
-    localStorage.tutorial = true;
+if(typeof localStorage.tutorial === 'undefined' || localStorage.tutorial === 'true' || localStorage.tutorial < 1){
+    localStorage.tutorial = 1;
     chrome.tabs.create({
         url: '/pages/options/options.html',
+        active: false
+    });
+    chrome.tabs.create({
+        url: '/pages/shortcuts/shortcuts.html',
         active: true
     });
 }
@@ -45,4 +49,4 @@ if(typeof localStorage.customTheme === 'undefined'){
 }
 
 
-console.log('FlatCal is open source: https://github.com/christianjuth/flatcal')
+console.log('FlatCal is open source: https://github.com/christianjuth/flatcal');

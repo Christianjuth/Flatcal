@@ -18,6 +18,7 @@ $(document).ready(() => {
                 'at': 'atan(',
                 'ln': 'ln(',
                 'lo': 'log10(',
+                'l2': 'log2(',
                 'an': 'Ans',
                 'rt': 'rt',
                 'ro': 'rt',
@@ -66,7 +67,6 @@ $(document).ready(() => {
         // fix pi
         let subs = {
             'p': 'P',
-            't': 'T',
             'E': 'e',
             'x': '*',
             'X': '*'
@@ -84,7 +84,6 @@ $(document).ready(() => {
             '%',
             '^',
             'P',
-            'T',
             'e',
             '!',
             '(', ')'

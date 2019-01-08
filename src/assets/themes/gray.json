@@ -9,7 +9,7 @@
     },
 
     "body": {
-        "color": "#8594a9"
+        "color": "#8390a2"
     },
 
     "input": {
@@ -21,11 +21,11 @@
     },
 
     "button": {
-        "color": "#8594a9",
+        "color": "#8390a2",
         "borderColor": "#fff",
         "borderRadius": "2",
         "borderWidth":"1px",
-        "hoverColor": "#7f8fa6",
+        "hoverColor": "#7b889a",
         "font": "Sans-serif",
         "textColor":"#fff",
 

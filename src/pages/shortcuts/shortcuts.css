@@ -10,18 +10,18 @@ body.dev .dev-menu{
 }
 
 #page{
-    width: 723px;
+    width: 280;
     margin: 60px auto;
 }
 
 #page > section{
-    margin: 40px 0 50px;
+    margin: 35px 0;
 }
 
 
 .option-grp{
     position: relative;
-    margin: 0 0 12px;
+    margin: 0 0 10px;
 }
 
 .option-grp *:not(h3){
@@ -39,24 +39,6 @@ body.dev .dev-menu{
 .mac,
 .windows{
     display: none;
-}
-
-#right-container,
-#left-container{
-    display: inline-block;
-    position: relative;
-    vertical-align: top;
-}
-
-#right-container{
-    width: 300px;
-    padding-left: 10px;
-    padding-top: 7px;
-}
-
-#left-container{
-    width: 422px;
-    height: 303px;
 }
 
 

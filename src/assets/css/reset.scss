@@ -101,10 +101,14 @@ p{
     border-radius: 3px;
     font-size: 15px;
     font-weight: 300;
+    min-width: 35px;
+    text-align: center;
 }
 
 .text-center{
-    text-align: center;
+    display: block !important;
+    text-align: center !important;
+    float: none !important;
 }
 
 br{

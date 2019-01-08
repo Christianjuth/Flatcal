@@ -170,11 +170,14 @@ class Calculator {
 
         if(before !== eq.solve()){
             storage.before = before;
-
-            history.push(before);
-            storage.history = JSON.stringify(history);
             config.screenBefore.text(before);
             config.screenWrap.addClass('before');
+
+            // update history
+            if(before !== history[history.length-1]){
+                history.push(before);
+                storage.history = JSON.stringify(history);
+            }
         }
 
         this.value(eq.solve(storage.radDeg));

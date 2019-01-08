@@ -73,7 +73,6 @@ $(document).ready(function() {
 
 
 $(document).ready(() => {
-
     window.calculator = new Calculator({
         storage:      localStorage,
         screenWrap:   $(".input-wrap"),

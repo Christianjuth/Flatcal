@@ -1,6 +1,5 @@
 var loadedTheme = "google";
 var enable = "all";
-localStorage.tutorial = true;
 
 $(document).ready(function() {
 
