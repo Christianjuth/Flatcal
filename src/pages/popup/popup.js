@@ -70,20 +70,16 @@ $(document).ready(function() {
     }
 });
 
+
+
 $(document).ready(() => {
-    calculator.ini({
-        storage: localStorage,
-        selector: {
-            screenWrap: ".input-wrap",
-            screen: ".input",
-            screenBefore: ".input-before",
-            screenAfter: ".input-after",
-            radDeg: "#rad-deg",
-            radDegInvert: "#rad-deg-invert"
-        },
-        options: {
-            log : true
-        },
-        max : 15
+
+    window.calculator = new Calculator({
+        storage:      localStorage,
+        screenWrap:   $(".input-wrap"),
+        screen:       $(".input"),
+        screenBefore: $(".input-before"),
+        screenAfter:  $(".input-after"),
+        radDeg:       $("#rad-deg")
     });
 });

@@ -26,7 +26,7 @@ $(document).ready(() => {
             if(Object.keys(phrases).includes(phrase)){
                 let add = phrases[phrase];
                 phrase = '';
-                calculator.screen.add(add);
+                calculator.add(add);
                 return false;
             }
         }
@@ -47,8 +47,8 @@ $(document).ready(() => {
         fnName = `${e.metaKey||e.ctrlKey ? 'ctrl-' : ''}${fnName}`;
 
 
-        if(calculator.functions[functionCodes[fnName]]){
-            calculator.functions[functionCodes[fnName]]();
+        if(calculator[functionCodes[fnName]]){
+            calculator[functionCodes[fnName]]();
             return false;
         }
 
@@ -56,8 +56,8 @@ $(document).ready(() => {
         let functionKeys = {
             '=': 'calculate'
         }
-        if(calculator.functions[functionKeys[key]]){
-            calculator.functions[functionKeys[key]]();
+        if(calculator[functionKeys[key]]){
+            calculator[functionKeys[key]]();
             return false;
         }
 
@@ -66,6 +66,7 @@ $(document).ready(() => {
         // fix pi
         let subs = {
             'p': 'P',
+            't': 'T',
             'E': 'e',
             'x': '*',
             'X': '*'
@@ -83,6 +84,7 @@ $(document).ready(() => {
             '%',
             '^',
             'P',
+            'T',
             'e',
             '!',
             '(', ')'
@@ -98,7 +100,7 @@ $(document).ready(() => {
 
 
         if(permitted){
-            calculator.screen.add(key);
+            calculator.add(key);
             return false;
         }
     });
