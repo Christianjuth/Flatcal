@@ -43,7 +43,7 @@ $(document).ready(() => {
             '40':      'historyDown',
             'ctrl-86':  'paste',
             'ctrl-67':  'copy'
-        }
+        };
         let fnName = `${e.shiftKey ? 'shift-' : ''}${code}`;
         fnName = `${e.metaKey||e.ctrlKey ? 'ctrl-' : ''}${fnName}`;
 
@@ -56,7 +56,7 @@ $(document).ready(() => {
 
         let functionKeys = {
             '=': 'calculate'
-        }
+        };
         if(calculator[functionKeys[key]]){
             calculator[functionKeys[key]]();
             return false;
@@ -70,7 +70,7 @@ $(document).ready(() => {
             'E': 'e',
             'x': '*',
             'X': '*'
-        }
+        };
         if(typeof subs[key] !== 'undefined') key = subs[key];
 
 
@@ -88,7 +88,7 @@ $(document).ready(() => {
             '!',
             '(', ')'
         ],
-        permitted = false
+        permitted = false;
         permits.forEach((permit) => {
             if(typeof permit == 'object')
                 permitted = permit.test(key);

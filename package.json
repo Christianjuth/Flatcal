@@ -5,6 +5,9 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
+    "algebrite": "^1.2.0",
+    "cli-confetti": "^1.0.8",
+    "colors": "^1.3.3",
     "grunt": "^1.0.3",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-compress": "^1.4.3",
@@ -17,13 +20,16 @@
     "grunt-eslint": "^21.0.0",
     "grunt-jslint": "^1.1.15",
     "grunt-notify": "^0.4.5",
-    "grunt-sass-lint": "^0.2.4"
+    "grunt-sass-lint": "^0.2.4",
+    "mathjs": "^5.4.0"
   },
   "scripts": {
     "start": "./node_modules/grunt/bin/grunt",
     "build": "./node_modules/grunt/bin/grunt build",
-    "test": "./node_modules/grunt/bin/grunt lint",
-    "package": "./node_modules/grunt/bin/grunt package"
+    "lint": "./node_modules/grunt/bin/grunt lint",
+    "test": "node test.js && npm run lint",
+    "package": "./node_modules/grunt/bin/grunt package",
+    "confetti": "node ./node_modules/cli-confetti/bin/cli-confetti"
   },
   "repository": {
     "type": "git",

@@ -6,7 +6,7 @@ let guid = () => {
     };
 
     return `${s()}${s()}-${s()}-${s()}-${s()}-${s()}${s()}${s()}`;
-}
+};
 
 
 let defaultStorage = {

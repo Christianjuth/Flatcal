@@ -276,9 +276,18 @@ class Equation {
         if(opens > closes) equation += ')'.repeat(opens - closes);
         else equation = '( '.repeat(closes - opens) + equation;
 
-        // remove unnesisary start + end ()
-        if(/^\(.+\)$/.test(equation))
-            equation = equation.replace(/(^\(|\)$)/g,'');
+        // remove extra parentheses at start/end
+        let stripExtraParentheses = (eq) => {
+            if(/^\(.+\)$/.test(eq))
+                eq = eq.replace(/(^\(|\)$)/g,'');
+
+            if(/^\(.+\)$/.test(eq))
+                eq = stripExtraParentheses(eq);
+
+            return eq;
+        };
+        equation = stripExtraParentheses(equation);
+        
 
         // remove * next to ( )
         // eq 4*(3+3) --> 4(3+3)
@@ -291,8 +300,7 @@ class Equation {
         return this.equation;
     }
 
-    solveForRoot() {
-        let eq = this.equation;
+    solveForRoot(eq) {
 
         eq = eq.split('rt');
         let middle = eq.splice(-1)[0];
@@ -316,15 +324,13 @@ class Equation {
             }
         });
 
-
         let out = `${eq}^(1/${middle})${end}`;
-
         if(out.indexOf('rt') !== -1) out = this.solveForRoot(out);
 
         return out;
     }
 
-    preSolve(mode = 'deg', exact = true) {
+    preSolve(mode = 'rad', exact = true) {
         let value = this.equation;
 
         if(value.indexOf('rt') !== -1)
@@ -344,7 +350,8 @@ class Equation {
         // operators
         let ops = {
             '%': '* 0.01',
-            'ln': 'log'
+            'ln': 'log',
+            '÷': '/'
         };
         Object.keys(ops).forEach(str => {
             value = value.replace(new RegExp(str, 'g'), `${ops[str]}`);
@@ -385,31 +392,41 @@ class Equation {
             eq = eq.replace(/\^j/g, '!');
         }
 
-        return math.eval(eq).toString();
+        // check if equation needs solving
+        if(/^[1-9]+$/.test(eq))
+            return eq;
+
+        else
+            return math.eval(eq).toString();
     }
 
     isValid() {
         let valid = true,
             bans = [
             /(\+|\-){2}/,
-            /([0-9]|\.){15}/,
             /Ans/
         ];
 
-        let equation = this.equation;
+        let eq = this.preSolve();
+
+        console.log(eq);
 
         bans.forEach((ban) => {
-            if(ban.test(equation))
+            if(ban.test(eq))
                 valid = false;
         });
 
         try{
-            math.eval(equation);
+            math.eval(eq);
             valid = valid && true;
         } catch(e){
-            valid = valid && Algebrite.run(equation).indexOf('Stop') == -1;
+            valid = valid && Algebrite.run(eq).indexOf('Stop') == -1;
         }
 
         return valid;
     }
 }
+
+
+
+if(module) module.exports = Equation;
