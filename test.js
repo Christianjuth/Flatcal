@@ -12,7 +12,8 @@ global.Algebrite = require('algebrite');
 
 
 
-let tests = {
+let P = Math.PI,
+	tests = {
 
 	// basic math
 	'5+5':     '10',
@@ -22,9 +23,12 @@ let tests = {
 
 
 	// order of operations
-	'2+2*4':   '10',
-	'(2+2)4':  '16',
-	'2^2*4':   '16',
+	'2+2*4':     '10',
+	'(2+2)4':    '16',
+	'2^2*4':     '16',
+	'3+2*4)':    '11',
+	'(3+4)(5-2': '21',
+	'(3+4)5-2':  '33',
 
 
 	// exponents and roots
@@ -50,20 +54,35 @@ let tests = {
 	'sin(0':  '0',
 	'cos(0':  '1',
 	'tan(0':  '0',
+	'asin(sin(0': '0',
+	'acos(cos(0': '0',
+	'atan(tan(0': '0',
 	// P/2 rad
 	'sin(P/2':  '1',
 	'cos(P/2':  '0',
+	'asin(sin(P/2': `${P/2}`,
+	'acos(cos(P/2': `${P/2}`,
+	'atan(tan(P/2': `${P/2}`,
 	// P rad
 	'sin(P':  '0',
 	'cos(P':  '-1',
 	'tan(P':  '0',
+	'asin(sin(P': '0',
+	'acos(cos(P': `${P}`,
+	'atan(tan(P': '0',
 	// 3P/2
 	'sin(3P/2':  '-1',
 	'cos(3/2P':  '0',
-	// inverse
-	'asin(sin(0': '0',
-	'acos(cos(0': '0',
-	'atan(tan(0': '0'
+	'asin(sin(3P/2': `-${P/2}`,
+	'acos(cos(3P/2': `${P/2}`,
+	'atan(tan(3P/2': `${P/2}`,
+	// 2P
+	'sin(2P':  '0',
+	'cos(2P':  '1',
+	'tan(2P':  '0',
+	'asin(sin(2P': '0',
+	'acos(cos(2P': '0',
+	'atan(tan(2P': '0'
 };
 
 
@@ -85,6 +104,7 @@ Object.keys(tests).forEach(eq => {
 	else{
 		exit = 1;
 		console.log(log.red);
+		console.log(eq.solve());
 	}
 });
 process.exit(exit);

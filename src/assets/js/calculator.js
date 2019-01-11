@@ -277,16 +277,8 @@ class Equation {
         else equation = '( '.repeat(closes - opens) + equation;
 
         // remove extra parentheses at start/end
-        let stripExtraParentheses = (eq) => {
-            if(/^\(.+\)$/.test(eq))
-                eq = eq.replace(/(^\(|\)$)/g,'');
-
-            if(/^\(.+\)$/.test(eq))
-                eq = stripExtraParentheses(eq);
-
-            return eq;
-        };
-        equation = stripExtraParentheses(equation);
+        if(/^\(+[^(]*\)+$/.test(equation) && /^\(+[^)]*\)+$/.test(equation))
+            equation = equation.replace(/(^\(|\)$)/g,'');
         
 
         // remove * next to ( )
