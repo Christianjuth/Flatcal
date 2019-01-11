@@ -32,8 +32,10 @@
     "package": "./node_modules/grunt/bin/grunt package",
     "confetti": "node ./node_modules/cli-confetti/bin/cli-confetti"
   },
-  "hooks": {
-    "pre-push": "npm test"
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test"
+    }
   },
   "repository": {
     "type": "git",
