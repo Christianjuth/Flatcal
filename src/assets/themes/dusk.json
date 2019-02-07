@@ -22,8 +22,8 @@
 
     "button": {
         "color": "#466380",
-        "borderColor": "#fff",
-        "borderWidth":"1px",
+        "borderColor": "",
+        "borderWidth": "0px",
         "hoverColor": "#415d79",
         "textColor":"#fff",
 

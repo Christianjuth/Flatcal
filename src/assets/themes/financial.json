@@ -41,7 +41,7 @@
         "ce": {
             "color": "",
             "hoverColor": "",
-            "textColor": "#f3664d"
+            "textColor": ""
         },
 
         "operators": {
@@ -53,7 +53,7 @@
         "equal": {
             "color": "",
             "hoverColor": "",
-            "textColor": ""
+            "textColor": "#329c59"
         }
     }
 }
