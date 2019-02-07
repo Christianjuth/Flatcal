@@ -10,13 +10,12 @@ if(localStorage.dev !== "true"){
     })();
 }
 
-function analyticsEvent(category, action, opt_label, opt_value, opt_noninteraction){
-    if(localStorage.dev != "true"){
+let analyticsEvent = (category, action, opt_label, opt_value, opt_noninteraction) => {
+    if(localStorage.dev != "true")
         _gaq.push(['_trackEvent', category, action, opt_label, opt_value, opt_noninteraction]);
-    }
-}
+};
 
-function trackButton(e) {
+let trackButton = (e) => {
     if(localStorage.dev !== "true") 
         analyticsEvent(e.target.id , "clicked");
 };

@@ -22,8 +22,6 @@ let defaultStorage = {
     history: '[]'
 };
 
-
-
 Object.keys(defaultStorage).forEach(key => {
     if(typeof localStorage[key] === 'undefined') localStorage[key] = defaultStorage[key];
 });

@@ -26,7 +26,6 @@
         "borderWidth":"1px",
         "hoverColor":"#4d5154",
         "textColor":"#fff",
-        "font":"Sans-serif",
 
         "numbers":{
             "color":"#5e6164",

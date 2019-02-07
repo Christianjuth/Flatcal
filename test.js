@@ -96,15 +96,20 @@ Object.keys(tests).forEach(eq => {
 
 	// transform eq
 	eq = new Equation(eq);
-	let log = `${eq.toString()} == ${answer}`;
+	let log = `${eq.toString()} == ${answer}`,
+		solution = eq.solve();
 	
-	if(eq.solve() === answer)
+	if(solution === answer)
 		console.log(log.green);
+
+	else if(Math.abs(answer - solution) < 0.000000000000001){
+		console.log(log.yellow.bold);
+	}
 
 	else{
 		exit = 1;
 		console.log(log.red);
-		console.log(eq.solve());
+		console.log(solution);
 	}
 });
 process.exit(exit);

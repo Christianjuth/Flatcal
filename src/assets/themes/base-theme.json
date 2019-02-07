@@ -44,19 +44,7 @@
             "textColor": ""
         },
 
-        "positiveNegative": {
-            "color": "",
-            "hoverColor": "",
-            "textColor": ""
-        },
-
         "operators": {
-            "textColor": ""
-        },
-
-        "percentage": {
-            "color": "",
-            "hoverColor": "",
             "textColor": ""
         },
 

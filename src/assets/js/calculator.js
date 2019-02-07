@@ -7,12 +7,12 @@ class Calculator {
 
         // resume state
         $(config.radDeg).prepend(`<span>${storage.radDeg}</span>`);
-        this.value(storage.screen);
 
+        let eq = new Equation(storage.screen);
+        if(eq.isValid()) this.value(storage.screen);
 
         this.historyPosition = 0;
         this.historyFuture = this.value();
-
 
         return this;
     }
@@ -166,9 +166,10 @@ class Calculator {
         // validate
         let eqIn = val.replace(/Ans/g, `(${history.slice(-1)[0]})`),
             eq1 = new Equation(eqIn),
-            eq2 = new Equation(eqIn+' 1');
+            eq2 = new Equation(eqIn+' 1'),
+            eq3 = new Equation(eqIn+' + 1');
 
-        if(eq1.isValid() || eq2.isValid())
+        if(eq1.isValid() || eq2.isValid() || eq3.isValid())
             this.value(val);
     }
 
@@ -401,18 +402,25 @@ class Equation {
 
         let eq = this.preSolve();
 
-        console.log(eq);
-
         bans.forEach((ban) => {
             if(ban.test(eq))
                 valid = false;
         });
 
-        try{
-            math.eval(eq);
-            valid = valid && true;
-        } catch(e){
-            valid = valid && Algebrite.run(eq).indexOf('Stop') == -1;
+        // ban multiple decimals in
+        // one number eg 5.4.3
+        eq.split(/[^(0-9)|\.]+/).forEach(section => {
+            if(section.split('.').length > 2) 
+                valid = false;
+        });
+
+        if(valid){
+            try{
+                let eqClone = new Equation(eq);
+                eqClone.solve();
+            } catch(e){
+                valid = false;
+            }
         }
 
         return valid;
@@ -421,4 +429,4 @@ class Equation {
 
 
 
-if(module) module.exports = Equation;
+if(typeof module !== 'undefined') module.exports = Equation;

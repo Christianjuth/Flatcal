@@ -23,10 +23,8 @@
     "button": {
         "color": "#7d7eaf",
         "borderColor": "#fff",
-        "borderRadius": "2",
-        "borderWidth":"0",
+        "borderWidth":"0px",
         "hoverColor": "#7475a5",
-        "font": "Sans-serif",
         "textColor":"#fff",
 
         "numbers": {

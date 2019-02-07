@@ -1,8 +1,4 @@
-var loadedTheme = "google";
-var enable = "all";
-
 $(document).ready(function() {
-
     if(navigator.appVersion.indexOf("Mac"))
         $('.mac').show();
     else
@@ -94,18 +90,6 @@ $(document).ready(function() {
 
 
 let option = {
-    defineCheck: function(selector, storage, onChange){
-        $selector = $(selector); //get selector
-        if(localStorage[storage] == "true"){ //check true
-            $selector.find("input").prop('checked', true); //check
-            ifTrue(); //call ifTrue
-        }
-
-        else{
-            option.find("input").prop('checked', false); //uncheck
-            ifFalse(); //call ifFalse
-        }
-    },
     defineSelect: function(selector, storage, callback, onChange){
         let $selector = $(selector);
         let val = localStorage[storage];

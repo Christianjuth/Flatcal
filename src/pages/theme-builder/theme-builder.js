@@ -1,74 +1,18 @@
-let options = {
-    "body": {
-        "color": "color"
-    },
-
-    "input": {
-        "color": "color",
-        "borderColor": "color",
-        "outlineColor": "color",
-        "textColor": "color"
-    },
-
-    "button": {
-        "color": "color",
-        "borderColor": "color",
-        "borderWidth": "range",
-        "hoverColor": "color",
-        "textColor": "color",
-
-        "numbers": {
-            "color": "color",
-            "hoverColor": "color",
-            "textColor": "color"
-        },
-
-        "point": {
-            "color": "color",
-            "hoverColor": "color",
-            "textColor": "color"
-        },
-
-        "ce": {
-            "color": "color",
-            "hoverColor": "color",
-            "textColor": "color"
-        },
-
-        "positiveNegative": {
-            "color": "color",
-            "hoverColor": "color",
-            "textColor": "color"
-        },
-
-        "operators": {
-            "color": "color",
-            "hoverColor": "color",
-            "textColor": "color"
-        },
-
-        "percentage": {
-            "color": "color",
-            "hoverColor": "color",
-            "textColor": "color"
-        },
-
-        "equal": {
-            "color": "color",
-            "textColor": "color",
-            "hoverColor": "color"
-        }
-    }
-};
-
-
 $(document).ready(() => {
     localStorage.theme = 'custom';
-    let customTheme = theme.load('custom');
+    theme.load('custom');
+    let customTheme = $.parseJSON(localStorage.customTheme);
 
-    Object.keys(options).forEach(title => {
+    Object.keys(theme.baseTheme)
+    .filter(s => s !== 'app')
+    .forEach(title => {
 
-        let createSelectorOptions = (title, selector, selectorTheme, required) => {
+        let createOption = (title, selector, selectorTheme, required) => {
+            // point and ce are needed
+            // for backwards compatability
+            title = title.replace(/^point$/, 'decimal');
+            title = title.replace(/^ce$/, 'clear');
+
             title = title.charAt(0).toUpperCase() + title.slice(1);
             $('#left-container').append(`<br><h2>${title}</h2>`);
 
@@ -79,7 +23,7 @@ $(document).ready(() => {
                     if(typeof selectorTheme[prop] === 'undefined'){
                         selectorTheme[prop] = {};
                     }
-                    createSelectorOptions(prop, selector[prop], selectorTheme[prop], false);
+                    createOption(prop, selector[prop], selectorTheme[prop], false);
                 } 
 
                 else{
@@ -87,17 +31,32 @@ $(document).ready(() => {
                         unit = '',
                         $input;
 
-                    if(selector[prop] == 'number') unit = 'px';
+                    if(/width/i.test(prop)){
+                        $input = $(`<input type='range' min='0' max='5'>`);
+                        $optionGrp.append($input);
+                        $input.on('input', function() {
+                            selectorTheme[prop] = $(this).val() + unit;
 
-                    if(selector[prop] === 'color'){
+                            // ensure custom theme selected
+                            localStorage.theme = 'custom';
+                            localStorage.customTheme = JSON.stringify(customTheme);
+                            theme.load('custom');
+                        });
+
+                        try{
+                            $input.val(String(selectorTheme[prop]).replace(unit, ''));
+                        } catch(e){};
+                    }
+
+                    else{
                         let colorChange = (value) => {
-                            if(selector[prop] === 'color' && value)
-                                value = `#${value.toHex()}`;
+                            // check for null value
+                            if(value) value = `#${value.toHex()}`;
                             
                             selectorTheme[prop] = value;
                             localStorage.theme = 'custom';
-                            theme.set(customTheme);
                             localStorage.customTheme = JSON.stringify(customTheme);
+                            theme.load('custom');
                         }
 
                         $input = $(`<input type='text' class='color'>`);
@@ -113,28 +72,11 @@ $(document).ready(() => {
                         });
                     }
 
-                    else{
-                        $input = $(`<input type='${selector[prop]}' min='0' max='5'>`);
-                        $optionGrp.append($input);
-                        $input.change(function() {
-                            selectorTheme[prop] = $(this).val() + unit;
-
-                            // ensure custom theme selected
-                            localStorage.theme = 'custom';
-                            theme.set(customTheme);
-                            localStorage.customTheme = JSON.stringify(customTheme);
-                        });
-
-                        try{
-                            $input.val(String(selectorTheme[prop]).replace(unit, ''));
-                        } catch(e){};
-                    }
-
                     $('#left-container').append($optionGrp);
                 }
             });
         };
 
-        createSelectorOptions(title, options[title], customTheme[title], true);
+        createOption(title, theme.baseTheme[title], customTheme[title], true);
     });
 });

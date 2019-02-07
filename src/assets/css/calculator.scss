@@ -3,16 +3,6 @@
     overflow: hidden;
 }
 
-body > input{
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    font-size: 1px;
-    height: 1px;
-    overflow: hidden;
-}
-
 .ripple { /*stylings for the circular overlay*/
     position: absolute;
     border-radius: 100%;
@@ -111,11 +101,10 @@ body > input{
 
     .input-border{
         position: absolute;
-        height: 82px;
-        width: 443px;
-        z-index: 0;
-        margin-left: -20px;
-        margin-top: -20px;
+        top: 0;
+        left: 0;
+        height: 60px;
+        width: 100%;
     }
 
 
@@ -163,6 +152,10 @@ body > input{
     &.scientific,
     &.screenOnly{
         padding: 14px;
+
+        .input-border{
+            height: 82px;
+        }
 
         .input-wrap{
             height: 59px;
