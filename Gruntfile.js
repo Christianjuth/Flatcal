@@ -117,7 +117,10 @@ module.exports = function(grunt) {
       options: {
         configFile: '.eslintrc.json'
       },
-      target: ['src/assets/js/**/*.js']
+      target: [
+        'src/assets/js/**/*.js',
+        'test/**/*.js',
+      ]
     },
 
     sasslint: {

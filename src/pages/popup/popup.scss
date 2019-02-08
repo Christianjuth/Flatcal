@@ -1,20 +1,20 @@
 .calculator{
-	border-radius: 0;
+	&.scientific{
+        height: 303px;
+        width: 434px;
+    }
+
+    &.screenOnly{
+        height: 73px;
+        width: 300px;
+    }
+
+    &.normal{
+        height: 286px;
+        width: 222px;
+    }
+
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
-
-// screenshot
-// html,
-// body{
-// 	height: 100% !important;
-// 	width: 100% !important;
-// }
-
-// .calculator{
-// 	width: 435px;
-//     height: 292px;
-// 	top: 50%;
-//     left: 50%;
-//     transform: translate(-50%, -50%);
-//     border-radius: 4px;
-//     overflow: hidden;
-// }

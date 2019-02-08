@@ -1,6 +1,19 @@
-.button { /*general styling for all buttons*/
-    position: relative;
-    overflow: hidden;
+html,
+body,{
+    &.scientific{
+        min-height: 303px;
+        min-width: 434px;
+    }
+
+    &.screenOnly{
+        min-height: 73px;
+        min-width: 300px;
+    }
+
+    &.normal{
+        min-height: 286px;
+        min-width: 222px;
+    }
 }
 
 .ripple { /*stylings for the circular overlay*/
@@ -22,11 +35,7 @@
 .calculator{
     position: relative;
     font-family: 'Open Sans', sans-serif;
-    overflow: hidden;
-
     padding: 13px;
-    border-radius: 4px;
-
 
     section{
         margin-top: 16px;
@@ -35,7 +44,6 @@
         font-size: 0px;
         width: 196px;
     }
-
 
     section.left{
         float: left;
@@ -47,9 +55,16 @@
     }
 
 
+    #number-container{
+        display: inline-block;
+    }
+
+
     .button{
         width: 25%;
         height: 40px;
+        position: relative;
+        overflow: hidden;
 
         display: inline-block;
         cursor: pointer;
@@ -146,6 +161,11 @@
 
 
 
+    &.scientific{
+        #scientific-1{
+            display: inline-block;
+        }
+    }
 
 
 
@@ -163,7 +183,7 @@
 
             .input,
             .simulate-input{
-                line-height: 50px;
+                line-height: 51px;
                 font-size: 1.2em; 
             }
 
@@ -196,5 +216,9 @@
 
     &.screenOnly{
         padding: 8px;
+
+        #number-container{
+            display: none;
+        }
     }
 }

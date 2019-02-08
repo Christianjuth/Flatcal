@@ -7,26 +7,6 @@
         }
     },
     "rules": {
-        "semi": 2,
-        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
-        "no-undef": 2
-    },
-    "globals": {
-        "$": false,
-        "Algebrite": false,
-        "jQuery": false,
-        "window": false,
-        "Audio": false,
-        "clearTimeout": false,
-        "setTimeout": false,
-        "document": false,
-        "localStorage": true,
-        "math": false,
-        "chrome": false,
-        "console": false,
-        "module": false,
-
-        "calculator": true,
-        "theme": true
+        "semi": 2
     }
 }

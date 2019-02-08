@@ -1,15 +1,41 @@
 class Calculator {
 
-    constructor(config) {
-        this.config = config;
-        let storage = this.storage = config.storage;
+    createData(data) {
 
+        let defaults = {
+            storage: {tutorial: 0,
+                type: 'scientific',
+                radDeg: 'deg',
+                m: '0',
+                screen: '0',
+                before: '',
+                history: '[]'
+            },
+            onAdd: () => {}
+        };
+
+        data = $.extend({}, defaults, data);
+
+        ['screenWrap','radDeg',
+        'screen','screenBefore',
+        'screenAfter'].forEach(key => {
+            if(data[key]) data[key] = $(data[key]);
+            else data[key] = $('<div>');
+        });
+
+        return this.data = data;
+    }
+
+    constructor(config) {
+        let data = this.createData(config),
+            storage = this.storage = data.storage;
 
         // resume state
-        $(config.radDeg).prepend(`<span>${storage.radDeg}</span>`);
+        data.radDeg.prepend(`<span>${storage.radDeg}</span>`);
 
         let eq = new Equation(storage.screen);
         if(eq.isValid()) this.value(storage.screen);
+        else             this.value('0');
 
         this.historyPosition = 0;
         this.historyFuture = this.value();
@@ -68,7 +94,7 @@ class Calculator {
 
 
     fontSize(text){
-        let config = this.config,
+        let data = this.data,
             scaleOutput = 600,
             output;
 
@@ -77,7 +103,7 @@ class Calculator {
             textWidth = $input.appendTo($('.input-wrap')).width();
         $input.remove();
 
-        let screenWidth = $(config.screen).width(),
+        let screenWidth = $(data.screen).width(),
             space = screenWidth - textWidth;
 
         if(space <= 50)
@@ -96,52 +122,50 @@ class Calculator {
         let storage = this.storage,
             history = $.parseJSON(storage.history),
             mode = storage.radDeg,
-            config = this.config;
+            data = this.data;
 
         // setter
         if(typeof text !== 'undefined'){
             storage.screen = text;
 
-            config.screen
+            data.screen
             .text(text)
             .css({'font-size': this.fontSize(text)});
         } 
 
         // getter
-        else{
-            return config.screen.text();
-        }
+        else
+            return data.screen.text();
 
         let eq = new Equation(text.replace(/Ans/g, `(${history.slice(-1)[0]})`)),
             solution = eq.isValid() ? eq.solve(mode) : false;
 
         if(solution && solution !== eq.toString()){
-            config.screenWrap.removeClass('before');
+            data.screenWrap.removeClass('before');
 
             if(!isNaN(solution)){
-                config.screenWrap.addClass('after');
-                config.screenAfter.text(solution);
+                data.screenWrap.addClass('after');
+                data.screenAfter.text(solution);
             }
         }
 
-        else{
-            config.screenWrap.removeClass('after');
-        }
+        else
+            data.screenWrap.removeClass('after');
     }
 
 
     radDeg() {
         let storage = this.storage,
-            config = this.config;
+            data = this.data;
 
         if(storage.radDeg === 'rad'){
             storage.radDeg = 'deg';
-            config.radDeg.find('span').text('deg');
+            data.radDeg.find('span').text('deg');
         }
 
-        else if(localStorage.radDeg == 'deg'){
+        else if(storage.radDeg == 'deg'){
             storage.radDeg = 'rad';
-            config.radDeg.find('span').text('rad');
+            data.radDeg.find('span').text('rad');
         }
 
         // force screen refresh
@@ -151,14 +175,15 @@ class Calculator {
 
 
     add(char) {
-        let storage = this.storage,
+        let data = this.data,
+            storage = this.storage,
             history = $.parseJSON(storage.history),
             val = this.value();
 
         char = char.toString();
 
         // replace zero if needed
-        if(val === '0' && char != '.')
+        if(val === '0' && !/^(\+|\-|\*|\/)/.test(char))
             val = char;
         else
             val += char;
@@ -171,11 +196,13 @@ class Calculator {
 
         if(eq1.isValid() || eq2.isValid() || eq3.isValid())
             this.value(val);
+
+        data.onAdd(char);
     }
 
 
     calculate() {
-        let config = this.config,
+        let data = this.data,
             storage = this.storage,
             history = $.parseJSON(storage.history),
             val = this.value().replace(/Ans/g, `(${history.slice(-1)[0]})`),
@@ -184,8 +211,8 @@ class Calculator {
 
         if(before !== eq.solve()){
             storage.before = before;
-            config.screenBefore.text(before);
-            config.screenWrap.addClass('before');
+            data.screenBefore.text(before);
+            data.screenWrap.addClass('before');
 
             this.historyRecord(before);
         }
@@ -215,11 +242,11 @@ class Calculator {
 
     allClear() {
         let storage = this.storage,
-            config = this.config;
+            data = this.data;
         
         storage.before = '';
-        config.screenBefore.text('');
-        config.screenWrap.removeClass('before').removeClass('after');
+        data.screenBefore.text('');
+        data.screenWrap.removeClass('before').removeClass('after');
 
         this.historyPosition = 0;
         this.historyFuture = '0';
@@ -254,179 +281,7 @@ class Calculator {
 }
 
 
-
-
-
-
-
-
-class Equation {
-
-    constructor(equation) {
-        this.equation = equation;
-        this.beautify();
-        return this;
-    }
-
-    beautify() {
-        let equation = this.equation,
-            opens = (equation.match(/\(/g) || []).length,
-            closes = (equation.match(/\)/g) || []).length;
-
-        // math parentheses
-        if(opens > closes) equation += ')'.repeat(opens - closes);
-        else equation = '( '.repeat(closes - opens) + equation;
-
-        // remove extra parentheses at start/end
-        if(/^\(+[^(]*\)+$/.test(equation) && /^\(+[^)]*\)+$/.test(equation))
-            equation = equation.replace(/(^\(|\)$)/g,'');
-        
-
-        // remove * next to ( )
-        // eq 4*(3+3) --> 4(3+3)
-        equation = equation.replace(/(\)\*)/g,')').replace(/(\*\()/g,'(');
-
-        return this.equation = equation;
-    }
-
-    toString() {
-        return this.equation;
-    }
-
-    solveForRoot(eq) {
-
-        eq = eq.split('rt');
-        let middle = eq.splice(-1)[0];
-        eq = eq.join('rt');
-
-        let end,
-            openIndex = 0,
-            closeIndex = 0;
-
-
-        let finished = false;
-        middle.split('').forEach((char, i) => {
-            if(char == '(') openIndex++;
-            if(char == ')') closeIndex++;
-
-            if((i > 0 || char != ' ') && !finished && closeIndex == openIndex){
-                finished = true;
-
-                end = middle.substr(i+1);
-                middle = middle.substr(0, i+1);
-            }
-        });
-
-        let out = `${eq}^(1/${middle})${end}`;
-        if(out.indexOf('rt') !== -1) out = this.solveForRoot(out);
-
-        return out;
-    }
-
-    preSolve(mode = 'rad', exact = true) {
-        let value = this.equation;
-
-        if(value.indexOf('rt') !== -1)
-            value = this.solveForRoot(value);
-
-        // vars
-        let algebriteVars = {
-            'P': 'pi',
-            'T': '2pi'
-        };
-        Object.keys(algebriteVars).forEach(str => {
-            let insert = algebriteVars[str]; 
-            insert = /^\s*\(.*\)\s*$/.test(insert) ? insert : `(${insert})`;
-            value = value.replace(new RegExp(str, 'g'), insert);
-        });
-
-        // operators
-        let ops = {
-            '%': '* 0.01',
-            'ln': 'log',
-            '÷': '/'
-        };
-        Object.keys(ops).forEach(str => {
-            value = value.replace(new RegExp(str, 'g'), `${ops[str]}`);
-        });
-
-        // set mode
-        value = value.replace(/((a|)(sin|cos|tan)\()/g, function(x, trig, a) {
-            let degToRad = mode == 'deg' ? '(pi/180)*' : '';
-
-            if(a) return trig;
-            else  return trig+degToRad;
-        });
-
-        let radToDeg = mode == 'deg' ? '(180/pi)*' : '';
-        value = value.replace(/((asin|acos|atan)\()/g, `${radToDeg}$1`);
-
-
-        if(!exact){
-            // pre mathjs
-            let mathJSVars = {
-                'pi': Math.PI,
-                'e': Math.E
-            };
-            Object.keys(mathJSVars).forEach(str => {
-                value = value.replace(new RegExp(`^\s*${str}\s*$`, 'g'), `(${mathJSVars[str]})`);
-            });
-        }
-
-        return value;
-    }
-
-    solve(mode) {
-        let eq = this.preSolve(mode);
-
-        if(eq.match(/(sin|cos|tan|Ans)/)){
-            eq = eq.replace(/\!/g, '^j');
-            eq = Algebrite.run(eq);
-            eq = eq.replace(/\^j/g, '!');
-        }
-
-        // check if equation needs solving
-        if(/^[1-9]+$/.test(eq))
-            return eq;
-
-        else
-            return math.eval(eq).toString();
-    }
-
-    isValid() {
-        let valid = true,
-            bans = [
-            /(\+|\-){2}/,
-            /Ans/
-        ];
-
-        let eq = this.preSolve();
-
-        bans.forEach((ban) => {
-            if(ban.test(eq))
-                valid = false;
-        });
-
-        // ban multiple decimals in
-        // one number eg 5.4.3
-        eq.split(/[^(0-9)|\.]+/).forEach(section => {
-            if(section.split('.').length > 2) 
-                valid = false;
-        });
-
-        if(valid){
-            try{
-                let eqClone = new Equation(eq);
-                eqClone.solve();
-            } catch(e){
-                valid = false;
-            }
-        }
-
-        return valid;
-    }
-}
-
-
-
-if(typeof module !== 'undefined') module.exports = Equation;
+if(typeof module !== 'undefined') 
+    module.exports = Calculator;
+else if(typeof window == 'object')
+    window.Calculator = Calculator;

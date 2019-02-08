@@ -1,17 +1,3 @@
-let Equation = require('./dist/assets/js/calculator'),
-	colors = require('colors'),
-	exit = 0;
-
-// required for Equation
-global.math = require('mathjs');
-global.Algebrite = require('algebrite');
-
-
-
-
-
-
-
 let P = Math.PI,
 	tests = {
 
@@ -90,26 +76,21 @@ let P = Math.PI,
 
 
 
-// run test
-Object.keys(tests).forEach(eq => {
-	let answer = tests[eq];
 
-	// transform eq
-	eq = new Equation(eq);
-	let log = `${eq.toString()} == ${answer}`,
-		solution = eq.solve();
-	
-	if(solution === answer)
-		console.log(log.green);
+module.exports = (n) => {
 
-	else if(Math.abs(answer - solution) < 0.000000000000001){
-		console.log(log.yellow.bold);
+	function shuffle(a) {
+	    for (let i = a.length - 1; i > 0; i--) {
+	        const j = Math.floor(Math.random() * (i + 1));
+	        [a[i], a[j]] = [a[j], a[i]];
+	    }
+	    return a;
 	}
 
-	else{
-		exit = 1;
-		console.log(log.red);
-		console.log(solution);
-	}
-});
-process.exit(exit);
+	let keys = shuffle(Object.keys(tests)),
+		out = {};
+	keys.slice(n * -1).forEach(key => {
+		out[key] = tests[key];
+	});
+	return out;
+};
