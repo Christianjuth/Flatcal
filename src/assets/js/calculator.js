@@ -183,7 +183,7 @@ class Calculator {
         char = char.toString();
 
         // replace zero if needed
-        if(val === '0' && !/^(\+|\-|\*|\/)/.test(char))
+        if(val === '0' && !/^(\+|\*|\/)/.test(char))
             val = char;
         else
             val += char;
