@@ -5,7 +5,7 @@
     },
 
     "app": {
-        "color": "linear-gradient(to left bottom, rgb(228, 191, 174) 22%, rgb(247, 173, 177))"
+        "color": "linear-gradient(to left bottom, rgb(228, 191, 174) 22%, rgb(222, 166, 169))"
     },
 
     "body": {
@@ -13,9 +13,9 @@
     },
 
     "input": {
-        "color": "#d66a5d",
-        "borderColor": "#d66a5d",
-        "outlineColor": "#d66a5d",
+        "color": "#cc6f65",
+        "borderColor": "#cc6f65",
+        "outlineColor": "#cc6f65",
         "textColor": "#fff",
         "font": "arial"
     },

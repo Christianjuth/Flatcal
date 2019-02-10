@@ -1,4 +1,4 @@
-let tests = require('./equations')(20);
+let tests = require('./data').valid(20);
 
 
 module.exports = () => {
