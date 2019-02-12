@@ -17,7 +17,7 @@ module.exports = () => {
 	// --------------------------------
 	console.log('\ninvalid:');
 
-	let invalid = data.invalid(20);
+	let invalid = data.get(20, 'invalid');
 	invalid.forEach(eq => {
 		
 		// transform eq
@@ -39,29 +39,31 @@ module.exports = () => {
 	// --------------------------------
 	console.log('\nvalid:');
 
-	let valid = data.valid(20);
-	Object.keys(valid).forEach(eq => {
-		let answer = valid[eq];
+	let test = (tests, mode) => {
+		Object.keys(tests).forEach(eq => {
+			let answer = tests[eq];
 
-		// transform eq
-		eq = new Equation(eq);
-		let log = `${eq.toString()} == ${answer}`,
-			solution = eq.solve();
-		
-		if(solution === answer)
-			console.log('- '.gray+log.green);
+			// transform eq
+			eq = new Equation(eq);
+			let log = `${eq.toString()} == ${answer}`,
+				solution = eq.solve(mode);
+			
+			if(solution === answer)
+				console.log('- '.gray+log.green);
 
-		else if(Math.abs(answer - solution) < 0.000000000000001){
-			console.log('- '.gray+log.yellow.bold);
-		}
+			else if(Math.abs(answer - solution) < 0.0000000000001){
+				console.log('- '.gray+log.yellow.bold);
+			}
 
-		else{
-			exit++;
-			console.log('- '.gray+log.red);
-			console.log(solution);
-		}
-	});
+			else{
+				exit++;
+				console.log('- '.gray+log.red);
+				console.log(solution);
+			}
+		});
+	};
+	test(data.get(20, 'rad'), 'rad');
+	test(data.get(20, 'deg'), 'deg');
 
-	
 	if(exit > 0) process.exit(exit);
 };

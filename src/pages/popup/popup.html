@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Calculator</title>
+        <title>FlatCal</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script type="text/javascript" src="../../assets/js/storage.js"></script>
         <script type="text/javascript" src="../../assets/js/analytics.js"></script>
@@ -26,6 +26,7 @@
         <div class="calculator">
             <div class="input-border"></div>
             <div class="input-wrap">
+                <a class="popout">&#8598;</a>
                 <span class="input-before"></span>
                 <span class="input">0</span>
                 <span class="input-after"></span>
@@ -33,7 +34,7 @@
 
             <section class="left" id="scientific-1">
                 <div>
-                    <div id="rad-deg" class="button" fun="radDeg"></div>
+                    <div id="rad-deg" class="button" fun="toggleMode"></div>
                     <div class="button" value="!">x!</div>
                     <div class="button" value="%">%</div>
                     <div class="button" value="Ans">Ans</div>

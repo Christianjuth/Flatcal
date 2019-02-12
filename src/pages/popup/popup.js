@@ -1,7 +1,46 @@
 $(document).ready(() => {
+    $(".popout").click(() => {
+        let h = $(document).innerHeight(),
+            w = $(document).innerWidth(),
+            l = window.screen.width - w - 150;
+
+        let child = window.open(location.href,'popUpWindow',`height=${h},width=${w},left=${l},top=100,toolbar=no,menubar=no,location=no,directories=no,status=yes`);
+        window.close();
+    });
+
     // convert type to camelcase
     let type = localStorage.type.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
     $('.calculator, body, html').addClass(type);
+
+    let resize = () => {
+        let $d = $(document),
+            $w = $(window),
+            $c = $('.calculator');
+
+        if($c.innerHeight() > $w.innerHeight())
+            window.resizeBy(0, $d.innerHeight() - $w.innerHeight());
+        else
+            window.resizeBy(0, $c.innerHeight() - $w.innerHeight());
+
+        if($c.innerWidth() > $w.innerWidth())
+            window.resizeBy($d.innerWidth() - $w.innerWidth(), 0);
+        else
+            window.resizeBy($c.innerWidth() - $w.innerWidth(), 0);
+    }
+
+    // check if window is child
+    if(!window.locationbar.visible){
+        $('.popout').hide();
+        resize();
+        let timeout;
+        $(window).resize(() => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                resize();
+            }, 200);
+        });  
+    }
+    
 
     if(localStorage.theme !== 'custom')
         theme.load(localStorage.theme);
@@ -73,7 +112,7 @@ $(document).ready(() => {
             '8':        'clear',
             'shift-8':  'allClear',
             '13':       'calculate',
-            '9':        'radDeg',
+            '9':        'toggleMode',
             '38':       'historyUp',
             '40':       'historyDown',
             'ctrl-86':  'paste',

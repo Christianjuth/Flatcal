@@ -45,7 +45,7 @@ class Calculator {
 
 
 
-    historyUp() {
+    historyUp(down = 1) {
         let storage = this.storage,
             history = $.parseJSON(storage.history);
 
@@ -53,20 +53,21 @@ class Calculator {
             this.historyFuture = this.value();
 
         if(this.historyPosition < history.length)
-            this.historyPosition++;
+            this.historyPosition + down;
         
         let value = history.slice(this.historyPosition * -1)[0];
         this.value(value);
+        return this;
     }
 
 
-    historyDown() {
+    historyDown(up = 1) {
         let storage = this.storage,
             value;
 
         // prevent going sub zero
         if(this.historyPosition > 0)
-            this.historyPosition--;
+            this.historyPosition - up;
 
         if(this.historyPosition > 0){
             let history = $.parseJSON(storage.history);
@@ -77,7 +78,8 @@ class Calculator {
             value = this.historyFuture;
         }
 
-        this.value(value);  
+        this.value(value); 
+        return this; 
     }
 
     historyRecord(eq) {
@@ -89,6 +91,7 @@ class Calculator {
             history = history.slice(-50);
             storage.history = JSON.stringify(history);
         }
+        return this;
     }
 
 
@@ -108,14 +111,10 @@ class Calculator {
 
         if(space <= 50)
             output = (space + scaleOutput)/(50 + scaleOutput) + 'em';
-
         else
             output = '';
-
         return output;
     }
-
-
 
 
     value(text) {
@@ -127,7 +126,6 @@ class Calculator {
         // setter
         if(typeof text !== 'undefined'){
             storage.screen = text;
-
             data.screen
             .text(text)
             .css({'font-size': this.fontSize(text)});
@@ -154,25 +152,28 @@ class Calculator {
     }
 
 
-    radDeg() {
+
+    mode(mode) {
         let storage = this.storage,
             data = this.data;
 
-        if(storage.radDeg === 'rad'){
-            storage.radDeg = 'deg';
-            data.radDeg.find('span').text('deg');
+        if(['rad', 'deg'].includes(mode)){
+            storage.radDeg = mode;
+            data.radDeg.find('span').text(mode);
+
+            // force screen refresh
+            this.value(this.value());
         }
 
-        else if(storage.radDeg == 'deg'){
-            storage.radDeg = 'rad';
-            data.radDeg.find('span').text('rad');
-        }
-
-        // force screen refresh
-        this.value(this.value());
+        return this;
     }
 
-
+    toggleMode() {
+        let mode = this.storage.radDeg;
+        mode = ['rad', 'deg'].filter(m => m != mode)[0];
+        this.mode(mode);
+        return this;
+    }
 
     add(char) {
         let data = this.data,
@@ -194,10 +195,13 @@ class Calculator {
             eq2 = new Equation(eqIn+' 1'),
             eq3 = new Equation(eqIn+' + 1');
 
-        if(eq1.isValid() || eq2.isValid() || eq3.isValid())
+        let valid = eq1.isValid() || eq2.isValid() || eq3.isValid();
+        if(valid){
             this.value(val);
-
-        data.onAdd(char);
+            data.onAdd(char);
+        } 
+        
+        return valid;
     }
 
 
@@ -218,6 +222,7 @@ class Calculator {
         }
 
         this.value(eq.solve(storage.radDeg));
+        return this;
     }
 
 
@@ -238,6 +243,7 @@ class Calculator {
             this.historyFuture = val;
             this.value(val);
         }
+        return this;
     }
 
     allClear() {
@@ -251,18 +257,21 @@ class Calculator {
         this.historyPosition = 0;
         this.historyFuture = '0';
         this.value('0');
+        return this;
     }
 
 
     copy() {
         let $input = $('<input/>'),
             eq = new Equation(this.value());
+        eq = eq.toString();
 
-        $input.val(eq.toString());
+        $input.val(eq);
         $('body').append($input);
         $input.select();
         document.execCommand('copy');
         $input.remove();
+        return eq;
     }
 
 
@@ -271,12 +280,17 @@ class Calculator {
         $('body').append($input);
         $input.select();
         document.execCommand('paste');
-        let number = parseFloat($input.val());
+        let value = $input.val();
 
-        if(!isNaN(parseFloat(number))){
-            this.add(number);
+        if(!this.add(value)){
+            try{
+                value = value.match(/[0-9]+(\.[0-9]+|)/)[0];
+                this.add(value);
+            } catch(e){}; 
         }
+        
         $input.remove();
+        return value;
     }
 }
 

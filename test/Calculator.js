@@ -1,4 +1,4 @@
-let tests = require('./data').valid(20);
+let data = require('./data');
 
 
 module.exports = () => {
@@ -34,7 +34,7 @@ module.exports = () => {
 	// Test Functionality of Calculator
 	// --------------------------------
 	console.log('\nfunctionality:');
-	c.radDeg();
+	c.mode('rad');
 	assert('Screen init to 0', c.value() === '0');
 	c.add('a');
 	log('try invalid character a');
@@ -54,27 +54,33 @@ module.exports = () => {
 	// Test Equations and Solutions
 	// --------------------------------
 	console.log('\nequations:');
-	Object.keys(tests).forEach(i => {
-		let o = tests[i],
-			log = `${i} == ${o}`;
-		c.allClear();
-		c.add(i);
-		c.calculate();
-		let val = c.value();
+	let test = (tests) => {
+		Object.keys(tests).forEach(i => {
+			let o = tests[i],
+				log = `${i} == ${o}`;
+			c.allClear();
+			c.add(i);
+			c.calculate();
+			let val = c.value();
 
-		if(val === o)
-			console.log('- '.gray+log.green);
+			if(val === o)
+				console.log('- '.gray+log.green);
 
-		else if(Math.abs(val - o) < 0.000000000000001){
-			console.log('- '.gray+log.yellow.bold);
-		}
+			else if(Math.abs(val - o) < 0.0000000000001){
+				console.log('- '.gray+log.yellow.bold);
+			}
 
-		else{
-			exit++;
-			console.log('- '.gray+log.red);
-			console.log(val);
-		}
-	});
+			else{
+				exit++;
+				console.log('- '.gray+log.red);
+				console.log(val);
+			}
+		});
+	};
+	test(data.get(20, 'rad'));
+	c.mode('deg');
+	test(data.get(20, 'deg'));
+	
 
 
     if(exit > 0) process.exit(exit);

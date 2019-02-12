@@ -7,7 +7,7 @@ let data = {
 		'3^^2',
 		'10/*3'
 	],
-	valid: {
+	rad: {
 
 		// basic math
 		'5+5':     '10',
@@ -77,6 +77,42 @@ let data = {
 		'asin(sin(2P': '0',
 		'acos(cos(2P': '0',
 		'atan(tan(2P': '0'
+	},
+	deg: {
+		// TRIG
+		// 0 rad
+		'sin(0':  '0',
+		'cos(0':  '1',
+		'tan(0':  '0',
+		'asin(sin(0': '0',
+		'acos(cos(0': '0',
+		'atan(tan(0': '0',
+		// P/2 rad
+		'sin(90':  '1',
+		'cos(90':  '0',
+		'asin(sin(90': '90',
+		'acos(cos(90': '90',
+		'atan(tan(90': '90',
+		// P rad
+		'sin(180':  '0',
+		'cos(180':  '-1',
+		'tan(180':  '0',
+		'asin(sin(180': '0',
+		'acos(cos(180': '180',
+		'atan(tan(180': '0',
+		// 3P/2
+		'sin(270':  '-1',
+		'cos(270':  '0',
+		'asin(sin(270': '-90',
+		'acos(cos(270': '90',
+		'atan(tan(270': '90',
+		// 2P
+		'sin(360':  '0',
+		'cos(360':  '1',
+		'tan(360':  '0',
+		'asin(sin(360': '0',
+		'acos(cos(360': '0',
+		'atan(tan(360': '0'
 	}
 };
 
@@ -114,5 +150,8 @@ module.exports = {
 	},
 	valid: (n) => {
 		return select(n, data.valid);
+	},
+	get: (n, key) => {
+		return select(n, data[key]);
 	}
 };
