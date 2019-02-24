@@ -3,7 +3,7 @@ class Calculator {
     createData(data) {
 
         let defaults = {
-            storage: {tutorial: 0,
+            state: {
                 type: 'scientific',
                 radDeg: 'deg',
                 m: '0',
@@ -15,6 +15,7 @@ class Calculator {
         };
 
         data = $.extend({}, defaults, data);
+        this.clearNext = false;
 
         ['screenWrap','radDeg',
         'screen','screenBefore',
@@ -28,68 +29,118 @@ class Calculator {
 
     constructor(config) {
         let data = this.createData(config),
-            storage = this.storage = data.storage;
-
-        // resume state
-        data.radDeg.prepend(`<span>${storage.radDeg}</span>`);
-
-        let eq = new Equation(storage.screen);
-        if(eq.isValid()) this.value(storage.screen);
-        else             this.value('0');
-
+            state = this.state = data.state;
+        data.radDeg.prepend(`<span></span>`);
         this.historyPosition = 0;
         this.historyFuture = this.value();
+
+        setInterval(() => {
+            if(JSON.stringify(this.currentState) !== JSON.stringify(state))
+                this.render();
+        }, 50);
+        this.render();
 
         return this;
     }
 
 
+    render() {
+        let data = this.data,
+            state = this.state = data.state,
+            history = $.parseJSON(state.history),
+            mode = state.radDeg;
 
-    historyUp(down = 1) {
-        let storage = this.storage,
-            history = $.parseJSON(storage.history);
+        this.currentState = JSON.parse(JSON.stringify(state));
+
+        let renderScreen = (text) => {
+            data.screen
+            .text(text)
+            .css({'font-size': this.fontSize(text)});
+
+            let eq = new Equation(text.replace(/Ans/g, `(${history.slice(-1)[0]})`)),
+                solution = eq.isValid() ? eq.solve(mode) : false;
+
+            if(solution && solution !== eq.toString()){
+                data.screenWrap.removeClass('before');
+
+                if(!isNaN(solution)){
+                    data.screenWrap.addClass('after');
+                    data.screenAfter.text(solution);
+                }
+            }
+
+            else
+                data.screenWrap.removeClass('after');
+        };
+
+        // resume state
+        data.radDeg.find('span').text(state.radDeg);
+
+        // validate
+        let eqIn = state.screen.replace(/Ans/g, `(${history.slice(-1)[0]})`),
+            eq1 = new Equation(eqIn),
+            eq2 = new Equation(eqIn+' 1'),
+            eq3 = new Equation(eqIn+' + 1');
+
+        let valid = eq1.isValid() || eq2.isValid() || eq3.isValid();
+        if(valid) renderScreen(state.screen);
+        else      renderScreen('0');
+    }
+
+
+    setState(key, value) {
+        let state = this.state;
+        if(key === 'screen') this.clearNext = false;
+        state[key] = value;
+        this.state = JSON.parse(JSON.stringify(state));
+        this.render();
+    }
+
+
+
+    historyUp() {
+        let state = this.state,
+            history = $.parseJSON(state.history);
 
         if(this.historyPosition == 0)
             this.historyFuture = this.value();
 
         if(this.historyPosition < history.length)
-            this.historyPosition + down;
+            this.historyPosition++;
         
         let value = history.slice(this.historyPosition * -1)[0];
-        this.value(value);
+        this.setState('screen', value);
         return this;
     }
 
 
-    historyDown(up = 1) {
-        let storage = this.storage,
-            value;
+    historyDown() {
+        let state = this.state, value;
 
         // prevent going sub zero
         if(this.historyPosition > 0)
-            this.historyPosition - up;
+            this.historyPosition--;
 
         if(this.historyPosition > 0){
-            let history = $.parseJSON(storage.history);
+            let history = $.parseJSON(state.history);
             value = history.slice(this.historyPosition * -1)[0];
         } 
 
-        else if(this.historyFuture){
+        else if(this.historyFuture)
             value = this.historyFuture;
-        }
 
-        this.value(value); 
+        this.setState('screen', value);
         return this; 
     }
 
     historyRecord(eq) {
-        let storage = this.storage,
-            history = $.parseJSON(storage.history);
+        let state = this.state,
+            history = $.parseJSON(state.history);
 
         if(eq !== history[history.length-1]){
             history.push(eq);
             history = history.slice(-50);
-            storage.history = JSON.stringify(history);
+            this.setState('history', JSON.stringify(history));
         }
         return this;
     }
@@ -116,60 +167,28 @@ class Calculator {
         return output;
     }
 
-
-    value(text) {
-        let storage = this.storage,
-            history = $.parseJSON(storage.history),
-            mode = storage.radDeg,
-            data = this.data;
-
-        // setter
-        if(typeof text !== 'undefined'){
-            storage.screen = text;
-            data.screen
-            .text(text)
-            .css({'font-size': this.fontSize(text)});
-        } 
-
-        // getter
-        else
-            return data.screen.text();
-
-        let eq = new Equation(text.replace(/Ans/g, `(${history.slice(-1)[0]})`)),
-            solution = eq.isValid() ? eq.solve(mode) : false;
-
-        if(solution && solution !== eq.toString()){
-            data.screenWrap.removeClass('before');
-
-            if(!isNaN(solution)){
-                data.screenWrap.addClass('after');
-                data.screenAfter.text(solution);
-            }
+    value(val) {
+        let out;
+        if(typeof val !== 'undefined'){
+            this.clearNext = false;
+            this.setState('screen', val);
+            out = this;
         }
-
-        else
-            data.screenWrap.removeClass('after');
+        else out = this.state.screen;
+        return out;
     }
 
 
-
     mode(mode) {
-        let storage = this.storage,
+        let state = this.state,
             data = this.data;
-
-        if(['rad', 'deg'].includes(mode)){
-            storage.radDeg = mode;
-            data.radDeg.find('span').text(mode);
-
-            // force screen refresh
-            this.value(this.value());
-        }
-
+        if(['rad', 'deg'].includes(mode))
+            this.setState('radDeg', mode);
         return this;
     }
 
     toggleMode() {
-        let mode = this.storage.radDeg;
+        let mode = this.state.radDeg;
         mode = ['rad', 'deg'].filter(m => m != mode)[0];
         this.mode(mode);
         return this;
@@ -177,14 +196,16 @@ class Calculator {
 
     add(char) {
         let data = this.data,
-            storage = this.storage,
-            history = $.parseJSON(storage.history),
+            state = this.state,
+            history = $.parseJSON(state.history),
             val = this.value();
 
         char = char.toString();
 
         // replace zero if needed
-        if(val === '0' && !/^(\+|\*|\/)/.test(char))
+        if(this.clearNext && !/^(-|\+|\*|\/|\.)/.test(char))
+            val = char;
+        else if(val === '0' && !/^(\+|\*|\/|\.)/.test(char))
             val = char;
         else
             val += char;
@@ -197,7 +218,7 @@ class Calculator {
 
         let valid = eq1.isValid() || eq2.isValid() || eq3.isValid();
         if(valid){
-            this.value(val);
+            this.setState('screen', val);
             data.onAdd(char);
         } 
         
@@ -205,28 +226,33 @@ class Calculator {
     }
 
 
-    calculate() {
+    solve() {
         let data = this.data,
-            storage = this.storage,
-            history = $.parseJSON(storage.history),
+            state = this.state,
+            history = $.parseJSON(state.history),
             val = this.value().replace(/Ans/g, `(${history.slice(-1)[0]})`),
             eq = new Equation(val),
             before = eq.toString();
 
         if(before !== eq.solve()){
-            storage.before = before;
+            this.setState('before', before);
             data.screenBefore.text(before);
             data.screenWrap.addClass('before');
-
             this.historyRecord(before);
         }
 
-        this.value(eq.solve(storage.radDeg));
+        this.setState('screen', eq.solve(state.radDeg));
+        this.clearNext = true;
         return this;
     }
 
 
     clear() {
+        if(this.clearNext){
+            this.allClear();
+            return this;
+        }
+
         this.historyPosition = 0;
         let val = this.value();
 
@@ -241,22 +267,22 @@ class Calculator {
         }
         else{
             this.historyFuture = val;
-            this.value(val);
+            this.setState('screen', val);
         }
         return this;
     }
 
     allClear() {
-        let storage = this.storage,
+        let state = this.state,
             data = this.data;
         
-        storage.before = '';
+        this.setState('before', '');
         data.screenBefore.text('');
         data.screenWrap.removeClass('before').removeClass('after');
 
         this.historyPosition = 0;
         this.historyFuture = '0';
-        this.value('0');
+        this.setState('screen', '0');
         return this;
     }
 
@@ -290,6 +316,8 @@ class Calculator {
         }
         
         $input.remove();
+        this.historyFuture = value;
+        this.setState('screen', value);
         return value;
     }
 }

@@ -7,24 +7,26 @@ class Equation {
     }
 
     beautify() {
-        let equation = this.equation,
-            opens = (equation.match(/\(/g) || []).length,
-            closes = (equation.match(/\)/g) || []).length;
+        let eq = this.equation,
+            opens = (eq.match(/\(/g) || []).length,
+            closes = (eq.match(/\)/g) || []).length;
 
         // math parentheses
-        if(opens > closes) equation += ')'.repeat(opens - closes);
-        else equation = '( '.repeat(closes - opens) + equation;
+        if(opens > closes) eq += ')'.repeat(opens - closes);
+        else eq = '( '.repeat(closes - opens) + eq;
 
         // remove extra parentheses at start/end
-        if(/^\(+[^(]*\)+$/.test(equation) && /^\(+[^)]*\)+$/.test(equation))
-            equation = equation.replace(/(^\(|\)$)/g,'');
-        
+        if(/^\(+[^(]*\)+$/.test(eq) && /^\(+[^)]*\)+$/.test(eq))
+            eq = eq.replace(/(^\(|\)$)/g,'');
 
         // remove * next to ( )
         // eq 4*(3+3) --> 4(3+3)
-        equation = equation.replace(/(\)\*)/g,')').replace(/(\*\()/g,'(');
+        eq = eq.replace(/(\)\*)/g,')').replace(/(\*\()/g,'(');
 
-        return this.equation = equation;
+        // remove unneeded decimals
+        eq = eq.replace(/\.([\D])/,'$1');
+
+        return this.equation = eq;
     }
 
     toString() {

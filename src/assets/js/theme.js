@@ -96,7 +96,7 @@ let theme = {
 
         let mappings = {
             'body': {
-                'background': theme.app.color
+                'background': !window.locationbar.visible ? theme.body.color : theme.app.color
             },
 
             '.calculator-mask': {

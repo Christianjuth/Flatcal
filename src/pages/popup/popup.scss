@@ -26,15 +26,21 @@ body{
 
 .popout{
     text-decoration: none;
-    opacity: .3;
+    opacity: .2;
     border-radius: 100%;
     width: 14px;
     height: 14px;
     font-size: 14px;
     line-height: 12px;
     text-align: center;
-    color: #bbb;
+    color: inherit;
     position: absolute;
     top: 3px;
     left: 2px;
+
+    transition: opacity 0.3s;
+
+    &:hover{
+        opacity: .4;
+    }
 }

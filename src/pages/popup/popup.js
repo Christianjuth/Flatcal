@@ -1,7 +1,7 @@
 $(document).ready(() => {
     $(".popout").click(() => {
-        let h = $(document).innerHeight(),
-            w = $(document).innerWidth(),
+        let h = $('.calculator').outerHeight()
+            w = $('.calculator').outerWidth()
             l = window.screen.width - w - 150;
 
         let child = window.open(location.href,'popUpWindow',`height=${h},width=${w},left=${l},top=100,toolbar=no,menubar=no,location=no,directories=no,status=yes`);
@@ -54,7 +54,7 @@ $(document).ready(() => {
     }
 
     window.calculator = new Calculator({
-        storage:      localStorage,
+        state:        localStorage,
         screenWrap:   '.input-wrap',
         screen:       '.input',
         screenBefore: '.input-before',
@@ -111,7 +111,7 @@ $(document).ready(() => {
         let functionCodes = {
             '8':        'clear',
             'shift-8':  'allClear',
-            '13':       'calculate',
+            '13':       'solve',
             '9':        'toggleMode',
             '38':       'historyUp',
             '40':       'historyDown',
@@ -129,7 +129,7 @@ $(document).ready(() => {
 
 
         let functionKeys = {
-            '=': 'calculate'
+            '=': 'solve'
         };
         if(calculator[functionKeys[key]]){
             calculator[functionKeys[key]]();

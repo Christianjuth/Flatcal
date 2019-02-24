@@ -44,7 +44,7 @@ module.exports = () => {
 	assert('Screen value is 0*', c.value() === '0*');
 	log('add 5 and solve (0*5)');
 	c.add('5');
-	c.calculate();
+	c.solve();
 	assert('Screen value is 0', c.value() === '0');
 
 
@@ -55,12 +55,12 @@ module.exports = () => {
 	// --------------------------------
 	console.log('\nequations:');
 	let test = (tests) => {
-		Object.keys(tests).forEach(i => {
+		Object.keys(tests).forEach((i,j) => {
 			let o = tests[i],
 				log = `${i} == ${o}`;
 			c.allClear();
 			c.add(i);
-			c.calculate();
+			c.solve();
 			let val = c.value();
 
 			if(val === o)
