@@ -24,7 +24,7 @@ module.exports = () => {
 		eq = new Equation(eq);
 		let log = eq.toString();
 		
-		if(!eq.isValid())
+		if(!eq.isValid()[0])
 			console.log(`- ${log}`.gray);
 
 		else{

@@ -58,9 +58,15 @@ class Calculator {
             .css({'font-size': this.fontSize(text)});
 
             let eq = new Equation(text.replace(/Ans/g, `(${history.slice(-1)[0]})`)),
-                solution = eq.isValid() ? eq.solve(mode) : false;
+                valid = eq.isValid(mode),
+                solution = valid[0] ? eq.solve(mode) : false;
 
-            if(solution && solution !== eq.toString()){
+            if(!valid[0] && valid[1].indexOf('divide by zero') !== -1){
+                data.screenWrap.addClass('after');
+                data.screenAfter.text('ERROR'); 
+            }
+
+            else if(valid[0] && solution !== eq.toString()){
                 data.screenWrap.removeClass('before');
 
                 if(!isNaN(solution)){
@@ -69,22 +75,14 @@ class Calculator {
                 }
             }
 
-            else
+            else{
                 data.screenWrap.removeClass('after');
+            }
         };
 
         // resume state
         data.radDeg.find('span').text(state.radDeg);
-
-        // validate
-        let eqIn = state.screen.replace(/Ans/g, `(${history.slice(-1)[0]})`),
-            eq1 = new Equation(eqIn),
-            eq2 = new Equation(eqIn+' 1'),
-            eq3 = new Equation(eqIn+' + 1');
-
-        let valid = eq1.isValid() || eq2.isValid() || eq3.isValid();
-        if(valid) renderScreen(state.screen);
-        else      renderScreen('0');
+        renderScreen(state.screen);
     }
 
 
@@ -198,13 +196,16 @@ class Calculator {
         let data = this.data,
             state = this.state,
             history = $.parseJSON(state.history),
-            val = this.value();
+            val = this.value(),
+            valid = false;
 
         char = char.toString();
 
         // replace zero if needed
-        if(this.clearNext && !/^(-|\+|\*|\/|\.)/.test(char))
+        if(this.clearNext && !/^(-|\+|\*|\/|\.)/.test(char)){
+            data.screenWrap.removeClass('before');
             val = char;
+        }
         else if(val === '0' && !/^(\+|\*|\/|\.)/.test(char))
             val = char;
         else
@@ -215,12 +216,17 @@ class Calculator {
             eq1 = new Equation(eqIn),
             eq2 = new Equation(eqIn+' 1'),
             eq3 = new Equation(eqIn+' + 1');
-
-        let valid = eq1.isValid() || eq2.isValid() || eq3.isValid();
-        if(valid){
-            this.setState('screen', val);
-            data.onAdd(char);
-        } 
+            
+        [   eq1.isValid(), 
+            eq2.isValid(), 
+            eq3.isValid()
+        ].forEach(v => {
+            if(v[0] || (v[1] !== 'bad input' && !/Undefined symbol/.test(v[1]) )){
+                valid = true;
+                this.setState('screen', val);
+                data.onAdd(char);
+            }
+        });
         
         return valid;
     }
@@ -234,15 +240,21 @@ class Calculator {
             eq = new Equation(val),
             before = eq.toString();
 
-        if(before !== eq.solve()){
-            this.setState('before', before);
-            data.screenBefore.text(before);
-            data.screenWrap.addClass('before');
-            this.historyRecord(before);
-        }
-
-        this.setState('screen', eq.solve(state.radDeg));
-        this.clearNext = true;
+        try{
+            let solution = eq.solve(state.radDeg);
+            if(before !== solution){
+                this.setState('before', before);
+                data.screenBefore.text(before);
+                data.screenWrap.addClass('before');
+                this.historyRecord(before);
+            }
+            this.setState('screen', solution);
+            this.clearNext = true;
+        } catch(e) {
+            data.screenWrap.addClass('after');
+            data.screenAfter.text('ERROR');
+        };
+        
         return this;
     }
 

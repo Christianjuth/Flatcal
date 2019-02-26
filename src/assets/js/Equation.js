@@ -69,6 +69,8 @@ class Equation {
         if(value.indexOf('rt') !== -1)
             value = this.solveForRoot(value);
 
+        value = value.replace(/\)\(/g, ')*(');
+
         // vars
         let algebriteVars = {
             'P': 'pi',
@@ -119,11 +121,12 @@ class Equation {
     solve(mode) {
         let eq = this.preSolve(mode);
 
-        if(eq.match(/(sin|cos|tan|Ans)/)){
-            eq = eq.replace(/\!/g, '^j');
-            eq = Algebrite.run(eq);
-            eq = eq.replace(/\^j/g, '!');
-        }
+        eq = eq.replace(/\!/g, '^j');
+        eq = Algebrite.run(eq);
+        eq = eq.replace(/\^j/g, '!');
+
+        if(/^Stop:\s+/.test(eq))
+            throw new Error(eq);
 
         // check if equation needs solving
         if(/^[1-9]+$/.test(eq))
@@ -133,18 +136,21 @@ class Equation {
             return math.eval(eq).toString();
     }
 
-    isValid() {
+    isValid(mode) {
         let valid = true,
             bans = [
-            /(\+|\-){2}/,
+            /(\+|\-|\*|\/){2}/,
             /Ans/
         ];
+        let err = '';
 
         let eq = this.preSolve();
 
         bans.forEach((ban) => {
-            if(ban.test(eq))
+            if(ban.test(eq)){
                 valid = false;
+                err = 'bad input';
+            }
         });
 
         // ban multiple decimals in
@@ -154,16 +160,18 @@ class Equation {
                 valid = false;
         });
 
+        
         if(valid){
             try{
                 let eqClone = new Equation(eq);
-                eqClone.solve();
+                eqClone.solve(mode);
             } catch(e){
+                err = e.message;
                 valid = false;
             }
         }
 
-        return valid;
+        return [valid, err];
     }
 }
 
