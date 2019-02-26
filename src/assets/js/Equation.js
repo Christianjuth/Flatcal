@@ -69,8 +69,6 @@ class Equation {
         if(value.indexOf('rt') !== -1)
             value = this.solveForRoot(value);
 
-        value = value.replace(/\)\(/g, ')*(');
-
         // vars
         let algebriteVars = {
             'P': 'pi',
@@ -115,6 +113,7 @@ class Equation {
             });
         }
 
+        value = value.replace(/\)\(/g, ')*(');
         return value;
     }
 
