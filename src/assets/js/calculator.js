@@ -202,11 +202,11 @@ class Calculator {
         char = char.toString();
 
         // replace zero if needed
-        if(this.clearNext && !/^(-|\+|\*|\/|\.)/.test(char)){
+        if(this.clearNext && !/^(-|\+|\*|\/|\.|\^|rt)/.test(char)){
             data.screenWrap.removeClass('before');
             val = char;
         }
-        else if(val === '0' && !/^(\+|\*|\/|\.)/.test(char))
+        else if(val === '0' && !/^(\+|\*|\/|\.|\^|rt)/.test(char))
             val = char;
         else
             val += char;

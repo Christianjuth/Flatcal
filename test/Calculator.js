@@ -36,16 +36,49 @@ module.exports = () => {
 	console.log('\nfunctionality:');
 	c.mode('rad');
 	assert('Screen init to 0', c.value() === '0');
+
 	c.add('a');
 	log('try invalid character a');
 	assert('Screen value is still 0', c.value() === '0');
+
 	log('multiply initial zero');
 	c.add('*');
 	assert('Screen value is 0*', c.value() === '0*');
+
 	log('add 5 and solve (0*5)');
 	c.add('5');
 	c.solve();
 	assert('Screen value is 0', c.value() === '0');
+
+	c.add('2');
+	c.add('^');
+	c.add('2');
+	log('add 2^2 and solve');
+	c.solve();
+	assert('Screen value is 4', c.value() === '4');
+
+	log('test clearNext - adding 2 should replace the 4');
+	c.add('2');
+	assert('Screen value is 2', c.value() === '2');
+
+	c.add('+');
+	c.add('2');
+	log('add 2 to previous answer');
+	c.solve();
+	assert('Screen value is 4', c.value() === '4');
+
+	c.add('rt');
+	c.add('2');
+	log('rt 2 of previous answer');
+	c.solve();
+	assert('Screen value is 2', c.value() === '2');
+
+	c.add('cos(');
+	c.add('P');
+	log('add cos(P and solve');
+	c.solve();
+	assert('Screen value is -1', c.value() === '-1');
+
 
 
 

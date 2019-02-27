@@ -11,6 +11,7 @@ let theme = {
         'input': {
             'color': '',
             'borderColor': '',
+            'outlineColor': '',
             'textColor': ''
         },
 
