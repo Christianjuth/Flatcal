@@ -24,6 +24,10 @@ class Calculator {
             else data[key] = $('<div>');
         });
 
+        $(document).ready(() => {
+            this.render();
+        });
+
         return this.data = data;
     }
 
@@ -53,9 +57,7 @@ class Calculator {
         this.currentState = JSON.parse(JSON.stringify(state));
 
         let renderScreen = (text) => {
-            data.screen
-            .text(text)
-            .css({'font-size': this.fontSize(text)});
+            data.screen.text(text);
 
             let eq = new Equation(text.replace(/Ans/g, `(${history.slice(-1)[0]})`)),
                 valid = eq.isValid(mode),
@@ -78,6 +80,8 @@ class Calculator {
             else{
                 data.screenWrap.removeClass('after');
             }
+
+            data.screen.css({'font-size': this.fontSize(text)});
         };
 
         // resume state
@@ -147,21 +151,25 @@ class Calculator {
 
     fontSize(text){
         let data = this.data,
-            scaleOutput = 600,
             output;
 
         // calculate text width
         let $input = $(`<p class="simulate-input">${text}</p>`),
-            textWidth = $input.appendTo($('.input-wrap')).width();
+            textWidth = $input.appendTo($('.input-wrap')).width() - 2;
         $input.remove();
 
-        let screenWidth = $(data.screen).width(),
-            space = screenWidth - textWidth;
-
-        if(space <= 50)
-            output = (space + scaleOutput)/(50 + scaleOutput) + 'em';
+        let screenWidth = $(data.screen).width();
+    
+        if(textWidth - screenWidth > 0){
+            // increasing pow makes 
+            // text decrease faster
+            let pow = 1.15,
+                scale = Math.pow(screenWidth, pow)/Math.pow(textWidth, pow);
+            output = scale+'em';
+        }
         else
             output = '';
+
         return output;
     }
 

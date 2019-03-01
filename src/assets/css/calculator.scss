@@ -134,6 +134,7 @@ body,{
         font-size: 26px;
         text-align: right;
         padding-right: 13px;
+        padding-left: 20px;
         padding-top: 3px;
 
 
@@ -180,20 +181,21 @@ body,{
 
         .input-wrap{
             height: 59px;
-            font-size: 26px;
+            font-size: 31px;
 
             .input,
             .simulate-input{
                 line-height: 51px;
-                font-size: 1.2em; 
+                font-size: 1em; 
             }
 
             &.after,
             &.before{
+                font-size: 26px;
+
                 .input,
                 .simulate-input{
-                    line-height: 33px;
-                    font-size: 1em;
+                    line-height: 32px;
                 }
             }
 
