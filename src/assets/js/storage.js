@@ -47,4 +47,4 @@ if(typeof localStorage.customTheme === 'undefined'){
 }
 
 
-console.log('FlatCal is open source: https://github.com/christianjuth/flatcal');
+console.log('FlatCal is open source! https://github.com/christianjuth/flatcal');

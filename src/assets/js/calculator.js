@@ -337,7 +337,6 @@ class Calculator {
         
         $input.remove();
         this.historyFuture = value;
-        this.setState('screen', value);
         return value;
     }
 }

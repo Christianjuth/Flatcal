@@ -70,15 +70,9 @@ body.dev .dev-menu{
     display: inline-block;
     position: relative;
 
-    &, 
-    &.screenOnly,
-    &.scientific{
-        padding: 16px;
-    }
-
-    #number-container,
-    #scientific-1{
-        display: inline-block;
+    padding: 16px !important;
+    section{
+        display: inline-block !important;
     }
 
     .calculator-mask{
