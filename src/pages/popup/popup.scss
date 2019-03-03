@@ -22,23 +22,25 @@ body{
 	top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
 
-.popout{
-    text-decoration: none;
-    opacity: .2;
-    border-radius: 100%;
-    width: 14px;
-    height: 14px;
-    font-size: 14px;
-    line-height: 12px;
-    text-align: center;
-    color: inherit;
-    position: absolute;
-    top: 3px;
-    left: 2px;
+    .input-wrap{
+        .popout{
+            text-decoration: none;
+            opacity: .3;
+            border-radius: 100%;
+            width: 14px;
+            height: 14px;
+            font-size: 15px;
+            line-height: 12px;
+            text-align: center;
+            color: inherit;
+            position: absolute;
+            top: 3px;
+            left: 2px;
 
-    &:hover{
-        opacity: .4;
+            &:hover{
+                opacity: 1;
+            }
+        }
     }
 }

@@ -1,11 +1,12 @@
 [
-	"purple",
+	"purple-dark",
+	"purple-light",
 	"financial",
-	"dawn",
-	"dusk",
     "financial-dark",
     "google",
     "IOS",
-    "android",
-    "gray"
+    "dark",
+    "gray",
+    "dream-house",
+    "titanium"
 ]

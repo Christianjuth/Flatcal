@@ -17,6 +17,7 @@
         "color":"#2e2f35",
         "textColor":"#fff",
         "borderColor":"#2e2f35",
+        "outlineColor":"#2e2f35",
         "font":"arial"
     },
 

@@ -24,10 +24,6 @@ class Calculator {
             else data[key] = $('<div>');
         });
 
-        $(document).ready(() => {
-            this.render();
-        });
-
         return this.data = data;
     }
 
@@ -42,7 +38,16 @@ class Calculator {
             if(JSON.stringify(this.currentState) !== JSON.stringify(state))
                 this.render();
         }, 50);
-        this.render();
+        
+        $(document).ready(() => {
+            this.render();
+            data.screenWrap.click((e) => {
+                // if target is not link
+                if(! $(e.target).is('a') ){
+                    this.copy();
+                }
+            });
+        });
 
         return this;
     }

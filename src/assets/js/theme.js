@@ -17,7 +17,6 @@ let theme = {
 
         'button': {
             'color': '',
-            'borderColor': '',
             'borderWidth': '',
             'hoverColor': '',
             'textColor':'',
@@ -64,7 +63,7 @@ let theme = {
         if(name === 'custom'){
             let customTheme = $.parseJSON(localStorage.customTheme);
             customTheme.app = customTheme.app || {};
-            customTheme.app.color = 'linear-gradient(to left bottom, rgb(158, 158, 158), rgb(54, 55, 56))';
+            customTheme.app.color = 'linear-gradient(to left bottom, rgb(199, 199, 199), rgb(54, 55, 56))';
             inject(customTheme);
         }
         
@@ -109,13 +108,13 @@ let theme = {
             },
 
             '.input-wrap': {
-                'background': theme.input.color,
-                'border-color': theme.input.borderColor,
+                'background': theme.input.color || 'rgba(0,0,0,0)',
+                'border-color': theme.input.borderColor || 'rgba(0,0,0,0)',
                 'color': theme.input.textColor
             },
 
             '.input-border': {
-                'background': theme.input.outlineColor || theme.input.color
+                'background': theme.input.outlineColor || 'rgba(0,0,0,0)'
             },
 
             '.button': {
@@ -139,7 +138,7 @@ let theme = {
                 'color': button.point.textColor
             },
 
-            '#ce': {
+            '.ce': {
                 'background': button.ce.color,
                 'backgroundHover': button.ce.hoverColor,
                 'color': button.ce.textColor
