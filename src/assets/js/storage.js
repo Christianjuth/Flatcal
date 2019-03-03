@@ -39,7 +39,6 @@ if(typeof localStorage.tutorial === 'undefined' || localStorage.tutorial === 'tr
     });
 }
 
-
 if(typeof localStorage.customTheme === 'undefined'){
     $.getJSON(chrome.extension.getURL('assets/themes/google.json'), function(theme) {
         localStorage.customTheme = JSON.stringify(theme);

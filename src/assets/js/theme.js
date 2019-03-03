@@ -61,7 +61,13 @@ let theme = {
         };
 
         if(name === 'custom'){
-            let customTheme = $.parseJSON(localStorage.customTheme);
+            let customTheme;
+            try{
+               customTheme = $.parseJSON(localStorage.customTheme); 
+            } catch(e) {
+                delete localStorage.customTheme;
+                location.reload();
+            };
             customTheme.app = customTheme.app || {};
             customTheme.app.color = 'linear-gradient(to left bottom, rgb(199, 199, 199), rgb(54, 55, 56))';
             inject(customTheme);
