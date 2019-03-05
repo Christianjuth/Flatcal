@@ -93,6 +93,7 @@ let data = {
 		'atan(tan(0': '0',
 		// P/2 rad
 		'sin(90':  '1',
+		'sin(45+45)':  '1',
 		'cos(90':  '0',
 		'asin(sin(90': '90',
 		'acos(cos(90': '90',

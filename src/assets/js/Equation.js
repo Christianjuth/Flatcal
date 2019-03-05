@@ -90,13 +90,45 @@ class Equation {
             value = value.replace(new RegExp(str, 'g'), `${ops[str]}`);
         });
 
-        // set mode
-        value = value.replace(/((a|)(sin|cos|tan)\()/g, function(x, trig, a) {
-            let degToRad = mode == 'deg' ? '(pi/180)*' : '';
+        let solveMode = (eq) => {
+            return eq.replace(/([^a]|^)((sin|cos|tan)\(.+)/g, function(x, a, val) {
+                let split = val.split('(');
+                let trig = split.shift();
+                val = '('+split.join('(');
 
-            if(a) return trig;
-            else  return trig+degToRad;
-        });
+                let middle = val;
+
+                let end = '',
+                    openIndex = 0,
+                    closeIndex = 0;
+
+
+                let finished = false;
+                middle.split('').forEach((char, i) => {
+                    if(char == '(') openIndex++;
+                    if(char == ')') closeIndex++;
+
+                    if((i > 0 || char != ' ') && !finished && closeIndex == openIndex){
+                        finished = true;
+
+                        end = middle.substr(i+1);
+                        middle = middle.substr(0, i+1);
+                    }
+                });
+
+                let degToRad = mode == 'deg' ? '(pi/180)*' : '';
+                let out = trig+'('+degToRad+middle+')'+end;
+                if(/sin|cos|tan/.test('('+degToRad+middle+')'+end)){
+                    return a+trig+'('+solveMode(degToRad+middle+')'+end);
+                } else{
+                    return a+out;
+                }
+            });
+        };
+
+        // recursive set mode
+        value = solveMode(value);
+
 
         let radToDeg = mode == 'deg' ? '(180/pi)*' : '';
         value = value.replace(/((asin|acos|atan)\()/g, `${radToDeg}$1`);
