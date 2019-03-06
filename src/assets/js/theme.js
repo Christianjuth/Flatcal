@@ -132,6 +132,12 @@ let theme = {
                 'outline-offset': `${-(parseInt(button.borderWidth) - 1)}px`
             },
 
+            '.calculator section': {
+                // hide rendering error
+                // big issue on bigger monitor
+                'background': parseInt(button.borderWidth) != 0 ? 'rgba(0,0,0,0)' : button.color
+            },
+
             '.number': {
                 'background': button.numbers.color,
                 'backgroundHover': button.numbers.hoverColor,
