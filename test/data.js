@@ -94,7 +94,9 @@ let data = {
 		// P/2 rad
 		'sin(90':  '1',
 		'sin(45+45)':  '1',
+		'sin(45*2)':  '1',
 		'cos(90':  '0',
+		'cos(45+45':  '0',
 		'asin(sin(90': '90',
 		'acos(cos(90': '90',
 		'atan(tan(90': '90',
@@ -117,7 +119,16 @@ let data = {
 		'tan(360':  '0',
 		'asin(sin(360': '0',
 		'acos(cos(360': '0',
-		'atan(tan(360': '0'
+		'atan(tan(360': '0',
+		// 3P
+		'cos(6*45':  '0',
+
+
+
+		// multi level
+		'cos(sin(90+90':  '1',
+		'sin(cos(180-90':  '0',
+		'sin(cos(180)+1':  '0',
 	}
 };
 

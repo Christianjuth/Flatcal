@@ -215,11 +215,13 @@ class Calculator {
         char = char.toString();
 
         // replace zero if needed
-        if(this.clearNext && !/^(-|\+|\*|\/|\.|\^|rt)/.test(char)){
+        let reg1 = new RegExp('^(-|\\+|\\*|\u00D7|\\/|\u00F7|\\.|\\^|rt)');
+        let reg2 = new RegExp('^(\\+|\\*|\u00D7|\\/|\u00F7|\\.|\\^|rt)');
+        if(this.clearNext && !reg1.test(char)){
             data.screenWrap.removeClass('before');
             val = char;
         }
-        else if(val === '0' && !/^(\+|\*|\/|\.|\^|rt)/.test(char))
+        else if(val === '0' && !reg2.test(char))
             val = char;
         else
             val += char;
@@ -281,8 +283,27 @@ class Calculator {
         this.historyPosition = 0;
         let val = this.value();
 
-        if(/((s|i|n|c|o|t|a|l|r|g){2,4}[0-9]*)(\(|)$/i.test(val))
-            val = val.replace(/((s|i|n|c|o|t|a|l|r|g){2,4}[0-9]*)(\(|)$/i, '');
+        let fn = [
+            'sin',
+            'cos',
+            'tan',
+            'asin',
+            'acos',
+            'atan',
+            'abs',
+            'ln',
+            'log'
+        ];
+
+        let phrases = [
+            'Ans',
+            'rt'
+        ];
+
+        let reg = new RegExp(`((${fn.join('|')}[0-9]*)(\\(|)|${phrases.join('|')})$`, 'i');
+
+        if(reg.test(val))
+            val = val.replace(reg, '');
         else
             val = val.substr(0,val.length-1);
         

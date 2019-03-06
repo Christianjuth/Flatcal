@@ -7,12 +7,12 @@
     "color": "linear-gradient(to left bottom, rgb(161, 191, 183), rgb(14, 39, 30))"
   },
   "body": {
-    "color": "#50ccac"
+    "color": "#4fc7a9"
   },
   "input": {
-    "color": "#50ccac",
-    "borderColor": "#50ccac",
-    "outlineColor": "#50ccac",
+    "color": "#4fc7a9",
+    "borderColor": "#4fc7a9",
+    "outlineColor": "#4fc7a9",
     "textColor": "#ffffff",
     "font": "helvetica"
   },
@@ -40,12 +40,12 @@
     "operators": {
       "color": "",
       "hoverColor": "",
-      "textColor": "#50ccac"
+      "textColor": "#4fc7a9"
     },
     "equal": {
       "color": "",
       "hoverColor": "",
-      "textColor": "#50ccac"
+      "textColor": "#4fc7a9"
     }
   }
 }

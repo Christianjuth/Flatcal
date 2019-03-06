@@ -1,26 +1,26 @@
 {
   "manifest": {
-    "name": "purple-dark",
+    "name": "sky-blue",
     "version": 1.1
   },
   "app": {
-    "color": "linear-gradient(to left bottom, rgb(226, 220, 239), rgb(106, 113, 148))"
+    "color": "linear-gradient(to top, rgb(58, 128, 199) 0%, rgb(202, 224, 255) 100%)"
   },
   "body": {
-    "color": "#272e38"
+    "color": "linear-gradient(rgb(68, 206, 243) 0%, rgb(44, 109, 210) 100%)"
   },
   "input": {
-    "color": "#272e38",
-    "borderColor": "#272e38",
-    "outlineColor": "#272e38",
-    "textColor": "#ffffff",
+    "color": "#ffffff",
+    "borderColor": "",
+    "outlineColor": "#ffffff",
+    "textColor": "#222222",
     "font": "arial"
   },
   "button": {
-    "color": "#313f52",
+    "color": "rgba(0,0,0,0)",
     "borderColor": "#ff0000",
-    "borderWidth": "1",
-    "hoverColor": "#37465a",
+    "borderWidth": "0",
+    "hoverColor": "rgba(0,0,0,0.1)",
     "textColor": "#ffffff",
     "numbers": {
       "color": "",
@@ -44,13 +44,13 @@
     },
     "operators": {
       "textColor": "",
-      "color": "#cf7de5",
-      "hoverColor": "#c373d6"
+      "color": "",
+      "hoverColor": ""
     },
     "equal": {
-      "color": "#cf7de5",
+      "color": "",
       "textColor": "",
-      "hoverColor": "#c373d6"
+      "hoverColor": ""
     }
   }
 }

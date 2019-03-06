@@ -24,7 +24,7 @@ class Equation {
         eq = eq.replace(/(\)\*)/g,')').replace(/(\*\()/g,'(');
 
         // remove unneeded decimals
-        eq = eq.replace(/\.([\D])/,'$1');
+        // eq = eq.replace(/\.([\D])/,'$1');
 
         return this.equation = eq;
     }
@@ -72,7 +72,9 @@ class Equation {
         // vars
         let algebriteVars = {
             'P': 'pi',
-            'T': '2pi'
+            '\u03C0': 'pi',
+            'T': '2pi',
+            '\u03C4': '2pi'
         };
         Object.keys(algebriteVars).forEach(str => {
             let insert = algebriteVars[str]; 
@@ -84,7 +86,8 @@ class Equation {
         let ops = {
             '%': '* 0.01',
             'ln': 'log',
-            '÷': '/'
+            '\u00F7': '/',
+            '\u00D7': '*'
         };
         Object.keys(ops).forEach(str => {
             value = value.replace(new RegExp(str, 'g'), `${ops[str]}`);
@@ -187,8 +190,10 @@ class Equation {
         // ban multiple decimals in
         // one number eg 5.4.3
         eq.split(/[^(0-9)|\.]+/).forEach(section => {
-            if(section.split('.').length > 2) 
+            if(section.split('.').length > 2){
+                err = 'bad input';
                 valid = false;
+            }
         });
 
         

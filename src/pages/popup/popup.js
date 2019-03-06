@@ -97,7 +97,7 @@ $(document).ready(() => {
                 'an': 'Ans',
                 'rt': 'rt',
                 'ro': 'rt',
-                'sq': 'sqrt('
+                'ab': 'abs('
             };
             if(Object.keys(phrases).includes(phrase)){
                 let add = phrases[phrase];
@@ -139,10 +139,13 @@ $(document).ready(() => {
 
         // fix pi
         let subs = {
-            'p': 'P',
+            'p': '\u03C0',
+            'P': '\u03C0',
             'E': 'e',
-            'x': '*',
-            'X': '*'
+            'x': '\u00D7',
+            'X': '\u00D7',
+            '*': '\u00D7',
+            '/': '\u00F7'
         };
         if(typeof subs[key] !== 'undefined') key = subs[key];
 
@@ -151,9 +154,10 @@ $(document).ready(() => {
             /[0-9]/,
             '.',
             '(', ')',
-            '-', '+', '*', '/', '^',
-            'P', 'e',
-            '%', '!'
+            '-', '+', '\u00D7', '\u00F7', '^',
+            'e',
+            '%', '!',
+            '\u03C0'
         ],
         permitted = false;
         permits.forEach((permit) => {
