@@ -67,7 +67,7 @@ class Equation {
         let value = this.equation;
 
         if(value.indexOf('rt') !== -1)
-            value = this.solveForRoot(value);
+            value = this.solveForRoot(value, false);
 
         // vars
         let algebriteVars = {
@@ -152,7 +152,11 @@ class Equation {
         return value;
     }
 
-    solve(mode) {
+    solve(mode, checkValidity = true) {
+        if(checkValidity && !this.isValid()[0]){
+            throw new Error('invalid');
+        }
+
         let eq = this.preSolve(mode);
 
         eq = eq.replace(/\!/g, '^j');
@@ -196,15 +200,20 @@ class Equation {
             }
         });
 
-        
+        let solution = '';
         if(valid){
             try{
                 let eqClone = new Equation(eq);
-                eqClone.solve(mode);
+                solution = eqClone.solve(mode, false);
             } catch(e){
                 err = e.message;
                 valid = false;
             }
+        }
+
+        if(solution.indexOf('i') !== -1){
+            valid = false;
+            err = 'imaginary';
         }
 
         return [valid, err];

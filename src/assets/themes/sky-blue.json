@@ -4,10 +4,10 @@
     "version": 1.1
   },
   "app": {
-    "color": "linear-gradient(to top, rgb(58, 128, 199) 0%, rgb(202, 224, 255) 100%)"
+    "color": "linear-gradient(to top, rgb(60, 117, 175) 0%, rgb(202, 224, 255) 100%)"
   },
   "body": {
-    "color": "linear-gradient(rgb(68, 206, 243) 0%, rgb(44, 109, 210) 100%)"
+    "color": "linear-gradient(rgb(76, 198, 230) 0%, rgb(58, 108, 185) 100%)"
   },
   "input": {
     "color": "#ffffff",

@@ -68,16 +68,14 @@ class Calculator {
                 valid = eq.isValid(mode),
                 solution = valid[0] ? eq.solve(mode) : false;
 
-            if(!valid[0] && valid[1].indexOf('divide by zero') !== -1){
+            if(!valid[0] && (valid[1].indexOf('divide by zero') !== -1 || valid[1] == 'imaginary')){
                 data.screenWrap.addClass('after');
                 data.screenAfter.text('ERROR'); 
             }
 
             else if(valid[0] && solution !== eq.toString()){
-                data.screenWrap.removeClass('before');
-
                 if(!isNaN(solution)){
-                    data.screenWrap.addClass('after');
+                    data.screenWrap.removeClass('before').addClass('after');
                     data.screenAfter.text(solution);
                 }
             }
@@ -257,13 +255,13 @@ class Calculator {
 
         try{
             let solution = eq.solve(state.radDeg);
+            this.setState('screen', solution);
             if(before !== solution){
                 this.setState('before', before);
                 data.screenBefore.text(before);
                 data.screenWrap.addClass('before');
                 this.historyRecord(before);
             }
-            this.setState('screen', solution);
             this.clearNext = true;
         } catch(e) {
             data.screenWrap.addClass('after');

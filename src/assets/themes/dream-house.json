@@ -4,15 +4,15 @@
     "version": 1.1
   },
   "app": {
-    "color": "linear-gradient(to left, rgb(146, 172, 191), rgb(193, 156, 192))"
+    "color": "linear-gradient(to right bottom, rgb(129, 163, 187), rgb(199, 160, 198))"
   },
   "body": {
-    "color": "#f893b5"
+    "color": "#e697b2"
   },
   "input": {
-    "color": "#f893b5",
-    "borderColor": "#f893b5",
-    "outlineColor": "#f893b5",
+    "color": "#e697b2",
+    "borderColor": "#e697b2",
+    "outlineColor": "#e697b2",
     "textColor": "#ffffff",
     "font": "arial"
   },
@@ -48,7 +48,7 @@
       "hoverColor": "#eeadad"
     },
     "equal": {
-      "color": "#d97eaf",
+      "color": "#d27fac",
       "textColor": "#ffffff",
       "hoverColor": "#cc75a4"
     }

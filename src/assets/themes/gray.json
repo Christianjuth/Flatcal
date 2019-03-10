@@ -9,7 +9,7 @@
     },
 
     "body": {
-        "color": "#8390a2"
+        "color": "#818ea0"
     },
 
     "input": {
@@ -21,7 +21,7 @@
     },
 
     "button": {
-        "color": "#8390a2",
+        "color": "#818ea0",
         "borderColor": "",
         "borderWidth":"0px",
         "hoverColor": "#7b889a",
