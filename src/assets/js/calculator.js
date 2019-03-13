@@ -157,9 +157,10 @@ class Calculator {
             output;
 
         // calculate text width
+        $(".simulate-input").remove();
         let $input = $(`<p class="simulate-input">${text}</p>`),
-            textWidth = $input.appendTo($('.input-wrap')).width() - 2;
-        $input.remove();
+            textWidth = $input.appendTo($('.input-wrap')).width();
+        // $input.remove();
 
         let screenWidth = $(data.screen).width();
     

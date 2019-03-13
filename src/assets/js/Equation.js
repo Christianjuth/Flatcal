@@ -63,11 +63,44 @@ class Equation {
         return out;
     }
 
+    solveForFrac(eq) {
+
+        eq = eq.split('/');
+        let middle = eq.splice(-1)[0];
+        eq = eq.join('/');
+
+        let end,
+            openIndex = 0,
+            closeIndex = 0;
+
+
+        let finished = false;
+        middle.split('').forEach((char, i) => {
+            if(char == '(') openIndex++;
+            if(char == ')') closeIndex++;
+
+            if((i > 0 || !/(\+|-|\s)/.test(char)) && !finished && closeIndex == openIndex){
+                finished = true;
+
+                end = middle.substr(i+1);
+                middle = middle.substr(0, i+1);
+            }
+        });
+
+        if(middle.indexOf('/') !== -1) middle = this.solveForFrac(middle);
+        let out = `${eq}/(${middle})${end}`;
+
+        return out;
+    }
+
     preSolve(mode = 'rad', exact = true) {
-        let value = this.equation;
+        let value = this.equation.replace(/\s*/g,'');
 
         if(value.indexOf('rt') !== -1)
             value = this.solveForRoot(value, false);
+
+        if(value.indexOf('/') !== -1)
+            value = this.solveForFrac(value, false);
 
         // vars
         let algebriteVars = {
@@ -87,7 +120,14 @@ class Equation {
             '%': '* 0.01',
             'ln': 'log',
             '\u00F7': '/',
-            '\u00D7': '*'
+            '\u00D7': '*',
+
+            // fix op followed by
+            // negative number error
+            // This is an Algebrite issue 
+            '\\*-': '*(-1)',
+            '\\+-': '-',
+            '--': '+'
         };
         Object.keys(ops).forEach(str => {
             value = value.replace(new RegExp(str, 'g'), `${ops[str]}`);
@@ -177,7 +217,8 @@ class Equation {
     isValid(mode) {
         let valid = true,
             bans = [
-            /(\+|\-|\*|\/){2}/,
+            /(\+|\-|\*|\/)(\+|\*|\/)/,
+            /---+/,
             /Ans/
         ];
         let err = '';
