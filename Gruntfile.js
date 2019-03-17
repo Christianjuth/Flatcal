@@ -43,7 +43,10 @@ module.exports = function(grunt) {
     uglify: {
       main: {
         options: {
-          sourceMap: true
+          sourceMap: true,
+          output: {
+            ascii_only : true
+          }
         },
         files: [{
           expand: true,
