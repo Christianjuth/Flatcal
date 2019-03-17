@@ -110,9 +110,9 @@ module.exports = () => {
 			}
 		});
 	};
-	test(data.get(20, 'rad'));
+	test(data.get(25, 'rad'));
 	c.mode('deg');
-	test(data.get(20, 'deg'));
+	test(data.get(25, 'deg'));
 	
 
 

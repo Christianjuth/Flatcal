@@ -33,61 +33,59 @@ class Equation {
         return this.equation;
     }
 
-    solveForRoot(eq) {
-
-        eq = eq.split('rt');
-        let middle = eq.splice(-1)[0];
-        eq = eq.join('rt');
-
-        let end,
-            openIndex = 0,
-            closeIndex = 0;
-
-
-        let finished = false;
-        middle.split('').forEach((char, i) => {
-            if(char == '(') openIndex++;
-            if(char == ')') closeIndex++;
-
-            if((i > 0 || char != ' ') && !finished && closeIndex == openIndex){
-                finished = true;
-
-                end = middle.substr(i+1);
-                middle = middle.substr(0, i+1);
-            }
-        });
-
-        let out = `${eq}^(1/${middle})${end}`;
-        if(out.indexOf('rt') !== -1) out = this.solveForRoot(out);
-
-        return out;
-    }
-
     solveForFrac(eq) {
 
-        eq = eq.split('/');
-        let middle = eq.splice(-1)[0];
-        eq = eq.join('/');
+        let middle = eq.split('/');
+        eq = middle.shift();
+        middle = middle.join('/');
 
-        let end,
+        let end = '',
             openIndex = 0,
             closeIndex = 0;
 
 
-        let finished = false;
-        middle.split('').forEach((char, i) => {
-            if(char == '(') openIndex++;
-            if(char == ')') closeIndex++;
+        let finished = false,
+            typeOfLast = '';
 
-            if((i > 0 || !/(\+|-|\s)/.test(char)) && !finished && closeIndex == openIndex){
+        middle.split('').forEach((char, i) => {
+            let type;
+            if(/([a-z])/i.test(char))
+                type = 'letter';
+            else if(/([0-9])/i.test(char))
+                type = 'number';
+            else
+                type = 'other';
+
+            // finished acts as a break
+            let isFunction = (typeOfLast == 'letter' && char == '('),
+                diffFromLast = (typeOfLast != 'skip' && type != typeOfLast),
+                leadingOp = (i == 0 && /(\+|-)/.test(char));
+
+            if(!finished && !leadingOp && i > 0 && diffFromLast && !isFunction && closeIndex == openIndex){
                 finished = true;
 
-                end = middle.substr(i+1);
-                middle = middle.substr(0, i+1);
+                end = middle.substr(i);
+                middle = middle.substr(0, i);
             }
+
+            if(char == ')') closeIndex++;
+            if(char == '(') openIndex++;
+
+            // skip first operator
+            // ex 4/-4 the -4 is
+            // treated as part of the 4
+            if(leadingOp)
+                typeOfLast = 'skip';
+            else if(/([a-z])/i.test(char))
+                typeOfLast = 'letter';
+            else if(/([0-9])/i.test(char))
+                typeOfLast = 'number';
+            else
+                type = 'other';
         });
 
         if(middle.indexOf('/') !== -1) middle = this.solveForFrac(middle);
+        if(end && end.indexOf('/') !== -1) end = this.solveForFrac(end);
         let out = `${eq}/(${middle})${end}`;
 
         return out;
@@ -96,8 +94,24 @@ class Equation {
     preSolve(mode = 'rad', exact = true) {
         let value = this.equation.replace(/\s*/g,'');
 
-        if(value.indexOf('rt') !== -1)
-            value = this.solveForRoot(value, false);
+        // operators
+        let ops = {
+            '%': '* 0.01',
+            'ln': 'log',
+            '\u00F7': '/',
+            '\u00D7': '*',
+
+            // fix op followed by
+            // negative number error
+            // This is an Algebrite issue 
+            '\\*-': '*(-1)',
+            '\\+-': '-',
+            '--': '+',
+            '\u221A': 'sqrt'
+        };
+        Object.keys(ops).forEach(str => {
+            value = value.replace(new RegExp(str, 'g'), `${ops[str]}`);
+        });
 
         if(value.indexOf('/') !== -1)
             value = this.solveForFrac(value, false);
@@ -113,24 +127,6 @@ class Equation {
             let insert = algebriteVars[str]; 
             insert = /^\s*\(.*\)\s*$/.test(insert) ? insert : `(${insert})`;
             value = value.replace(new RegExp(str, 'g'), insert);
-        });
-
-        // operators
-        let ops = {
-            '%': '* 0.01',
-            'ln': 'log',
-            '\u00F7': '/',
-            '\u00D7': '*',
-
-            // fix op followed by
-            // negative number error
-            // This is an Algebrite issue 
-            '\\*-': '*(-1)',
-            '\\+-': '-',
-            '--': '+'
-        };
-        Object.keys(ops).forEach(str => {
-            value = value.replace(new RegExp(str, 'g'), `${ops[str]}`);
         });
 
         let solveMode = (eq) => {
@@ -172,10 +168,8 @@ class Equation {
         // recursive set mode
         value = solveMode(value);
 
-
         let radToDeg = mode == 'deg' ? '(180/pi)*' : '';
         value = value.replace(/((asin|acos|atan)\()/g, `${radToDeg}$1`);
-
 
         if(!exact){
             // pre mathjs

@@ -157,17 +157,16 @@ class Calculator {
             output;
 
         // calculate text width
-        $(".simulate-input").remove();
         let $input = $(`<p class="simulate-input">${text}</p>`),
             textWidth = $input.appendTo($('.input-wrap')).width();
-        // $input.remove();
+        $input.remove();
 
         let screenWidth = $(data.screen).width();
     
         if(textWidth - screenWidth > 0){
             // increasing pow makes 
             // text decrease faster
-            let pow = 1.15,
+            let pow = 1.14,
                 scale = Math.pow(screenWidth, pow)/Math.pow(textWidth, pow);
             output = scale+'em';
         }
@@ -224,6 +223,10 @@ class Calculator {
             val = char;
         else
             val += char;
+
+        // prevent overflow
+        if(val.length > 50)
+            return false;
 
         // validate
         let eqIn = val.replace(/Ans/g, `(${history.slice(-1)[0]})`),
@@ -291,7 +294,8 @@ class Calculator {
             'atan',
             'abs',
             'ln',
-            'log'
+            'log',
+            '\u221A' // sqrt
         ];
 
         let phrases = [

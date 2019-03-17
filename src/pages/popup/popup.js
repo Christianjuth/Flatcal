@@ -95,8 +95,9 @@ $(document).ready(() => {
                 'lo': 'log10(',
                 'l2': 'log2(',
                 'an': 'Ans',
-                'rt': 'rt',
-                'ro': 'rt',
+                'qr': '\u221A(',
+                'rt': '^(1/',
+                'ro': '^(1/',
                 'ab': 'abs('
             };
             if(Object.keys(phrases).includes(phrase)){

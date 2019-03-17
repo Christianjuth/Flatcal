@@ -63,8 +63,8 @@ module.exports = () => {
 			}
 		});
 	};
-	test(data.get(20, 'rad'), 'rad');
-	test(data.get(20, 'deg'), 'deg');
+	test(data.get(25, 'rad'), 'rad');
+	test(data.get(25, 'deg'), 'deg');
 
 	if(exit > 0) process.exit(exit);
 };
