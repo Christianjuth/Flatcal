@@ -33,9 +33,11 @@
     "build": "./node_modules/grunt/bin/grunt build",
     "lint": "./node_modules/grunt/bin/grunt lint",
     "test": "node ./test/test.js && npm run lint",
-    "package": "./node_modules/grunt/bin/grunt package",
+    "package": "./node_modules/grunt/bin/grunt package && npm test",
     "confetti": "node ./node_modules/cli-confetti/bin/cli-confetti",
-    "setup": "./node_modules/@sentry/cli/bin/sentry-cli login"
+    "setup": "./node_modules/@sentry/cli/bin/sentry-cli login",
+    "post-release": "node ./scripts/post-release.js",
+    "help": "node ./scripts/help.js"
   },
   "husky": {
     "hooks": {

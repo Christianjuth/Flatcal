@@ -22,14 +22,12 @@ if(typeof localStorage == 'object'){
         return `${s()}${s()}-${s()}-${s()}-${s()}-${s()}${s()}${s()}`;
     };
 
-
     let defaultStorage = {
         tutorial: 0,
         type: 'scientific',
         theme: 'google',
         radDeg: 'deg',
-        m: '0',
-        dev: false,
+        dev: (typeof chrome.runtime.getManifest()['update_url'] == 'undefined'),
         guid: guid(),
         screen: '0',
         before: '',
@@ -62,11 +60,30 @@ if(typeof localStorage == 'object'){
     if(typeof Sentry !== 'undefined' && localStorage.dev !== 'true'){
         Sentry.init({ 
             dsn: 'https://75fc44460c994e98816be244453d086d@sentry.io/1417579',
-            release: `flatcal@${version}`
-        });
+            release: `flatcal@${version}`,
+            beforeSend: function (data) {
+                let normalizeUrl = (url) => {
+                  return url.replace(/chrome-extension:\/\/\w+?\//, '/');
+                };
 
+                if (data.culprit) {
+                    data.culprit = normalizeUrl(data.culprit);
+                }
+
+                if (data.exception) {
+                    // if data.exception exists,
+                    // all of the other keys are guaranteed to exist
+                    data.exception.values[0].stacktrace.frames.forEach(function (frame) {
+                      frame.filename = normalizeUrl(frame.filename);
+                    });
+                }
+
+                return data;
+            }
+        });
         Sentry.configureScope((scope) => {
             scope.setUser({'id': localStorage.guid});
+            scope.setExtra("localStorage", JSON.stringify(localStorage));
         });
     }
 

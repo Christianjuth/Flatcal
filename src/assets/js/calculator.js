@@ -11,7 +11,8 @@ class Calculator {
                 before: '',
                 history: '[]'
             },
-            onAdd: () => {}
+            onAdd: () => {},
+            onStateUpdate: () => {}
         };
 
         data = $.extend({}, defaults, data);
@@ -69,12 +70,12 @@ class Calculator {
                 solution = valid[0] ? eq.solve(mode) : false;
 
             if(!valid[0] && valid[1].indexOf('divide by zero') !== -1){
-                data.screenWrap.addClass('after');
+                data.screenWrap.removeClass('before').addClass('after');
                 data.screenAfter.text('ERROR'); 
             }
 
             else if(!valid[0] && valid[1] == 'imaginary'){
-                data.screenWrap.addClass('after');
+                data.screenWrap.removeClass('before').addClass('after');
                 data.screenAfter.text('POSSIBLE DOMAIN ERROR'); 
             }
 
@@ -104,6 +105,7 @@ class Calculator {
         state[key] = value;
         this.state = JSON.parse(JSON.stringify(state));
         this.render();
+        this.data.onStateUpdate(this.state);
     }
 
 
@@ -244,10 +246,10 @@ class Calculator {
             eq2.isValid(), 
             eq3.isValid()
         ].forEach(v => {
-            if(v[0] || (v[1] !== 'bad input' && !/Undefined symbol/.test(v[1]) )){
+            if(!valid && (v[0] || (v[1] !== 'bad input' && !/Undefined symbol/.test(v[1])))){
                 valid = true;
-                this.setState('screen', val);
                 data.onAdd(char);
+                this.setState('screen', val);
             }
         });
         
@@ -269,12 +271,12 @@ class Calculator {
             if(before !== solution){
                 this.setState('before', before);
                 data.screenBefore.text(before);
-                data.screenWrap.addClass('before');
+                data.screenWrap.removeClass('after').addClass('before');
                 this.historyRecord(before);
             }
             this.clearNext = true;
         } catch(e) {
-            data.screenWrap.addClass('after');
+            data.screenWrap.removeClass('before').addClass('after');
             data.screenAfter.text('ERROR');
         };
         

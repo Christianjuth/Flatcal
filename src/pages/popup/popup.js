@@ -53,6 +53,7 @@ $(document).ready(() => {
         }
     }
 
+    let prevState = {};
     window.calculator = new Calculator({
         state:        localStorage,
         screenWrap:   '.input-wrap',
@@ -62,6 +63,32 @@ $(document).ready(() => {
         radDeg:       '#rad-deg',
         onAdd: (char) => {
             trackButton(char);
+            Sentry.addBreadcrumb({
+                category: 'input',
+                message: `char: ${char}`,
+                level: 'info'
+            });
+        },
+        onStateUpdate: (state) => {
+            let extract = {
+                radDeg: state.radDeg,
+                screen: state.screen,
+                before: state.before,
+                history: state.history
+            }
+            // only add breadcrumb
+            // if state has changed
+            if(JSON.stringify(extract) !== JSON.stringify(prevState)){
+                prevState = extract;
+                Sentry.addBreadcrumb({
+                    category: 'state',
+                    message: JSON.stringify(extract),
+                    level: 'info'
+                });
+                Sentry.configureScope((scope) => {
+                    scope.setExtra("localStorage", JSON.stringify(localStorage));
+                });
+            }
         }
     });
 
