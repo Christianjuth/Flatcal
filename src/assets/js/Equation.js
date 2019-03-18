@@ -59,9 +59,10 @@ class Equation {
             // finished acts as a break
             let isFunction = (typeOfLast == 'letter' && char == '('),
                 diffFromLast = (typeOfLast != 'skip' && type != typeOfLast),
-                leadingOp = (i == 0 && /(\+|-)/.test(char));
+                leadingOp = (i == 0 && /(\+|-)/.test(char)),
+                higherOrder = char == '^';
 
-            if(!finished && !leadingOp && i > 0 && diffFromLast && !isFunction && closeIndex == openIndex){
+            if(!finished && !leadingOp && i > 0 && diffFromLast && !isFunction && closeIndex == openIndex && !higherOrder){
                 finished = true;
 
                 end = middle.substr(i);
@@ -96,7 +97,7 @@ class Equation {
 
         // operators
         let ops = {
-            '%': '* 0.01',
+            '%': '(0.01)',
             'ln': 'log',
             '\u00F7': '/',
             '\u00D7': '*',
@@ -187,7 +188,7 @@ class Equation {
     }
 
     solve(mode, checkValidity = true) {
-        if(checkValidity && !this.isValid()[0]){
+        if(checkValidity && !this.isValid(mode)[0]){
             throw new Error('invalid');
         }
 

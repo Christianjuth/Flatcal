@@ -68,9 +68,14 @@ class Calculator {
                 valid = eq.isValid(mode),
                 solution = valid[0] ? eq.solve(mode) : false;
 
-            if(!valid[0] && (valid[1].indexOf('divide by zero') !== -1 || valid[1] == 'imaginary')){
+            if(!valid[0] && valid[1].indexOf('divide by zero') !== -1){
                 data.screenWrap.addClass('after');
                 data.screenAfter.text('ERROR'); 
+            }
+
+            else if(!valid[0] && valid[1] == 'imaginary'){
+                data.screenWrap.addClass('after');
+                data.screenAfter.text('POSSIBLE DOMAIN ERROR'); 
             }
 
             else if(valid[0] && solution !== eq.toString()){
@@ -324,14 +329,15 @@ class Calculator {
     allClear() {
         let state = this.state,
             data = this.data;
-        
-        this.setState('before', '');
-        data.screenBefore.text('');
-        data.screenWrap.removeClass('before').removeClass('after');
 
         this.historyPosition = 0;
         this.historyFuture = '0';
         this.setState('screen', '0');
+
+        this.setState('before', '');
+        data.screenBefore.text('');
+        data.screenWrap.removeClass('before').removeClass('after');
+
         return this;
     }
 

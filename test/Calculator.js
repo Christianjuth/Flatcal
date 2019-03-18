@@ -79,6 +79,13 @@ module.exports = () => {
 	c.solve();
 	assert('Screen value is -1', c.value() === '-1');
 
+	c.mode('deg');
+	log('set mode deg');
+	c.value('sin(4π)/sin(5π)');
+	log('set value to sin(4π)/sin(5π)');
+	c.allClear();
+	assert('Screen value is cleared', c.value() === '0');
+
 
 
 
@@ -110,9 +117,10 @@ module.exports = () => {
 			}
 		});
 	};
-	test(data.get(25, 'rad'));
+	c.mode('rad');
+	test(data.get(30, 'rad'));
 	c.mode('deg');
-	test(data.get(25, 'deg'));
+	test(data.get(30, 'deg'));
 	
 
 
