@@ -115,11 +115,12 @@ class Calculator {
         if(this.historyPosition == 0)
             this.historyFuture = this.value();
 
-        if(this.historyPosition < history.length)
+        if(this.historyPosition < history.length){
             this.historyPosition++;
-        
-        let value = history.slice(this.historyPosition * -1)[0];
-        this.setState('screen', value);
+            let value = history.slice(this.historyPosition * -1)[0];
+            this.setState('screen', value);
+        }
+    
         return this;
     }
 

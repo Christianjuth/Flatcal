@@ -77,6 +77,10 @@ class Equation {
             // treated as part of the 4
             if(leadingOp)
                 typeOfLast = 'skip';
+            // reset if higher order
+            // of operation ex 4/e^2
+            else if(higherOrder)
+                typeOfLast = 'skip';
             else if(/([a-z])/i.test(char))
                 typeOfLast = 'letter';
             else if(/([0-9])/i.test(char))

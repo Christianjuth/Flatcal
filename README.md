@@ -6,3 +6,6 @@ FlatCal designed to be modular! Please feel free to repurpose code for your your
 ### Contributing
 
 Please contribute... please. Just make a pull request.
+
+### Error Monitoring
+via sentry.io
