@@ -4,6 +4,8 @@ $(document).ready(function() {
     else
         $('.windows').show();
 
+    $('#app-version').text(appVersion);
+
     $.getJSON(chrome.extension.getURL('assets/themes/themes.json'), function(options) {
         options.sort();
 

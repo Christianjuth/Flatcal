@@ -6,6 +6,9 @@ if(typeof module !== 'undefined'){
     module.exports = version;
 }
 
+// expose appVersion globally
+window.appVersion = version;
+
 
 
 

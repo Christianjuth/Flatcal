@@ -63,9 +63,8 @@ a{
     color: #fff;
     cursor: pointer;
     text-decoration: underline;
-    font-size: 18px;
     font-weight: 300;
-    display: block;
+    font-size: 18px;
 }
 
 .logo{
@@ -149,4 +148,13 @@ select{
 
 .hide{
     display: none;
+}
+
+.privacy-policy{
+    font-size: 13px;
+    font-weight: 300;
+
+    a{
+        font-size: 13px;
+    }
 }
