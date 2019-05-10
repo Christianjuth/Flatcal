@@ -4,32 +4,33 @@
 // If you upload any data that allows Google to personally identify an individual, your Google Analytics account can be terminated, and you may lose your Google Analytics data.
 // You will only session stitch authenticated and unauthenticated sessions of your end users if your end users have given consent to such stitch, or if such merger is allowed under applicable laws and regulations.
 
-
-
 if(localStorage.dev !== 'true'){
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-54875825-1']); //account number
-    _gaq.push(['_gat._anonymizeIp']);
-    _gaq.push(['userId', localStorage.guid]);
-    _gaq.push(['appVersion', appVersion]);
-    _gaq.push(['_trackPageview']); //push current page
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); // Note: https protocol here
 
-    (function() {
-        var ga = document.createElement('script'); 
-        ga.type = 'text/javascript'; 
-        ga.async = true;
-        ga.src = 'https://ssl.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; 
-        s.parentNode.insertBefore(ga, s);
-    })();
+    ga('create', 'UA-54875825-1', 'auto');
+    ga('set', 'checkProtocolTask', function(){}); // Removes failing protocol check. @see: http://stackoverflow.com/a/22152353/1958200
+    ga('require', 'displayfeatures');
+    ga('set', 'userId', localStorage.guid);
+    ga('set', 'anonymizeIp', true);
+    ga('send', 'pageview', location.pathname, {
+        'dimension1': appVersion
+    });
 }
 
 var analyticsEvent = (category, action, opt_label, opt_value, opt_noninteraction) => {
-    if(localStorage.dev !== 'true')
-        _gaq.push(['_trackEvent', category, action, opt_label, opt_value, opt_noninteraction]);
+    if(localStorage.dev !== 'true'){
+        ga('send', 'event', {
+            'dimension1': appVersion,
+            'eventCategory': category,
+            'eventAction': action
+        });
+    }
 };
 
-var trackButton = (name) => {
+var trackButton = (name, event = 'click') => {
     if(localStorage.dev !== 'true')
-        analyticsEvent(name, 'clicked');
+        analyticsEvent(name, event);
 };

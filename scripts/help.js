@@ -19,7 +19,8 @@ let npmScripts = {
 	"help": "Print commands and description",
 	"lint": "Lint flatcal",
 	"confetti": "Pretty self explanatory",
-	"post-release": "update sentry"
+	"post-release": "update sentry",
+	"setup": "Setup Sentry"
 }
 
 // let npmScriptsArgs = {

@@ -211,7 +211,7 @@ class Calculator {
         return this;
     }
 
-    add(char) {
+    add(char, event) {
         let data = this.data,
             state = this.state,
             history = $.parseJSON(state.history),
@@ -248,7 +248,7 @@ class Calculator {
         ].forEach(v => {
             if(!valid && (v[0] || (v[1] !== 'bad input' && !/Undefined symbol/.test(v[1])))){
                 valid = true;
-                data.onAdd(char);
+                data.onAdd(char, event);
                 this.setState('screen', val);
             }
         });
