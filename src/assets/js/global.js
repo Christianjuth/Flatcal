@@ -11,6 +11,28 @@ window.appVersion = version;
 
 
 
+var HW_config = {
+    selector: ".input-wrap", // CSS selector where to inject the badge
+    account:  "yBM9nJ",
+    callbacks: {
+        onWidgetReady: (widget) => {
+            let num = widget.getUnseenCount();
+            if(num == '0') num = '';
+            chrome.browserAction.setBadgeText({
+                text: num+''
+            });
+            chrome.browserAction.setBadgeBackgroundColor({
+                color: "#CD4B5B"
+            });
+        },
+        onShowWidget: function(){
+            chrome.browserAction.setBadgeText({text: ''});
+            if(localStorage.type !== 'scientific')
+                window.open('https://headwayapp.co/flatcal-changelog', '_blank');
+        }
+    }
+};
+
 
 
 if(typeof localStorage == 'object'){
