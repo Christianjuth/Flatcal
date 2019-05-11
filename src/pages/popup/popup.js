@@ -62,7 +62,7 @@ $(document).ready(() => {
         screenAfter:  '.input-after',
         radDeg:       '#rad-deg',
         onAdd: (char, event) => {
-            trackButton(char, event);
+            window.trackButton(char, event);
             Sentry.addBreadcrumb({
                 category: 'input',
                 message: `char: ${char}`,
@@ -99,7 +99,7 @@ $(document).ready(() => {
 
     $('body').on('click', '.button[fun]', function() {
         let fun = $(this).attr('fun');
-        trackButton(fun, 'click');
+        window.trackButton(fun, 'click');
         calculator[fun]();
     });
 
@@ -152,7 +152,7 @@ $(document).ready(() => {
 
 
         if(calculator[functionCodes[fnName]]){
-            trackButton(functionCodes[fnName], 'keypress');
+            window.trackButton(functionCodes[fnName], 'keypress');
             calculator[functionCodes[fnName]]();
             return false;
         }
@@ -162,7 +162,7 @@ $(document).ready(() => {
             '=': 'solve'
         };
         if(calculator[functionKeys[key]]){
-            trackButton(functionKeys[key], 'keypress');
+            window.trackButton(functionKeys[key], 'keypress');
             calculator[functionKeys[key]]();
             return false;
         }

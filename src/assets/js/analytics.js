@@ -16,11 +16,11 @@ if(localStorage.dev !== 'true'){
     ga('set', 'userId', localStorage.guid);
     ga('set', 'anonymizeIp', true);
     ga('send', 'pageview', location.pathname, {
-        'dimension1': appVersion
+        'dimension1': window.appVersion
     });
 }
 
-var analyticsEvent = (category, action, opt_label, opt_value, opt_noninteraction) => {
+window.analyticsEvent = (category, action, opt_label, opt_value, opt_noninteraction) => {
     if(localStorage.dev !== 'true'){
         ga('send', 'event', {
             'dimension1': appVersion,
@@ -30,7 +30,7 @@ var analyticsEvent = (category, action, opt_label, opt_value, opt_noninteraction
     }
 };
 
-var trackButton = (name, event = 'click') => {
+window.trackButton = (name, event = 'click') => {
     if(localStorage.dev !== 'true')
         analyticsEvent(name, event);
 };
