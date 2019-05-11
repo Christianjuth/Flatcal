@@ -1,6 +1,6 @@
 // Set FlatCal Version
 // This is imporant for error reporting
-let version = '4.0.01';
+let version = '4.0.02';
 
 if(typeof module !== 'undefined'){
     module.exports = version;

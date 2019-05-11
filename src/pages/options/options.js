@@ -92,7 +92,7 @@ $(document).ready(function() {
 
 
 let option = {
-    defineSelect: function(selector, storage, callback, onChange){
+    defineSelect: function(selector, storage, callback, onChange = () => {}){
         let $selector = $(selector);
         let val = localStorage[storage];
         $selector.val(val);
