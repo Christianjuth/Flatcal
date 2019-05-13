@@ -67,7 +67,16 @@ class Calculator {
 
             let eq = new Equation(text.replace(/Ans/g, `(${history.slice(-1)[0]})`)),
                 valid = eq.isValid(mode),
+                solution = false;
+
+            try{
                 solution = valid[0] ? eq.solve(mode) : false;
+            } catch(e) {
+                // Stop screen update on error.
+                // This could cause screenAfter to bo
+                // inaccurate when an error is thrown.
+                return;
+            };
 
             if(!valid[0] && valid[1].indexOf('divide by zero') !== -1){
                 data.screenWrap.removeClass('before').addClass('after');
@@ -246,13 +255,13 @@ class Calculator {
             eq2.isValid(), 
             eq3.isValid()
         ].forEach(v => {
-            if(!valid && (v[0] || (v[1] !== 'bad input' && !/Undefined symbol/.test(v[1])))){
+            if(!valid && (v[0] || (v[1] !== 'bad input' && !/(Undefined symbol|Unexpected part)/.test(v[1])))){
                 valid = true;
                 data.onAdd(char, event);
                 this.setState('screen', val);
             }
         });
-        
+    
         return valid;
     }
 
@@ -365,7 +374,6 @@ class Calculator {
         $input.select();
         document.execCommand('paste');
         let value = $input.val();
-
         if(!this.add(value)){
             try{
                 value = value.match(/[0-9]+(\.[0-9]+|)/)[0];

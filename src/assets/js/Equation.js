@@ -209,14 +209,16 @@ class Equation {
         if(/^[1-9]+$/.test(eq))
             return eq;
 
-        else
+        else{
             return math.eval(eq).toString();
+        }
     }
 
     isValid(mode) {
         let valid = true,
             bans = [
             /(\+|\-|\*|\/)(\+|\*|\/)/,
+            /(\(|^)\//,
             /---+/,
             /Ans/
         ];
