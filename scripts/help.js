@@ -5,8 +5,6 @@ const indent = 1;
 
 let npmCommands = [
 	"start",
-	"stop",
-	"restart",
 	"install",
 	"run [script]"
 ]
