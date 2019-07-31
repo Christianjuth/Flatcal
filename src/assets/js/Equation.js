@@ -51,7 +51,7 @@ class Equation {
             let type;
             if(/([a-z])/i.test(char))
                 type = 'letter';
-            else if(/([0-9])/i.test(char))
+            else if(/([0-9]|\.)/i.test(char))
                 type = 'number';
             else
                 type = 'other';
@@ -108,7 +108,7 @@ class Equation {
 
             // fix op followed by
             // negative number error
-            // This is an Algebrite issue 
+            // This is an Algebrite issue
             '\\*-': '*(-1)',
             '\\+-': '-',
             '--': '+',
@@ -129,7 +129,7 @@ class Equation {
             '\u03C4': '2pi'
         };
         Object.keys(algebriteVars).forEach(str => {
-            let insert = algebriteVars[str]; 
+            let insert = algebriteVars[str];
             insert = /^\s*\(.*\)\s*$/.test(insert) ? insert : `(${insert})`;
             value = value.replace(new RegExp(str, 'g'), insert);
         });
@@ -264,7 +264,7 @@ class Equation {
 
 
 
-if(typeof module !== 'undefined') 
+if(typeof module !== 'undefined')
     module.exports = Equation;
 else if(typeof window == 'object')
     window.Equation = Equation;

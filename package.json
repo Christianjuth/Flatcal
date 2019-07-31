@@ -1,6 +1,6 @@
 {
   "name": "flatcal",
-  "version": "4.0.02",
+  "version": "4.0.03",
   "description": "The best calculator for Google Chrome",
   "main": "index.js",
   "dependencies": {

@@ -1,6 +1,6 @@
 // Set FlatCal Version
 // This is imporant for error reporting
-let version = '4.0.02';
+let version = '4.0.03';
 
 if(typeof module !== 'undefined'){
     module.exports = version;
@@ -83,7 +83,7 @@ if(typeof localStorage == 'object'){
     }
 
     if(typeof Sentry !== 'undefined' && localStorage.dev !== 'true'){
-        Sentry.init({ 
+        Sentry.init({
             dsn: 'https://75fc44460c994e98816be244453d086d@sentry.io/1417579',
             release: `flatcal@${version}`,
             beforeSend: function (data) {
@@ -114,7 +114,3 @@ if(typeof localStorage == 'object'){
 
     console.log('FlatCal is open source! https://github.com/christianjuth/flatcal');
 }
-
-
-
-

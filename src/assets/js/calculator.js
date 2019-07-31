@@ -36,8 +36,9 @@ class Calculator {
         this.historyFuture = this.value();
 
         setInterval(() => {
-            if(JSON.stringify(this.currentState) !== JSON.stringify(state))
+            if(JSON.stringify(this.currentState) !== JSON.stringify(state)){
                 this.render();
+            }
         }, 50);
         
         $(document).ready(() => {
@@ -374,10 +375,10 @@ class Calculator {
         $input.select();
         document.execCommand('paste');
         let value = $input.val();
-        if(!this.add(value)){
+        if(!this.add(value, 'paste')){
             try{
                 value = value.match(/[0-9]+(\.[0-9]+|)/)[0];
-                this.add(value);
+                this.add(value, 'paste');
             } catch(e){}; 
         }
         
