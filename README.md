@@ -1,3 +1,5 @@
+# This project is no longer activly maintained ☹️
+
 # FlatCal - The best calculator for Google Chrome
 
 ### Equation Enging
